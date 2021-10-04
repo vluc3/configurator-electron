@@ -1,0 +1,50 @@
+@import "src/angular/assets/theme";
+
+.host-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    .card-header {
+      .title {
+        height: 38px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+
+        .text {
+          text-transform: uppercase;
+          font-weight: 500;
+        }
+
+        .icon {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .card-body {
+      padding: 0;
+
+      .item {
+        display: flex;
+
+        .info {
+          flex-grow: 1;
+        }
+
+        .delete {
+
+          &:hover {
+            color: lighten($red, 10%) !important;
+          }
+
+          &:active {
+            color: darken($red, 10%) !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "HMAC_SHA2_256",
+    "enabled": true
+  },
+  {
+    "name": "HMAC_SHA2_384",
+    "enabled": false
+  },
+  {
+    "name": "HMAC_SHA2_512",
+    "enabled": false
+  },
+  {
+    "name": "HMAC_SHA1_160",
+    "enabled": false
+  },
+  {
+    "name": "HMAC_MD5_128",
+    "enabled": false
+  }
+]

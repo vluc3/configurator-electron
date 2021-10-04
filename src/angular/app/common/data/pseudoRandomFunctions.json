@@ -1,0 +1,22 @@
+[
+  {
+    "name": "PRF_HMAC_SHA2_256",
+    "enabled": true
+  },
+  {
+    "name": "PRF_HMAC_SHA2_384",
+    "enabled": false
+  },
+  {
+    "name": "PRF_HMAC_SHA2_512",
+    "enabled": false
+  },
+  {
+    "name": "PRF_HMAC_SHA1",
+    "enabled": false
+  },
+  {
+    "name": "PRF_MD5_128",
+    "enabled": false
+  }
+]

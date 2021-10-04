@@ -1,0 +1,38 @@
+[
+  {
+    "name": "AES_CBC_128",
+    "enabled": false
+  },
+  {
+    "name": "AES_CBC_192",
+    "enabled": true
+  },
+  {
+    "name": "AES_CBC_256",
+    "enabled": true
+  },
+  {
+    "name": "CAST_128",
+    "enabled": false
+  },
+  {
+    "name": "AES_GCM_16_128",
+    "enabled": false
+  },
+  {
+    "name": "AES_GCM_16_192",
+    "enabled": false
+  },
+  {
+    "name": "AES_GCM_16_256",
+    "enabled": false
+  },
+  {
+    "name": "DES",
+    "enabled": false
+  },
+  {
+    "name": "3DES_CBC",
+    "enabled": false
+  }
+]

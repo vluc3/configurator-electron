@@ -1,0 +1,12 @@
+$black: #1f2937;
+//$red: #dc3545;
+$btn-border-width: 3px;
+$btn-font-weight: 500;
+
+@import "~bootstrap/scss/bootstrap";
+
+.btn-with-icon {
+  .icon {
+    margin-left: 5px;
+  }
+}

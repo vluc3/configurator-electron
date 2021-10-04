@@ -1,0 +1,59 @@
+<div class="service">
+  <div class="col-md-12">
+    <div class="card card-hover-shadow-2x mb-3">
+      <div class="card-header">
+        <div class="title">
+          <span class="icon"><i class="cfg-cogs"></i></span>
+          <span class="text">Liste des Services</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="items list-group list-group-flush">
+          <div *ngFor="let service of services"
+               class="item list-group-item"
+               draggable="true"
+               (dragstart)="dragstart($event, service)">
+            <div class="info">
+              <span>{{service}}</span>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="vm">
+  <div class="col-md-12">
+    <div class="card card-hover-shadow-2x mb-3">
+      <div class="card-header">
+        <div class="title">
+          <span class="icon"><i class="cfg-cogs"></i></span>
+          <span class="text">Liste des Vms</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="items list-group list-group-flush">
+          <div *ngFor="let virtualMachine of virtualMachines, let i = index"
+               class="item list-group-item"
+               (drop)="drop($event, virtualMachine)"
+               (dragover)="$event.preventDefault()">
+            <div class="info">
+              <span>VM {{i + 1}}</span>
+              <span *ngFor="let service of virtualMachine.services">{{service}}</span>
+            </div>
+          </div>
+        </ul>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button type="button"
+                class="btn btn-outline-dark btn-with-icon"
+                (click)="add()">
+          <span>Ajouter</span>
+          <span class="icon">
+            <i class="cfg-plus"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

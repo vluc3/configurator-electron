@@ -1,0 +1,57 @@
+<div
+  #modal
+  class="modal fade"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable" [style]="{width: options && options.width ? options.width + 'px' : ''}">
+    <div class="modal-content" [style]="{width: options && options.width ? options.width + 'px' : ''}">
+      <div class="modal-header">
+        <h5 class="modal-title">{{options ? options.title : ''}}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="cancel()"
+        >
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container
+          modalBody
+          *ngIf="options && options.component"
+          [component]="options.component"
+          [data]="options.data"
+          (dataValidate)="dataValidate($event)"
+        >
+        </ng-container>
+        <ng-container
+          *ngIf="options && options.html"
+        >
+          <div
+            [innerHTML]="sanitize(options.html)"
+          >
+          </div>
+        </ng-container>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancel()"
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="validate()"
+        >Valider
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

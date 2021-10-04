@@ -1,0 +1,10 @@
+.main {
+  flex-grow: 1;
+  height: 100%;
+  //background: #0dcaf0;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+  }
+}

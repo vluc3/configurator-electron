@@ -1,0 +1,55 @@
+<form [formGroup]="formGroup">
+  <div class="mb-3">
+    <label for="name" class="form-label">Nom</label>
+    <input
+      [ngClass]="{'is-invalid': !isValid('name')}"
+      formControlName="name"
+      id="name"
+      name="name"
+      type="text"
+      class="form-control"
+      aria-describedby="nameHelp"
+    >
+    <div id="nameHelp" class="form-text">Nom de la vm ex. srv-proxy</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="ip" class="form-label">IP</label>
+    <input
+      [ngClass]="{'is-invalid': !isValid('ip') || formGroup.hasError('ipError')}"
+      formControlName="ip"
+      id="ip"
+      name="ip"
+      type="text"
+      class="form-control"
+      (keypress)="ipKeypress($event)"
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="mask" class="form-label">Masque de sous réseau</label>
+    <input
+      [ngClass]="{'is-invalid': !isValid('mask') || formGroup.hasError('ipError')}"
+      formControlName="mask"
+      id="mask"
+      name="mask"
+      type="text"
+      class="form-control"
+      (keypress)="ipKeypress($event)"
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="gateway" class="form-label">Passerelle</label>
+    <input
+      [ngClass]="{'is-invalid': !isValid('gateway') || formGroup.hasError('ipError')}"
+      formControlName="gateway"
+      id="gateway"
+      name="gateway"
+      type="text"
+      class="form-control"
+      (keypress)="ipKeypress($event)"
+    >
+  </div>
+
+</form>

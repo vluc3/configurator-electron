@@ -1,0 +1,37 @@
+.virtual-machine-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  padding: 5px;
+  background: #fff;
+
+  &-header {
+    display: flex;
+
+    .icon {
+      vertical-align: center;
+    }
+
+    .name {
+      flex-grow: 1;
+      justify-content: center;
+      font-weight: 500;
+      margin-left: 5px;
+    }
+  }
+
+  &-body {
+    min-height: 20px;
+  }
+
+  .virtual-machine-item-services {
+    max-width: 280px;
+    display: flex;
+    flex-wrap: wrap;
+    .virtual-machine-item-service {
+      margin: 5px;
+      padding: 10px 5px 5px;
+      border: #1a1e21 solid 2px;
+    }
+  }
+}

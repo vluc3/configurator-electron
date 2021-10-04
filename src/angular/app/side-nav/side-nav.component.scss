@@ -1,0 +1,64 @@
+.side-nav {
+  width: 100%;
+  max-width: 260px;
+  height: 100%;
+  //background: #1f2937;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .name {
+      font-size: 24px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  .navigation {
+    background: #3c4b64;
+    flex: 1;
+
+    .nav-item {
+      transition: background 800ms;
+
+      &:hover {
+        background: #526480;
+
+        .nav-link {
+          color: rgba(255, 255, 255, 0.8);
+        }
+      }
+
+      .nav-link {
+        padding-left: 30px;
+        color: rgba(255, 255, 255, 0.6);
+
+        .sidebar-icon {
+          i {
+            font-size: 1.6rem;
+          }
+        }
+
+        .sidebar-text {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .nav-title {
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #FFFFFF99;
+      margin: 15px 15px 5px;
+    }
+  }
+
+  .footer {
+    height: 60px;
+  }
+}

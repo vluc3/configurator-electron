@@ -1,0 +1,93 @@
+@font-face {
+  font-family: 'configurator';
+  src:  url('fonts/configurator.eot?oq6hgq');
+  src:  url('fonts/configurator.eot?oq6hgq#iefix') format('embedded-opentype'),
+    url('fonts/configurator.ttf?oq6hgq') format('truetype'),
+    url('fonts/configurator.woff?oq6hgq') format('woff'),
+    url('fonts/configurator.svg?oq6hgq#configurator') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'configurator' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cfg-cogs:before {
+  content: "\e90e";
+}
+.cfg-config:before {
+  content: "\e90c";
+}
+.cfg-cubes:before {
+  content: "\e902";
+}
+.cfg-ellipsis-v:before {
+  content: "\e90f";
+}
+.cfg-envelope:before {
+  content: "\e908";
+}
+.cfg-file-certificate:before {
+  content: "\e906";
+}
+.cfg-globe:before {
+  content: "\e903";
+}
+.cfg-ip-lock:before {
+  content: "\e904";
+}
+.cfg-minus:before {
+  content: "\e911";
+}
+.cfg-minus-circle:before {
+  content: "\e912";
+}
+.cfg-minus-square:before {
+  content: "\e913";
+}
+.cfg-network-time:before {
+  content: "\e909";
+}
+.cfg-network-wired:before {
+  content: "\e900";
+}
+.cfg-openvpn:before {
+  content: "\e905";
+}
+.cfg-pen:before {
+  content: "\e90d";
+}
+.cfg-phone-office:before {
+  content: "\e907";
+}
+.cfg-plus:before {
+  content: "\e90a";
+}
+.cfg-plus-circle:before {
+  content: "\e914";
+}
+.cfg-plus-square:before {
+  content: "\e915";
+}
+.cfg-server:before {
+  content: "\e901";
+}
+.cfg-trash-alt:before {
+  content: "\e90b";
+}
+.cfg-vmware:before {
+  content: "\e910";
+}

@@ -1,0 +1,47 @@
+<div class="header">
+  <span class="name">{{projectName}}</span>
+</div>
+<div class="navigation">
+  <div class="nav-title">Infrastructure</div>
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a routerLink="infrastructure/host" class="nav-link d-flex align-items-center">
+        <span class="sidebar-icon">
+          <i class="cfg-server"></i>
+        </span>
+        <span class="sidebar-text">Hôtes ESXi</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="infrastructure/vm" class="nav-link d-flex align-items-center">
+        <span class="sidebar-icon">
+          <i class="cfg-cubes"></i>
+        </span>
+        <span class="mt-1 ms-1 sidebar-text">Machines virtuelles</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="infrastructure/network" class="nav-link d-flex align-items-center">
+        <span class="sidebar-icon">
+          <i class="cfg-network-wired"></i>
+        </span>
+        <span class="mt-1 ms-1 sidebar-text">Réseau</span>
+      </a>
+    </li>
+  </ul>
+  <div class="nav-title">Service</div>
+  <ul class="nav flex-column">
+    <li class="nav-item" *ngFor="let service of services">
+      <a [routerLink]="service.link" class="nav-link d-flex align-items-center">
+        <span class="sidebar-icon">
+          <i class="{{service.icon}}"></i>
+        </span>
+        <span class="mt-1 ms-1 sidebar-text">
+          {{service.name}}
+        </span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="footer">
+</div>

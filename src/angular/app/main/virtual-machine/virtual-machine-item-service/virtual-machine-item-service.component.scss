@@ -1,0 +1,15 @@
+.virtual-machine-item-service {
+  position: relative;
+  display: flex;
+
+  .delete {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.6rem;
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+}

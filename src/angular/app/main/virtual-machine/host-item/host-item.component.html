@@ -1,0 +1,50 @@
+<div class="host-item-header">
+  <div class="name">
+    <span class="icon"><i class="cfg-server"></i></span>
+    <span>{{host.name}} - {{host.ip}}</span>
+  </div>
+  <div class="dropdown">
+    <span class="dropdown-btn" data-bs-toggle="dropdown">
+      <i class="cfg-ellipsis-v"></i>
+    </span>
+    <ul class="dropdown-menu">
+      <!--<li class="dropdown-menu-item px-1 py-1"
+          (click)="edit()">
+        <span><i class="cfg-pen"></i></span>
+        <span class="px-1">Modifier</span>
+      </li>-->
+      <li *ngIf="host.network != 'DMZ'"
+          class="dropdown-menu-item px-1 py-1"
+          (click)="virtualMachine()">
+        <span><i class="cfg-plus"></i></span>
+        <span class="px-1">Ajouter une VM</span>
+      </li>
+      <li *ngIf="host.network != 'DMZ'" >
+        <hr class="dropdown-divider">
+      </li>
+      <li  *ngIf="host.network != 'DMZ'"  class="dropdown-menu-item delete text-danger px-1 py-1" (click)="delete()">
+        <span><i class="cfg-trash-alt"></i></span>
+        <span class="px-1">Supprimer</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="host-item-body">
+  <div class="virtual-machines">
+    <div
+      virtualMachineItem
+      *ngFor="let virtualMachine of host.virtualMachines"
+      [virtualMachine]="virtualMachine"
+      [deletable]="host.network != 'DMZ'"
+      (dragover)="$event.preventDefault()"
+      (drop)="virtualMachineDrop.emit({event:$event, virtualMachine})"
+      (serviceDragStart)="serviceDragStart.emit({
+          event: $event.event,
+          service: $event.service,
+          virtualMachine
+      })"
+      (onDelete)="onVmDelete($event)"
+    >
+    </div>
+  </div>
+</div>
