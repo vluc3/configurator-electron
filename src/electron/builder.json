@@ -1,9 +1,7 @@
 {
   "asar": false,
   "directories": {
-    "output": "release/",
-    "app": "pkg/",
-    "buildResources": "dist"
+    "output": "release/"
   },
   "files": [
     "**/*",
@@ -15,7 +13,7 @@
   "extraResources": [
     {
       "from": "dist",
-      "to": "pkg",
+      "to": "app",
       "filter": [
         "**/*"
       ]

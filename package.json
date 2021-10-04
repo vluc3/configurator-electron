@@ -5,21 +5,19 @@
   "private": true,
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "ng": "ng",
-    "start": "npm-run-all -p electron:serve ng:serve",
-    "ng:build-dev": "ng build -c developement",
-    "ng:build-prod": "ng build -c production",
-    "build": "ng build --base-href ./ && npm run electron:tsc",
-    "build:dev": "npm run build -- -c dev",
-    "build:prod": "npm run build -- -c production",
-    "ng:serve": "ng serve -c web -o",
+    "ng:build-developement": "ng build -c developement",
+    "ng:build-production": "ng build -c production",
+    "ng:serve": "ng serve -c web",
+
     "electron:tsc": "tsc -p ./src/electron/tsconfig.json",
     "electron:tsc-watch": "tsc -p ./src/electron/tsconfig.json --watch",
-    "electron:run:serve": "electron ./dist/index.js --serve",
-    "electron:serve": "wait-on tcp:4200 && npm run electron:tsc && npm run electron:run:serve",
-    "electron:local": "npm run build:prod && npx electron ./dist/index.js",
-    "electron:build": "npm run build:prod && electron-builder build -c ./src/electron/builder.json --publish=never",
+    "electron:run": "electron ./app/index.js",
+    "electron:run:serve": "electron ./app/index.js --serve",
+
     "electron-build:build": "electron-builder build -c ./src/electron/builder.json --publish=never",
+
+    "build": "npm run electron:tsc && npm run ng:build-production && npm run electron-build:build",
+
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='src/e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
