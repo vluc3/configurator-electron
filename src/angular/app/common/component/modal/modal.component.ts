@@ -13,7 +13,9 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
 
   @ViewChild('modal') modalDiv?: ElementRef<HTMLDivElement>;
 
-  options?: ModalOptions<T>;
+  options?: ModalOptions<T> = {
+    title: ''
+  };
   private modal: any;
   private valid = false;
 
@@ -80,6 +82,12 @@ export interface ModalOptions<T> {
   data?: T;
   html?: string;
   width?: number;
+  btnText?: BtnText;
+}
+
+export interface BtnText {
+  validate?: string;
+  cancel?: string;
 }
 
 export interface ModalClose<T> {

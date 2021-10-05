@@ -7,10 +7,13 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-scrollable" [style]="{width: options && options.width ? options.width + 'px' : ''}">
-    <div class="modal-content" [style]="{width: options && options.width ? options.width + 'px' : ''}">
+  <div
+    class="modal-dialog modal-dialog-scrollable"
+    [style]="{width: options.width ? options.width + 'px' : ''}"
+  >
+    <div class="modal-content" [style]="{width: options.width ? options.width + 'px' : ''}">
       <div class="modal-header">
-        <h5 class="modal-title">{{options ? options.title : ''}}</h5>
+        <h5 class="modal-title">{{options.title | translate }}</h5>
         <button
           type="button"
           class="btn-close"
@@ -22,14 +25,14 @@
       <div class="modal-body">
         <ng-container
           modalBody
-          *ngIf="options && options.component"
+          *ngIf="options.component"
           [component]="options.component"
           [data]="options.data"
           (dataValidate)="dataValidate($event)"
         >
         </ng-container>
         <ng-container
-          *ngIf="options && options.html"
+          *ngIf="options.html"
         >
           <div
             [innerHTML]="sanitize(options.html)"
@@ -43,13 +46,14 @@
           class="btn btn-secondary"
           (click)="cancel()"
         >
-          Annuler
+          {{(options.btnText && options.btnText.cancel ? options.btnText.cancel : 'CANCEL') | translate}}
         </button>
         <button
           type="button"
           class="btn btn-primary"
           (click)="validate()"
-        >Valider
+        >
+          {{(options.btnText && options.btnText.cancel ? options.btnText.cancel : 'VALIDATE') | translate}}
         </button>
       </div>
     </div>

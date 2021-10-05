@@ -1,0 +1,40 @@
+{
+  "SAVE": "Sauvegarder",
+  "RESET": "Réinitialiser",
+  "CANCEL": "Annuler",
+  "REMOVE": "Supprimer",
+  "VALIDATE": "Valider",
+  "ADD": "Ajouter",
+  "HOST_LIST": "Liste des Hôtes",
+  "SERVICE_LIST": "Liste des Services",
+  "DOMAIN_NAME": "Nom de domaine",
+  "EXPLOITATION": "Exploitation",
+  "ADMINISTRATION": "Administration",
+  "DMZ": "DMZ",
+  "BEGIN": "Début",
+  "END": "Fin",
+  "DHCP": "DHCP",
+  "INFRASTRUCTURE": {
+    "HOST": {
+      "NEW_HOST": "Nouvel hôte",
+      "HOST_REMOVAL": "Suppression d'hôte",
+      "HOST_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer cet hôte?"
+    }
+  },
+  "SERVICE": {
+    "DNS_DHCP": {
+      "ADDRESS_RANGE": "Plage d'adresses",
+      "DEFAULT_DNS_SERVER": "Serveur DNS par défaut"
+    }
+  },
+  "PAGES": {
+    "HOME": {
+      "TITLE": "App works !",
+      "GO_TO_DETAIL": "Go to Detail"
+    },
+    "DETAIL": {
+      "TITLE": "Detail page !",
+      "BACK_TO_HOME": "Back to Home"
+    }
+  }
+}

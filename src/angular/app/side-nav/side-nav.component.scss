@@ -1,8 +1,4 @@
 .side-nav {
-  width: 100%;
-  max-width: 260px;
-  height: 100%;
-  //background: #1f2937;
   display: flex;
   flex-direction: column;
 
@@ -11,6 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     .name {
       font-size: 24px;
       font-weight: 500;
@@ -35,10 +32,14 @@
       }
 
       .nav-link {
+        display: flex !important;
+        align-content: center !important;
         padding-left: 30px;
         color: rgba(255, 255, 255, 0.6);
+        vertical-align: center;
 
         .sidebar-icon {
+          height: 26px;
           i {
             font-size: 1.6rem;
           }
@@ -46,6 +47,7 @@
 
         .sidebar-text {
           margin-left: 10px;
+          vertical-align: center;
         }
       }
     }

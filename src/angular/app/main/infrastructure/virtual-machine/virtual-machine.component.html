@@ -1,0 +1,58 @@
+<div class="host">
+  <div class="card card-hover-shadow-2x mb-3">
+    <div class="card-header">
+      <div class="title">
+        <span class="icon"><i class="cfg-cogs"></i></span>
+        <span class="text">{{ 'HOST_LIST' | translate }}</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let network of networks" class="network">
+        <div class="network-name">{{network}}</div>
+        <ul class="items list-group list-group-flush">
+          <div
+            hostItem
+            class="item list-group-item"
+            *ngFor="let host of getHosts(network)"
+            [host]="host"
+            (virtualMachineDrop)="virtualMachineDrop($event, network)"
+            (serviceDragStart)="serviceDragStart($event, host)"
+            (onDelete)="delete(host)"
+          >
+          </div>
+        </ul>
+      </div>
+    </div>
+<!--    <div class="card-footer d-flex justify-content-end">-->
+<!--      <button type="button" class="btn btn-outline-dark btn-with-icon" (click)="add()">-->
+<!--        <span>{{'ADD' | translate}}</span>-->
+<!--        <span class="icon">-->
+<!--          <i class="cfg-plus"></i>-->
+<!--        </span>-->
+<!--      </button>-->
+<!--    </div>-->
+  </div>
+</div>
+<div *ngIf="services.length > 0" class="service">
+  <div class="card card-hover-shadow-2x mb-3">
+    <div class="card-header">
+      <div class="title">
+        <span class="icon"><i class="cfg-cogs"></i></span>
+        <span class="text">{{ 'SERVICE_LIST' | translate }}</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <ul class="items list-group list-group-flush">
+        <div
+          virtualMachineItemService
+          *ngFor="let service of services"
+          class="item list-group-item"
+          [service]="service"
+          [draggable]="true"
+          (dragstart)="dragstart($event, service)"
+        >
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>

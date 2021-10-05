@@ -5,12 +5,14 @@ export function clone<T>(t: T): T {
   return JSON.parse(s);
 }
 
-export function copyEntries(to: any, from: any) {
+export function copyEntries(to: any, from: any, option?: { ignore: string[] }) {
   if (!to || !from) {
     return;
   }
   Object.entries(from).forEach(([key, value]) => {
-    to[key] = value;
+    if (!option || option.ignore.indexOf(key) === -1) {
+      to[key] = value;
+    }
   });
 }
 
@@ -21,25 +23,9 @@ export function keypressRegex(event: KeyboardEvent, r: string): boolean {
 
 export function ipValidator(control: AbstractControl): ValidationErrors | null {
   const value: string = control.value;
-  if(!isIpValid(value)){
+  if (!isIpValid(value)) {
     return {ipNotValid: {value}};
   }
-  // if (!value) {
-  //   return null;
-  // }
-  // const parts = value.split('.');
-  // if (parts.length !== 4) {
-  //   return {ipNotValid: {value}};
-  // }
-  // for (const part of parts) {
-  //   if (part.trim().length === 0 || isNaN(Number(part)) || (part.length > 1 && part.startsWith('0'))) {
-  //     return {ipNotValid: {value}};
-  //   }
-  //   const n = Number(part);
-  //   if (n < 0 || n > 255) {
-  //     return {ipNotValid: {value}};
-  //   }
-  // }
   return null;
 }
 
@@ -64,7 +50,6 @@ export function isIpValid(ip: string): boolean {
 }
 
 export function isFormValid(key: string, formGroup: FormGroup) {
-  console.log(key, formGroup.controls[key]);
   if (formGroup && !formGroup.controls[key].errors) {
     return true;
   }

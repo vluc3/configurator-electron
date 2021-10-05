@@ -1,0 +1,23 @@
+<div class="icon">
+  <i class="cfg-server"></i>
+</div>
+<div class="info">
+  <div>
+    <span class="name">{{host.name}}</span>
+    <span class="ip">{{host.ip}}</span>
+  </div>
+  <div>
+    <span class="network">{{host.network}}</span>
+  </div>
+</div>
+<div class="dropdown">
+  <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown">
+    <i class="cfg-ellipsis-v"></i>
+  </button>
+  <ul class="dropdown-menu">
+    <li class="cursor-pointer delete text-danger px-1 py-1" (click)="delete()">
+      <span><i class="cfg-trash-alt"></i></span>
+      <span class="px-1">{{ 'REMOVE' | translate }}</span>
+    </li>
+  </ul>
+</div>

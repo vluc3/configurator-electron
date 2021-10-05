@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": "../../app",
+    "sourceMap": false,
+    "declaration": false,
+    "moduleResolution": "node",
+    "target": "es5",
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "ES2020",
+      "ES2019",
+      "ES2018",
+      "es2017",
+      "es2016",
+      "es2015",
+      "dom"
+    ]
+  },
+  "files": [
+    "index.ts"
+  ],
+  "exclude": [
+    "../../node_modules",
+    "**/*.spec.ts"
+  ]
+}

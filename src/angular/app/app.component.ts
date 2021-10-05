@@ -1,11 +1,11 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core';
 
 @Component({
-  selector: 'div[root]',
+  selector: 'body[app]',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  @HostBinding("class") clazz = "root";
+  @HostBinding("class") clazz = "app";
 }

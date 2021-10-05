@@ -5,8 +5,9 @@ import * as url from 'url';
 
 // Initialize remote module
 require('@electron/remote/main').initialize();
+require('@electron/remote/main').enable(webContents);
 
-let win: BrowserWindow = null;
+let browserWindow: BrowserWindow = null;
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
 
@@ -16,11 +17,13 @@ function createWindow(): BrowserWindow {
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
   // Create the browser window.
-  win = new BrowserWindow({
+  browserWindow = new BrowserWindow({
     x: 0,
     y: 0,
     width: size.width,
     height: size.height,
+    minWidth: 1000,
+    minHeight: 800,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
@@ -28,14 +31,13 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  require('@electron/remote/main').enable(webContents);
-
   if (serve) {
-    win.webContents.openDevTools();
+    browserWindow.webContents.openDevTools();
     require('electron-reload')(__dirname, {
       electron: require(path.join(__dirname, '../node_modules/electron'))
     });
-    win.loadURL('http://localhost:4200');
+    browserWindow.loadURL('http://localhost:4200').then(() => {
+    });
   } else {
     // Path when running electron executable
     let pathIndex = './index.html';
@@ -45,22 +47,25 @@ function createWindow(): BrowserWindow {
       pathIndex = '../dist/index.html';
     }
 
-    win.loadURL(url.format({
+    browserWindow.loadFile(path.join(__dirname, pathIndex)).then(() => {
+    });
+
+/*    browserWindow.loadURL(url.format({
       pathname: path.join(__dirname, pathIndex),
       protocol: 'file:',
       slashes: true
-    }));
+    }));*/
   }
 
   // Emitted when the window is closed.
-  win.on('closed', () => {
+  browserWindow.on('closed', () => {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    win = null;
+    browserWindow = null;
   });
 
-  return win;
+  return browserWindow;
 }
 
 try {
@@ -82,7 +87,7 @@ try {
   app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (win === null) {
+    if (browserWindow === null) {
       createWindow();
     }
   });

@@ -6,26 +6,32 @@ import {AppComponent} from './app.component';
 import {SideNavComponent} from './side-nav/side-nav.component';
 import {TopNavComponent} from './top-nav/top-nav.component';
 import {MainComponent} from './main/main.component';
-import {HostListComponent} from './main/host-list/host-list.component';
-import {NetworkComponent} from './main/network/network.component';
-import {VirtualMachineComponent} from './main/virtual-machine/virtual-machine.component';
+import {HostListComponent} from './main/infrastructure/host-list/host-list.component';
+import {NetworkComponent} from './main/infrastructure/network/network.component';
+import {VirtualMachineComponent} from './main/infrastructure/virtual-machine/virtual-machine.component';
 import {ModalComponent} from './common/component/modal/modal.component';
 import {ModalDirective} from './common/component/modal/modal.directive';
-import {HostComponent} from './main/host-list/host/host.component';
+import {NewHostComponent} from './main/infrastructure/host-list/new-host/new-host.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {HostVirtualMachineComponent} from "./main/host-list/virtual-machine/host-virtual-machine.component";
-import {NewVirtualMachineComponent} from './main/virtual-machine/new-virtual-machine/new-virtual-machine.component';
-import {VirtualMachineItemComponent} from './main/virtual-machine/virtual-machine-item/virtual-machine-item.component';
-import {HostItemComponent} from './main/virtual-machine/host-item/host-item.component';
-import {VirtualMachineItemServiceComponent} from "./main/virtual-machine/virtual-machine-item-service/virtual-machine-item-service.component";
-import { DhcpDnsServiceComponent } from './main/dhcp-dns-service/dhcp-dns-service.component';
-import { NtpServiceComponent } from './main/ntp-service/ntp-service.component';
-import { MailServiceComponent } from './main/mail-service/mail-service.component';
-import { ToipWebUiServiceComponent } from './main/toip-web-ui-service/toip-web-ui-service.component';
-import { EjbcaServiceComponent } from './main/ejbca-service/ejbca-service.component';
-import { OpenVpnServiceComponent } from './main/open-vpn-service/open-vpn-service.component';
-import { IpSecServiceComponent } from './main/ip-sec-service/ip-sec-service.component';
+import {NewVirtualMachineComponent} from './main/infrastructure/virtual-machine/new-virtual-machine/new-virtual-machine.component';
+import {VirtualMachineItemComponent} from './main/infrastructure/virtual-machine/virtual-machine-item/virtual-machine-item.component';
+import {HostItemComponent} from './main/infrastructure/virtual-machine/host-item/host-item.component';
+import {VirtualMachineItemServiceComponent} from "./main/infrastructure/virtual-machine/virtual-machine-item-service/virtual-machine-item-service.component";
+import {DhcpDnsServiceComponent} from './main/service/dhcp-dns-service/dhcp-dns-service.component';
+import {NtpServiceComponent} from './main/service/ntp-service/ntp-service.component';
+import {MailServiceComponent} from './main/service/mail-service/mail-service.component';
+import {ToipWebUiServiceComponent} from './main/service/toip-web-ui-service/toip-web-ui-service.component';
+import {EjbcaServiceComponent} from './main/service/ejbca-service/ejbca-service.component';
+import {OpenVpnServiceComponent} from './main/service/open-vpn-service/open-vpn-service.component';
+import {IpSecServiceComponent} from './main/service/ip-sec-service/ip-sec-service.component';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import { HostListItemComponent } from './main/infrastructure/host-list/host-list-item/host-list-item.component';
+
+// AoT requires an exported function for factories
+const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
   declarations: [
@@ -38,8 +44,7 @@ import { IpSecServiceComponent } from './main/ip-sec-service/ip-sec-service.comp
     VirtualMachineComponent,
     ModalComponent,
     ModalDirective,
-    HostComponent,
-    HostVirtualMachineComponent,
+    NewHostComponent,
     NewVirtualMachineComponent,
     VirtualMachineItemComponent,
     VirtualMachineItemServiceComponent,
@@ -50,14 +55,24 @@ import { IpSecServiceComponent } from './main/ip-sec-service/ip-sec-service.comp
     ToipWebUiServiceComponent,
     EjbcaServiceComponent,
     OpenVpnServiceComponent,
-    IpSecServiceComponent
+    IpSecServiceComponent,
+    HostListItemComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: "fr",
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
