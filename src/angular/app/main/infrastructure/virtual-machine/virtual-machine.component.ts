@@ -8,7 +8,7 @@ import {ServiceDragInfo} from "../../../common/model/service-drag-info";
 import {ServiceDropInfo} from "../../../common/model/service-drop-info";
 
 @Component({
-  selector: 'div[virtualMachineR]',
+  selector: 'div[virtualMachineI]',
   templateUrl: './virtual-machine.component.html',
   styleUrls: ['./virtual-machine.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -113,24 +113,4 @@ export class VirtualMachineComponent implements OnInit {
       this.stateService.save();
     }
   }
-
-  // add() {
-  //   this.modalService.open<Host>({
-  //     title: "Nouvel hôte",
-  //     component: HostComponent,
-  //     data: {
-  //       name: '',
-  //       network: Network.EXPLOITATION,
-  //       datastore: '',
-  //       password: '',
-  //       ip: '',
-  //       virtualMachines: []
-  //     }
-  //   }).subscribe(close => {
-  //     if (!close.cancel && close.data) {
-  //       this.hosts.push(close.data);
-  //       this.stateService.save();
-  //     }
-  //   });
-  // }
 }

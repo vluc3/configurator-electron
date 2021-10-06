@@ -1,29 +1,26 @@
-<div class="col-md-8">
-  <div class="card card-hover-shadow-2x mb-3">
-    <div class="card-header">
-      <div class="title">
-        <span class="icon"><i class="cfg-server"></i></span>
-        <span class="text">{{ 'HOST_LIST' | translate}}</span>
+<div class="card card-hover-shadow-2x">
+  <div class="card-header">
+    <div class="title">
+      <span class="icon"><i class="cfg-server"></i></span>
+      <span class="text">{{ 'HOST_LIST' | translate}}</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <ul class="items list-group list-group-flush">
+      <div
+        hostListItem
+        class="item list-group-item"
+        *ngFor="let host of hosts"
+        [host]="host"
+        (onDelete)="delete($event)"
+      >
       </div>
-    </div>
-    <div class="card-body">
-      <ul class="items list-group list-group-flush">
-        <div
-          hostListItem
-          *ngFor="let host of hosts"
-          [host]="host"
-          class="item list-group-item"
-        >
-        </div>
-      </ul>
-    </div>
-    <div class="card-footer d-flex justify-content-end">
-      <button type="button" class="btn btn-outline-dark btn-with-icon" (click)="add()">
-        <span>{{'ADD' | translate}}</span>
-        <span class="icon">
-          <i class="cfg-plus"></i>
-        </span>
-      </button>
-    </div>
+    </ul>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button type="button" class="btn btn-outline-dark btn-with-icon" (click)="add()">
+      <span class="icon"><i class="cfg-plus"></i></span>
+      <span>{{ 'ADD' | translate }}</span>
+    </button>
   </div>
 </div>

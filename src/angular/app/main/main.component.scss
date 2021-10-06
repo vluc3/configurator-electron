@@ -10,7 +10,8 @@ main.main {
   }
 
   div.main {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    max-height: calc(100% - 60px);
 
     & > div {
       width: 100%;

@@ -4,6 +4,7 @@ import {StateService} from "../../../common/service/state.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {clone, copyEntries, ipValidator, isFormValid} from "../../../common/utils/utils";
 import {ModalService} from "../../../common/component/modal/modal.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'div[dhcpDnsService]',
@@ -13,7 +14,7 @@ import {ModalService} from "../../../common/component/modal/modal.service";
 })
 export class DhcpDnsServiceComponent implements OnInit {
 
-  @HostBinding('class') clazz = 'dhcp-dns-service';
+  @HostBinding('class') clazz = 'dhcp-dns-service service';
 
   dhcpDnsService: DhcpDnsService;
   formGroup: FormGroup;
@@ -21,7 +22,8 @@ export class DhcpDnsServiceComponent implements OnInit {
 
   constructor(
     private stateService: StateService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -57,17 +59,6 @@ export class DhcpDnsServiceComponent implements OnInit {
     return isFormValid(key, this.formGroup);
   }
 
-  // private checkDnsServers: ValidatorFn = (_: AbstractControl): ValidationErrors | null => {
-  //   let error = false;
-  //   for (const dnsServer of this.dhcpDnsService.defaultDnsServers) {
-  //     if (!isIpValid(dnsServer)) {
-  //       error = true;
-  //       break;
-  //     }
-  //   }
-  //   return !error ? null : {invalidDnsServers: true}
-  // }
-
   add() {
     let server = '';
     this.formGroup.addControl(`server-${this.dhcpDnsService.defaultDnsServers.length}`, new FormControl(
@@ -91,8 +82,8 @@ export class DhcpDnsServiceComponent implements OnInit {
 
   reset() {
     this.modalService.open({
-      title: "Réinitialisation",
-      html: `<p class="text-danger">Êtes vous sûre de vouloir réinitialiser ce service</p>`,
+      title: "RESET",
+      html: `<p class="text-danger">${this.translateService.instant("SERVICE.RESET_QUESTION")}</p>`,
     }).subscribe(close => {
       if (!close.cancel) {
         this.init();

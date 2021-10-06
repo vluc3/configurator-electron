@@ -6,7 +6,7 @@
   }
 
   .host {
-    flex: 1 1 0px;
+    flex: 1 1 0;
 
     .card {
       height: 100%;
@@ -14,19 +14,25 @@
 
       .card-body {
         display: flex;
+        max-height: calc(100% - 55px);
 
         .network {
-          overflow-y: scroll;
           max-height: 100%;
           height: 100%;
           flex: 1 1 0;
           border: #1a1e21 solid 2px;
-          padding: 10px;
           margin: 2px;
 
           &-name {
             text-align: center;
             font-weight: 500;
+            border-bottom: solid 2px #1a1e21;
+          }
+
+          &-list {
+            height: 100%;
+            max-height: calc(100% - 25px);
+            overflow-y: auto;
           }
         }
       }

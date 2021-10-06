@@ -7,6 +7,8 @@
   max-height: 100vh;
   display: flex;
   align-items: stretch;
+  background: url("/assets/image/background.jpg") no-repeat;
+  background-size: 100% auto;
 
   .side-nav {
     width: 260px;
@@ -14,5 +16,6 @@
 
   main {
     flex: 1 1 0;
+    background: rgba(255, 255, 255, 0.4);
   }
 }

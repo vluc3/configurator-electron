@@ -9,7 +9,7 @@
     <div class="card-body">
       <div *ngFor="let network of networks" class="network">
         <div class="network-name">{{network}}</div>
-        <ul class="items list-group list-group-flush">
+        <ul class="network-list items list-group list-group-flush">
           <div
             hostItem
             class="item list-group-item"
@@ -23,14 +23,6 @@
         </ul>
       </div>
     </div>
-<!--    <div class="card-footer d-flex justify-content-end">-->
-<!--      <button type="button" class="btn btn-outline-dark btn-with-icon" (click)="add()">-->
-<!--        <span>{{'ADD' | translate}}</span>-->
-<!--        <span class="icon">-->
-<!--          <i class="cfg-plus"></i>-->
-<!--        </span>-->
-<!--      </button>-->
-<!--    </div>-->
   </div>
 </div>
 <div *ngIf="services.length > 0" class="service">

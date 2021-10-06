@@ -13,9 +13,7 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
 
   @ViewChild('modal') modalDiv?: ElementRef<HTMLDivElement>;
 
-  options?: ModalOptions<T> = {
-    title: ''
-  };
+  options?: ModalOptions<T> = {};
   private modal: any;
   private valid = false;
 
@@ -51,13 +49,13 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
     }
     this.modal.hide();
     this.modalService.close({cancel: false, data: this.options?.data});
-    delete this.options;
+    this.options = {};
   }
 
   public cancel(): void {
     this.modal.hide();
     this.modalService.close({cancel: true});
-    delete this.options;
+    this.options = {};
   }
 
   dataValidate(event: { valid: boolean, data?: T }) {
@@ -77,7 +75,7 @@ export interface ModalBody<T> {
 }
 
 export interface ModalOptions<T> {
-  title: string;
+  title?: string;
   component?: Type<ModalBody<T>>;
   data?: T;
   html?: string;

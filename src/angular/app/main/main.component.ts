@@ -8,7 +8,7 @@ import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  @HostBinding("class") clazz = "main bg-light";
+  @HostBinding("class") clazz = "main";
 
   constructor() {
   }

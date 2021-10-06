@@ -35,7 +35,7 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
         ]
       ),
       passwordConfirmation: new FormControl(this.data?.password),
-      datastore: new FormControl(this.data?.name, [Validators.required])
+      datastore: new FormControl(this.data?.datastore, [Validators.required])
     }, {validators: this.checkPasswords});
 
     this.formGroup.statusChanges.subscribe(status => {

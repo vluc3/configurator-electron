@@ -1,12 +1,18 @@
 @import "../../../../assets/theme";
 
 .host-list {
+
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 
   .card {
-    .card-header {
+    height: 100%;
+    max-height: 100%;
+    min-width: 800px;
+
+    &-header {
       .title {
         height: 38px;
         display: flex;
@@ -24,8 +30,10 @@
       }
     }
 
-    .card-body {
+    &-body {
       padding: 0;
+      max-height: calc(100% - 114px);
+      overflow-y: auto;
     }
   }
 }

@@ -26,15 +26,12 @@ export class HostListComponent extends SubscriberComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.stateService.state$.pipe(takeUntil(this.unsubscribe$)).subscribe(state => {
-    //   this.hosts = state.hosts;
-    // });
     this.hosts = this.stateService.getHosts();
   }
 
   add() {
     this.modalService.open<Host>({
-      title: "NEW_HOST",
+      title: "INFRASTRUCTURE.HOST.NEW_HOST",
       component: NewHostComponent,
       data: {
         name: '',
@@ -47,20 +44,14 @@ export class HostListComponent extends SubscriberComponent implements OnInit {
     }).subscribe(close => {
       if (!close.cancel && close.data) {
         this.hosts.push(close.data);
-        console.log(this.stateService.getHosts());
+        this.stateService.save();
       }
     });
   }
 
   delete(host: Host) {
-    this.modalService.open({
-      title: "HOST_REMOVAL",
-      html: `<p class="text-danger">{{ 'HOST_REMOVAL_QUESTION' | translate }}</p>`,
-    }).subscribe(close => {
-      if (!close.cancel) {
-        const index = this.hosts.indexOf(host);
-        this.hosts.splice(index, 1);
-      }
-    });
+    const index = this.hosts.indexOf(host);
+    this.hosts.splice(index, 1);
+    this.stateService.save();
   }
 }

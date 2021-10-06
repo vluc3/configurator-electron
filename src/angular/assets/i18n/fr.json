@@ -5,7 +5,10 @@
   "REMOVE": "Supprimer",
   "VALIDATE": "Valider",
   "ADD": "Ajouter",
+  "EDIT": "Modifier",
   "HOST_LIST": "Liste des Hôtes",
+  "EDIT_HOST": "Modification d'hôte",
+  "HOST_REMOVAL": "Suppression d'hôte",
   "SERVICE_LIST": "Liste des Services",
   "DOMAIN_NAME": "Nom de domaine",
   "EXPLOITATION": "Exploitation",
@@ -17,24 +20,21 @@
   "INFRASTRUCTURE": {
     "HOST": {
       "NEW_HOST": "Nouvel hôte",
-      "HOST_REMOVAL": "Suppression d'hôte",
       "HOST_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer cet hôte?"
+    },
+    "VIRTUAL_MACHINE": {
+      "ADD_VM": "Ajouter une VM"
     }
   },
   "SERVICE": {
+    "RESET_QUESTION": "Êtes vous sûre de vouloir réinitialiser les données de ce service?",
     "DNS_DHCP": {
       "ADDRESS_RANGE": "Plage d'adresses",
       "DEFAULT_DNS_SERVER": "Serveur DNS par défaut"
-    }
-  },
-  "PAGES": {
-    "HOME": {
-      "TITLE": "App works !",
-      "GO_TO_DETAIL": "Go to Detail"
     },
-    "DETAIL": {
-      "TITLE": "Detail page !",
-      "BACK_TO_HOME": "Back to Home"
+    "NTP": {
+      "DEFAULT_NTP_SERVERS": "Serveurs NTP par défaut",
+      "COM_SYSTEM_NTP_SERVERS": "Serveur(s) NTP du système de communication"
     }
   }
 }

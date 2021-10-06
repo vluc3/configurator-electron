@@ -17,7 +17,7 @@ body {
 }
 
 .card {
-  .card-header {
+  &-header {
     .title {
       height: 38px;
       display: flex;
@@ -35,7 +35,7 @@ body {
     }
   }
 
-  .card-body {
+  &-body {
     padding: 0;
     max-height: calc(100% - 106px);
 
@@ -83,6 +83,30 @@ body {
 
       &:active {
         opacity: 0.8;
+      }
+    }
+  }
+}
+
+.service {
+  padding: 10px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    background: rgb(248, 249, 250);
+    padding: 20px;
+    border-radius: 2px;
+
+    form {
+      flex: 1 1 0;
+
+      fieldset {
+        background: rgb(248, 249, 250);
+
+        legend {
+          background: rgb(248, 249, 250);
+        }
       }
     }
   }

@@ -2,12 +2,15 @@
   <i class="cfg-server"></i>
 </div>
 <div class="info">
-  <div>
+  <div class="info-left">
     <span class="name">{{host.name}}</span>
     <span class="ip">{{host.ip}}</span>
   </div>
-  <div>
+  <div class="info-right">
     <span class="network">{{host.network}}</span>
+  </div>
+  <div class="info-right">
+    <span class="datastore">{{host.datastore}}</span>
   </div>
 </div>
 <div class="dropdown">
@@ -15,7 +18,14 @@
     <i class="cfg-ellipsis-v"></i>
   </button>
   <ul class="dropdown-menu">
-    <li class="cursor-pointer delete text-danger px-1 py-1" (click)="delete()">
+    <li class="dropdown-menu-item px-1 py-1" (click)="edit()">
+      <span><i class="cfg-pen"></i></span>
+      <span class="px-1">{{ 'EDIT' | translate }}</span>
+    </li>
+    <li *ngIf="host.network !== 'DMZ'">
+      <hr class="dropdown-divider">
+    </li>
+    <li *ngIf="host.network !== 'DMZ'" class="dropdown-menu-item delete text-danger px-1 py-1" (click)="delete()">
       <span><i class="cfg-trash-alt"></i></span>
       <span class="px-1">{{ 'REMOVE' | translate }}</span>
     </li>

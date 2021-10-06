@@ -23,24 +23,41 @@
     display: flex;
     align-items: center;
 
-    .name {
-      font-size: 12px;
-      text-transform: uppercase;
-      font-weight: 700;
+    &-left {
+      display: flex;
+      flex-direction: column;
+      margin: 0 10px;
+
+      .name {
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .ip {
+        font-size: 10px;
+        font-weight: 500;
+      }
     }
 
-    .ip {
-      font-size: 10px;
-      font-weight: 500;
-    }
+    &-right {
+      margin: 0 10px;
 
-    .network {
-      background: #1f2937;
-      padding: 5px;
-      font-size: 10px;
-      font-weight: 700;
-      color: #dee2e6;
-      border-radius: 3px;
+      .network, .datastore {
+        padding: 5px;
+        font-size: 10px;
+        font-weight: 700;
+        color: #dee2e6;
+        border-radius: 3px;
+      }
+
+      .datastore {
+        background: #943434;
+      }
+
+      .network {
+        background: #1f2937;
+      }
     }
   }
 
