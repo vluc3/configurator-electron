@@ -9,6 +9,7 @@
 main.js
 src/**/*.js
 !src/angular/karma.conf.js
+!src/angular/angular.webpack.js
 *.js.map
 package-lock.json
 app/package-lock.json

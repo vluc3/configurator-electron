@@ -1,5 +1,5 @@
 {
-  "SAVE": "Sauvegarder",
+  "SAVE": "Enregistrer",
   "RESET": "Réinitialiser",
   "CANCEL": "Annuler",
   "REMOVE": "Supprimer",
@@ -17,6 +17,10 @@
   "BEGIN": "Début",
   "END": "Fin",
   "DHCP": "DHCP",
+  "TOP_NAV": {
+    "HOME": "Accueil",
+    "EXPORT": "Exporter"
+  },
   "INFRASTRUCTURE": {
     "HOST": {
       "NEW_HOST": "Nouvel hôte",

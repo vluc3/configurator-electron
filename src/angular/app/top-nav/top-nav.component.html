@@ -1,0 +1,24 @@
+<button
+  type="button"
+  class="home btn btn-primary btn-sm btn-with-icon"
+  (click)="home()"
+>
+  <span class="icon"><i class="cfg-home"></i></span>
+  <span>{{ 'TOP_NAV.HOME' | translate }}</span>
+</button>
+<button
+  type="button"
+  class="btn btn-primary btn-sm btn-with-icon"
+  (click)="export()"
+>
+  <span class="icon"><i class="cfg-download"></i></span>
+  <span>{{ 'TOP_NAV.EXPORT' | translate }}</span>
+</button>
+<button
+  type="button"
+  class="btn btn-primary btn-sm btn-with-icon"
+  (click)="save()"
+>
+  <span class="icon"><i class="cfg-save"></i></span>
+  <span>{{ 'SAVE' | translate }}</span>
+</button>

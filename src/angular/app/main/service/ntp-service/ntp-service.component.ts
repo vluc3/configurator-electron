@@ -45,7 +45,7 @@ export class NtpServiceComponent implements OnInit {
     this.ntpService.defaultNtpServers.forEach((value, index) => {
       this.formGroup.addControl(`d-ntp-server-${index}`, new FormControl(
         value,
-        [Validators.required, ipValidator]
+        [Validators.required/*, ipValidator*/]
       ));
     });
 
