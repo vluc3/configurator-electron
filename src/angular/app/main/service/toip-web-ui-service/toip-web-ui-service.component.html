@@ -1,1 +1,145 @@
-<p>toip-web-ui-service works!</p>
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'TOIP' | translate }}</legend>
+      <fieldset>
+        <legend>{{ 'DOMAIN' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="domainName"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'DOMAIN_NAME' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('domainName')}"
+              id="domainName"
+              formControlName="domainName"
+              class="form-control form-control-sm"
+            >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'SERVICE.TOIP_WEB.SUBSCRIBER_MANAGEMENT_APPLICATION' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="webPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.TOIP_WEB.WEB_UI_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('webPort')}"
+              id="webPort"
+              formControlName="webPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'SERVICE.TOIP_WEB.FLEET_MANAGEMENT_APPLICATION' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="interfacePort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.TOIP_WEB.INTERFACE_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('interfacePort')}"
+              id="interfacePort"
+              formControlName="interfacePort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'SERVICE.TOIP_WEB.SIP_PROXY' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="externSipPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.TOIP_WEB.PROXY_SIP_EXTERN_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('externSipPort')}"
+              id="externSipPort"
+              formControlName="externSipPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+        <div class="form-group mb-2 row">
+          <label
+            for="internSipPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.TOIP_WEB.PROXY_SIP_INTERN_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('internSipPort')}"
+              id="internSipPort"
+              formControlName="internSipPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+        <div class="form-group mb-2 row">
+          <label
+            for="externOpenSipPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.TOIP_WEB.OPEN_SIP_EXTERN_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('externOpenSipPort')}"
+              id="externOpenSipPort"
+              formControlName="externOpenSipPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+        <div class="form-group mb-2 row">
+          <label
+            for="internOpenSipPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.TOIP_WEB.OPEN_SIP_INTERN_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('internOpenSipPort')}"
+              id="internOpenSipPort"
+              formControlName="internOpenSipPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+    </fieldset>
+  </form>
+  <div class="actions d-flex justify-content-end">
+    <button class="btn btn-danger me-3" (click)="reset()">
+      {{'RESET' | translate}}
+    </button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="!valid">
+      {{'SAVE' | translate}}
+    </button>
+  </div>
+</div>

@@ -118,3 +118,15 @@ body {
     }
   }
 }
+
+.password-show {
+  cursor: pointer;
+
+  &:hover {
+    color: lighten($input-group-addon-color, 30);
+  }
+
+  &:active {
+    color: darken($input-group-addon-color, 30);
+  }
+}

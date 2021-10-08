@@ -2,22 +2,25 @@
   <form [formGroup]="formGroup">
     <fieldset>
       <legend>DNS</legend>
-      <div class="form-group mb-2 row">
-        <label
-          for="domainName"
-          class="col-sm-2 col-form-label col-form-label-sm"
-        >
-          {{ 'DOMAIN_NAME' | translate }} :
-        </label>
-        <div class="col-sm-10">
-          <input
-            [ngClass]="{'is-invalid': !isValid('domainName')}"
-            formControlName="domainName"
-            class="form-control form-control-sm"
-            id="domainName"
+      <fieldset>
+        <legend>{{ 'DOMAIN' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="domainName"
+            class="col-sm-2 col-form-label col-form-label-sm"
           >
+            {{ 'DOMAIN_NAME' | translate }} :
+          </label>
+          <div class="col-sm-10">
+            <input
+              [ngClass]="{'is-invalid': !isValid('domainName')}"
+              formControlName="domainName"
+              class="form-control form-control-sm"
+              id="domainName"
+            >
+          </div>
         </div>
-      </div>
+      </fieldset>
       <fieldset>
         <legend>Zone</legend>
         <div class="form-group mb-2 row">
@@ -28,12 +31,15 @@
             {{ 'EXPLOITATION' | translate }} :
           </label>
           <div class="col-sm-10">
-            <input
-              [ngClass]="{'is-invalid': !isValid('exploitationZone')}"
-              formControlName="exploitationZone"
-              class="form-control form-control-sm"
-              id="exploitationZone"
-            >
+            <div class="input-group input-group-sm">
+              <input
+                [ngClass]="{'is-invalid': !isValid('exploitationZone')}"
+                formControlName="exploitationZone"
+                class="form-control form-control-sm"
+                id="exploitationZone"
+              >
+              <span class="input-group-text">.{{ formGroup.getRawValue()['domainName'] }}</span>
+            </div>
           </div>
         </div>
         <div class="form-group mb-2 row">
@@ -44,12 +50,15 @@
             {{ 'ADMINISTRATION' | translate }} :
           </label>
           <div class="col-sm-10">
-            <input
-              [ngClass]="{'is-invalid': !isValid('administrationZone')}"
-              formControlName="administrationZone"
-              class="form-control form-control-sm"
-              id="administrationZone"
-            >
+            <div class="input-group input-group-sm">
+              <input
+                [ngClass]="{'is-invalid': !isValid('administrationZone')}"
+                formControlName="administrationZone"
+                class="form-control form-control-sm"
+                id="administrationZone"
+              >
+              <span class="input-group-text">.{{ formGroup.getRawValue()['domainName'] }}</span>
+            </div>
           </div>
         </div>
         <div class="form-group mb-2 row">
@@ -60,12 +69,15 @@
             {{ 'DMZ' | translate }} :
           </label>
           <div class="col-sm-10">
-            <input
-              [ngClass]="{'is-invalid': !isValid('dmzZone')}"
-              formControlName="dmzZone"
-              class="form-control form-control-sm"
-              id="dmzZone"
-            >
+            <div class="input-group input-group-sm">
+              <input
+                [ngClass]="{'is-invalid': !isValid('dmzZone')}"
+                formControlName="dmzZone"
+                class="form-control form-control-sm"
+                id="dmzZone"
+              >
+              <span class="input-group-text">.{{ formGroup.getRawValue()['domainName'] }}</span>
+            </div>
           </div>
         </div>
       </fieldset>
@@ -81,7 +93,7 @@
         <div>
           <div class="form-group">
             <div
-              *ngFor="let server of dhcpDnsService.defaultDnsServers; let i = index"
+              *ngFor="let server of service.defaultDnsServers; let i = index"
               class="d-flex mb-2"
             >
               <input
@@ -137,7 +149,7 @@
       </fieldset>
     </fieldset>
   </form>
-  <div class="d-flex justify-content-end">
+  <div class="actions d-flex justify-content-end">
     <button class="btn btn-danger me-3" (click)="reset()">
       {{'RESET' | translate}}
     </button>

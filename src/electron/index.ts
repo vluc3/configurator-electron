@@ -1,7 +1,6 @@
 import {app, BrowserWindow, screen, webContents} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as url from 'url';
 
 // Initialize remote module
 require('@electron/remote/main').initialize();
@@ -31,6 +30,8 @@ function createWindow(): BrowserWindow {
     },
   });
 
+  browserWindow.removeMenu();
+
   if (serve) {
     browserWindow.webContents.openDevTools();
     require('electron-reload')(__dirname, {
@@ -49,12 +50,6 @@ function createWindow(): BrowserWindow {
 
     browserWindow.loadFile(path.join(__dirname, pathIndex)).then(() => {
     });
-
-/*    browserWindow.loadURL(url.format({
-      pathname: path.join(__dirname, pathIndex),
-      protocol: 'file:',
-      slashes: true
-    }));*/
   }
 
   // Emitted when the window is closed.

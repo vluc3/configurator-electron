@@ -27,8 +27,6 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
       ip: new FormControl(this.data?.ip, [
         Validators.required,
         ipValidator
-        // ,
-        // Validators.pattern(/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/gm)
       ]),
       password: new FormControl(this.data?.password, [
           Validators.required
@@ -41,7 +39,7 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
     this.formGroup.statusChanges.subscribe(status => {
       const valid = status === 'VALID';
       if (valid) {
-        copyEntries(this.data, this.formGroup.getRawValue());
+        copyEntries(this.data, this.formGroup.getRawValue(), {ignore: ["passwordConfirmation"]});
       }
       this.dataValidate.next({valid, data: this.data});
     });

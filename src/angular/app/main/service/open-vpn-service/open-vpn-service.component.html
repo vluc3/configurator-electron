@@ -1,1 +1,106 @@
-<p>open-vpn-service works!</p>
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'SERVICE.OPEN_VPN.OPEN_VPN' | translate }}</legend>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="ip"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.OPEN_VPN.CLIENTS_IP_ADDRESS' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('ip')}"
+            id="ip"
+            formControlName="ip"
+            class="form-control form-control-sm"
+            (keypress)="keypress($event, '^[0-9\.]+$')"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="clientInPort"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.OPEN_VPN.CLIENTS_LISTENING_PORT' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('clientInPort')}"
+            id="clientInPort"
+            formControlName="clientInPort"
+            class="form-control form-control-sm"
+            (keypress)="keypress($event, '^[0-9]+$')"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="vpnClientNetwork"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.OPEN_VPN.NETWORK_FOR_VPN_CLIENTS' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('vpnClientNetwork')}"
+            id="vpnClientNetwork"
+            formControlName="vpnClientNetwork"
+            class="form-control form-control-sm"
+            (keypress)="keypress($event, '^[0-9\.]+$')"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="internInPort"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.OPEN_VPN.INTERNAL_LISTENING_PORT' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('internInPort')}"
+            id="internInPort"
+            formControlName="internInPort"
+            class="form-control form-control-sm"
+            (keypress)="keypress($event, '^[0-9]+$')"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="connectionAttemptsNumber"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.OPEN_VPN.NUMBER_OF_CONNECTION_ATTEMPTS' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('connectionAttemptsNumber')}"
+            id="connectionAttemptsNumber"
+            formControlName="connectionAttemptsNumber"
+            class="form-control form-control-sm"
+            (keypress)="keypress($event, '^[0-9]+$')"
+          >
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+  <div class="actions d-flex justify-content-end">
+    <button class="btn btn-danger me-3" (click)="reset()">
+      {{'RESET' | translate}}
+    </button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="!valid">
+      {{'SAVE' | translate}}
+    </button>
+  </div>
+</div>

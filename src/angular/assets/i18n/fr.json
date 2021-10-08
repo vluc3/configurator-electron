@@ -3,6 +3,7 @@
   "RESET": "Réinitialiser",
   "CANCEL": "Annuler",
   "REMOVE": "Supprimer",
+  "DUPLICATE": "Dupliquer",
   "VALIDATE": "Valider",
   "ADD": "Ajouter",
   "EDIT": "Modifier",
@@ -17,9 +18,21 @@
   "BEGIN": "Début",
   "END": "Fin",
   "DHCP": "DHCP",
+  "DOMAIN": "Domain",
+  "PASSWORD": "Mot de passe",
+  "PASSWORD_CONFIRMATION": "Confirmation mot de passe",
+  "PORTS": "Ports",
+  "DAYS": "jours",
   "TOP_NAV": {
     "HOME": "Accueil",
     "EXPORT": "Exporter"
+  },
+  "HOME": {
+    "INFORMATION": "Application de configuration du processus d'installation de la solution :",
+    "APPLICATION_NAME": "Bulle de communication sécurisée",
+    "VERSION": "V 1.1",
+    "CREATE_NEW_CONFIGURATION": "Créer une nouvelle configuration",
+    "IMPORT_EXISTING_CONFIGURATION": "Importer une configuration existante"
   },
   "INFRASTRUCTURE": {
     "HOST": {
@@ -39,6 +52,53 @@
     "NTP": {
       "DEFAULT_NTP_SERVERS": "Serveurs NTP par défaut",
       "COM_SYSTEM_NTP_SERVERS": "Serveur(s) NTP du système de communication"
+    },
+    "MAIL": {
+      "PROXY_MAIL_SMTP_IMAP": "Proxy mail (smtp / imap)",
+      "DEFAULT_USER_PASSWORD": "Mot de passe par défaut des utilisateurs",
+      "LISTENING_PORT_ANTIVIRUS": "Port d'écoute pour l'antivirus",
+      "LISTENING_PORT_ANTISPAM": "Port d'écoute pour l'antispam",
+      "OUTPUT_PORT_ANTIVIRUS": "Port de sortie pour l'antivirus",
+      "LISTENING_PORT": "Port d'écoute"
+    },
+    "TOIP_WEB": {
+      "SUBSCRIBER_MANAGEMENT_APPLICATION": "Application de gestion des abonnées",
+      "FLEET_MANAGEMENT_APPLICATION": "Application de gestion de flotte",
+      "SIP_PROXY": "Proxy SIP",
+      "WEB_UI_PORT": "Port web UI",
+      "INTERFACE_PORT": "Port de l'interface",
+      "PROXY_SIP_EXTERN_PORT": "Port externe du proxy SIP",
+      "PROXY_SIP_INTERN_PORT": "Port interne du proxy SIP",
+      "OPEN_SIP_EXTERN_PORT": "Port externe OpenSIP",
+      "OPEN_SIP_INTERN_PORT": "Port interne OpenSIP"
+    },
+    "EJBCA": {
+      "CERTIFICATION_AUTHORITY": "Autorité de certification",
+      "ORGANIZATION": "Organisation",
+      "COUNTRY": "Pays",
+      "CITY": "Ville",
+      "VALIDITY": "Validité",
+      "SERVER_CERTIFICATES": "Certificats serveur",
+      "USERS_CERTIFICATES": "Certificats utilisateurs",
+      "KEYS": "Clés",
+      "LENGTH": "Longueur"
+    },
+    "OPEN_VPN": {
+      "OPEN_VPN": "Open Vpn",
+      "CLIENTS_IP_ADDRESS": "Adresse IP clients",
+      "CLIENTS_LISTENING_PORT": "Port d'écoute clients",
+      "NETWORK_FOR_VPN_CLIENTS": "Réseau pour les clients VPN",
+      "INTERNAL_LISTENING_PORT": "Port d'écoute interne",
+      "NUMBER_OF_CONNECTION_ATTEMPTS": "Nombre de tentatives de connexion"
+    },
+    "IP_SEC": {
+      "IP_SEC": "IPSec",
+      "AUTHENTICATION_DURATION": "Durée de l'authentification",
+      "IKE_PROTOCOL": "Protocole IKE",
+      "ENCRYPTION_ALGORITHM": "Algorithme de chiffrement",
+      "PSEUDO_RANDOM_FUNCTION": "Fonction pseudo-aléatoire",
+      "INTEGRITY": "Intégrité",
+      "DIFFIE_HELMAN": "Diffie-Helman"
     }
   }
 }

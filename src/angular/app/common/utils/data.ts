@@ -48,8 +48,8 @@ export const toipWebUiService: ToipWebUiService = {
   interfacePort: 8080,
   externSipPort: 5080,
   internSipPort: 5090,
-  externOpenSipPort: 24682,
-  internOpenSipPort: 24680,
+  externOpenSipPort: 24680,
+  internOpenSipPort: 24682
 };
 
 export const ejbcaService: EjbcaService = {
@@ -80,7 +80,7 @@ export const ipSecService: IpSecService = {
   ip: '192.168.40.151',
   clientInPort: 4500,
   vpnClientNetwork: '192.168.43.0',
-  authenticationTime: 1800,
+  authenticationDuration: 1800,
   connectionAttemptsNumber: 3,
   encryptionAlgorithms,
   pseudoRandomFunctions,

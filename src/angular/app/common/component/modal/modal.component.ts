@@ -49,13 +49,13 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
     }
     this.modal.hide();
     this.modalService.close({cancel: false, data: this.options?.data});
-    this.options = {};
+    setTimeout(() => this.options = {}, 500);
   }
 
   public cancel(): void {
     this.modal.hide();
     this.modalService.close({cancel: true});
-    this.options = {};
+    setTimeout(() => this.options = {}, 500);
   }
 
   dataValidate(event: { valid: boolean, data?: T }) {
@@ -81,6 +81,7 @@ export interface ModalOptions<T> {
   html?: string;
   width?: number;
   btnText?: BtnText;
+  noFooter?: boolean;
 }
 
 export interface BtnText {

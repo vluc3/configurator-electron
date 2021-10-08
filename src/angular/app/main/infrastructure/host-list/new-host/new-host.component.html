@@ -48,7 +48,7 @@
     >
   </div>
   <div class="mb-3">
-    <label for="passwordConfirmation" class="form-label">Confirmation mot de passe</label>
+    <label for="passwordConfirmation" class="form-label">{{ 'PASSWORD_CONFIRMATION' | translate }}</label>
     <input
       [ngClass]="{'is-invalid': formGroup.hasError('passwordConfirmation')}"
       formControlName="passwordConfirmation"

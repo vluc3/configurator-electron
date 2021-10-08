@@ -26,6 +26,8 @@ export class TopNavComponent implements OnInit {
     this.modalService.open<any>({
       title: "TOP_NAV.HOME",
       component: HomeComponent,
+      width: 600,
+      noFooter: true,
       data: {}
     }).subscribe(close => {
       if (!close.cancel && close.data) {
@@ -36,6 +38,6 @@ export class TopNavComponent implements OnInit {
   export() {
   }
 
-  save() {
-  }
+  // save() {
+  // }
 }

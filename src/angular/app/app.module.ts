@@ -28,8 +28,8 @@ import {IpSecServiceComponent} from './main/service/ip-sec-service/ip-sec-servic
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import { HostListItemComponent } from './main/infrastructure/host-list/host-list-item/host-list-item.component';
-import { HomeComponent } from './home/home.component';
+import {HostListItemComponent} from './main/infrastructure/host-list/host-list-item/host-list-item.component';
+import {HomeComponent} from './home/home.component';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new TranslateHttpLoader(http, './assets/i18n/', '.json');

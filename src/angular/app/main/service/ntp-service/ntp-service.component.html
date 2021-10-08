@@ -12,7 +12,7 @@
       <div>
         <div class="form-group">
           <div
-            *ngFor="let server of ntpService.defaultNtpServers; let i = index"
+            *ngFor="let server of service.defaultNtpServers; let i = index"
             class="d-flex mb-2"
           >
             <input
@@ -40,7 +40,7 @@
       <div>
         <div class="form-group">
           <div
-            *ngFor="let server of ntpService.communicationSystemNtpServer; let i = index"
+            *ngFor="let server of service.communicationSystemNtpServer; let i = index"
             class="d-flex mb-2"
           >
             <input

@@ -13,6 +13,7 @@ import {
   toipWebUiService
 } from "../utils/data";
 import {ElectronService} from "./electron.service";
+import {APP_CONFIG} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,8 @@ export class StateService {
     openVpnService,
     ipSecService
   };
+
+  projects: string[] = [];
 
   private store: Store = {
     name: "Config 1",
@@ -58,7 +61,15 @@ export class StateService {
   constructor(
     private electronService: ElectronService
   ) {
+
     if (electronService.isElectron) {
+      let projectFolder = './project/';
+      if (!APP_CONFIG.production) {
+        projectFolder = './release/project/';
+      }
+      this.electronService.fs.readdir(projectFolder, (err, files) => {
+        this.projects = files;
+      });
       electronService.fs.readFile("config.json", "utf8", (err, data) => {
         if (err) {
           console.error(err);
@@ -70,6 +81,10 @@ export class StateService {
         }
       });
     } else {
+      const projectsText = localStorage.getItem("CONFIGURATOR_PROJECTS");
+      if (projectsText) {
+        this.projects = JSON.parse(projectsText);
+      }
       const storeText = localStorage.getItem('store');
       if (storeText) {
         this.store = JSON.parse(storeText);
@@ -108,6 +123,10 @@ export class StateService {
     } else {
       localStorage.setItem('store', storeText);
     }
+  }
+
+  getProjects(): string[] {
+    return this.projects;
   }
 }
 

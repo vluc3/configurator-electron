@@ -1,1 +1,156 @@
-<p>mail-service works!</p>
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'MAIL' | translate }}</legend>
+      <fieldset>
+        <legend>{{ 'DOMAIN' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="domainName"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'DOMAIN_NAME' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('domainName')}"
+              id="domainName"
+              formControlName="domainName"
+              class="form-control form-control-sm"
+            >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'PASSWORD' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="defaultPassword"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.MAIL.DEFAULT_USER_PASSWORD' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <div
+              class="input-group">
+              <input
+                [ngClass]="{'is-invalid': !isValid('defaultPassword') || formGroup.hasError('passwordConfirmation')}"
+                id="defaultPassword"
+                formControlName="defaultPassword"
+                class="form-control form-control-sm"
+                [type]="show ? 'text' : 'password'"
+              >
+              <span class="password-show input-group-text" (click)="show = !show">
+              <i class="{{show ? 'cfg-eye-slash' : 'cfg-eye'}}"></i>
+            </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group mb-2 row">
+          <label
+            for="passwordConfirmation"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'PASSWORD_CONFIRMATION' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input
+                [ngClass]="{'is-invalid': formGroup.hasError('passwordConfirmation')}"
+                id="passwordConfirmation"
+                formControlName="passwordConfirmation"
+                class="form-control form-control-sm"
+                [type]="show ? 'text' : 'password'"
+              >
+              <span class="password-show input-group-text" (click)="show = !show">
+              <i class="{{show ? 'cfg-eye-slash' : 'cfg-eye'}}"></i>
+            </span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'PORTS' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="antivirusInputPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.MAIL.LISTENING_PORT_ANTIVIRUS' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('antivirusInputPort')}"
+              id="antivirusInputPort"
+              formControlName="antivirusInputPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+        <div class="form-group mb-2 row">
+          <label
+            for="antispamInputPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.MAIL.LISTENING_PORT_ANTISPAM' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('antispamInputPort')}"
+              id="antispamInputPort"
+              formControlName="antispamInputPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+        <div class="form-group mb-2 row">
+          <label
+            for="antivirusOutputPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.MAIL.OUTPUT_PORT_ANTIVIRUS' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('antivirusOutputPort')}"
+              id="antivirusOutputPort"
+              formControlName="antivirusOutputPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'SERVICE.MAIL.PROXY_MAIL_SMTP_IMAP' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="smtpImapInputPort"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.MAIL.LISTENING_PORT' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('smtpImapInputPort')}"
+              id="smtpImapInputPort"
+              formControlName="smtpImapInputPort"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+    </fieldset>
+  </form>
+  <div class="actions d-flex justify-content-end">
+    <button class="btn btn-danger me-3" (click)="reset()">
+      {{'RESET' | translate}}
+    </button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="!valid">
+      {{'SAVE' | translate}}
+    </button>
+  </div>
+</div>

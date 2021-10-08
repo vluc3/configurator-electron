@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'configurator';
-  src:  url('fonts/configurator.eot?2bg0l3');
-  src:  url('fonts/configurator.eot?2bg0l3#iefix') format('embedded-opentype'),
-    url('fonts/configurator.ttf?2bg0l3') format('truetype'),
-    url('fonts/configurator.woff?2bg0l3') format('woff'),
-    url('fonts/configurator.svg?2bg0l3#configurator') format('svg');
+  src:  url('fonts/configurator.eot?vh0v5t');
+  src:  url('fonts/configurator.eot?vh0v5t#iefix') format('embedded-opentype'),
+    url('fonts/configurator.ttf?vh0v5t') format('truetype'),
+    url('fonts/configurator.woff?vh0v5t') format('woff'),
+    url('fonts/configurator.svg?vh0v5t#configurator') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,18 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.cfg-clone:before {
+  content: "\e91f";
+}
+.cfg-upload:before {
+  content: "\e91e";
+}
+.cfg-eye-slash:before {
+  content: "\e91c";
+}
+.cfg-eye:before {
+  content: "\e91d";
+}
 .cfg-bars:before {
   content: "\e916";
 }

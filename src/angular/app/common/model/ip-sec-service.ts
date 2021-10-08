@@ -1,7 +1,7 @@
 import {SecService} from "./sec-service";
 
 export interface IpSecService extends SecService {
-  authenticationTime: number;
+  authenticationDuration: number;
   encryptionAlgorithms: Option[];
   pseudoRandomFunctions: Option[];
   integrity: Option[];

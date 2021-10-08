@@ -1,1 +1,157 @@
-<p>ejbca-service works!</p>
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'SERVICE.EJBCA.CERTIFICATION_AUTHORITY' | translate }}</legend>
+      <fieldset>
+        <legend>{{ 'SERVICE.EJBCA.ORGANIZATION' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="country"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.COUNTRY' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('country')}"
+              id="country"
+              formControlName="country"
+              class="form-control form-control-sm"
+            >
+          </div>
+        </div>
+
+        <div class="form-group mb-2 row">
+          <label
+            for="city"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.CITY' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('city')}"
+              id="city"
+              formControlName="city"
+              class="form-control form-control-sm"
+            >
+          </div>
+        </div>
+
+        <div class="form-group mb-2 row">
+          <label
+            for="organization"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.ORGANIZATION' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('organization')}"
+              id="organization"
+              formControlName="organization"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>{{ 'SERVICE.EJBCA.VALIDITY' | translate }}</legend>
+
+        <div class="form-group mb-2 row">
+          <label
+            for="certificationAuthorityValidityDays"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.CERTIFICATION_AUTHORITY' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <div class="input-group input-group-sm">
+              <input
+                [ngClass]="{'is-invalid': !isValid('certificationAuthorityValidityDays')}"
+                id="certificationAuthorityValidityDays"
+                formControlName="certificationAuthorityValidityDays"
+                class="form-control form-control-sm"
+                (keypress)="keypress($event, '^[0-9]+$')"
+              >
+              <span class="input-group-text">{{ 'DAYS' | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-2 row">
+          <label
+            for="certificationServerValidityDays"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.SERVER_CERTIFICATES' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <div class="input-group input-group-sm">
+              <input
+                [ngClass]="{'is-invalid': !isValid('certificationServerValidityDays')}"
+                id="certificationServerValidityDays"
+                formControlName="certificationServerValidityDays"
+                class="form-control form-control-sm"
+                (keypress)="keypress($event, '^[0-9]+$')"
+              >
+              <span class="input-group-text">{{ 'DAYS' | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-2 row">
+          <label
+            for="certificationUserValidityDays"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.USERS_CERTIFICATES' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <div class="input-group input-group-sm">
+              <input
+                [ngClass]="{'is-invalid': !isValid('certificationUserValidityDays')}"
+                id="certificationUserValidityDays"
+                formControlName="certificationUserValidityDays"
+                class="form-control form-control-sm"
+                (keypress)="keypress($event, '^[0-9]+$')"
+              >
+              <span class="input-group-text">{{ 'DAYS' | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+      <fieldset>
+        <legend>{{ 'SERVICE.EJBCA.KEYS' | translate }}</legend>
+        <div class="form-group mb-2 row">
+          <label
+            for="length"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'SERVICE.EJBCA.LENGTH' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <input
+              [ngClass]="{'is-invalid': !isValid('length')}"
+              id="length"
+              formControlName="length"
+              class="form-control form-control-sm"
+              (keypress)="keypress($event, '^[0-9]+$')"
+            >
+          </div>
+        </div>
+      </fieldset>
+    </fieldset>
+  </form>
+  <div class="actions d-flex justify-content-end">
+    <button class="btn btn-danger me-3" (click)="reset()">
+      {{'RESET' | translate}}
+    </button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="!valid">
+      {{'SAVE' | translate}}
+    </button>
+  </div>
+</div>
