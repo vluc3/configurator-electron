@@ -1,6 +1,7 @@
 import {Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {Service} from "../../../../common/model/service";
 import {ModalService} from "../../../../common/component/modal/modal.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'div[virtualMachineItemService]',
@@ -17,7 +18,8 @@ export class VirtualMachineItemServiceComponent implements OnInit {
   @Output() onDelete = new EventEmitter<Service>();
 
   constructor(
-    private modalService: ModalService
+    private modalService: ModalService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -27,7 +29,7 @@ export class VirtualMachineItemServiceComponent implements OnInit {
   delete() {
     this.modalService.open({
       title: 'INFRASTRUCTURE.VIRTUAL_MACHINE.SERVICE_REMOVAL_TITLE',
-      html: `<p class="text-danger">Êtes vous sûre de vouloir supprimer ce setvice</p>`,
+      html: `<p class="text-danger">${this.translateService.instant("INFRASTRUCTURE.VIRTUAL_MACHINE.SERVICE_REMOVAL_QUESTION")}</p>`,
     }).subscribe(close => {
       if (!close.cancel) {
         this.onDelete.emit(this.service);
