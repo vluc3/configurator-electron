@@ -5,6 +5,7 @@ import {ModalService} from "../../../../common/component/modal/modal.service";
 import {StateService} from "../../../../common/service/state.service";
 import {NewVirtualMachineComponent} from "../new-virtual-machine/new-virtual-machine.component";
 import {clone} from "../../../../common/utils/utils";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'div[virtualMachineItem]',
@@ -23,7 +24,8 @@ export class VirtualMachineItemComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private stateService: StateService
+    private stateService: StateService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -46,8 +48,8 @@ export class VirtualMachineItemComponent implements OnInit {
 
   delete() {
     this.modalService.open({
-      title: 'Suppression d\'hôte',
-      html: `<p class="text-danger">Êtes vous sur de vouloir supprimer cet VM</p>`,
+      title: 'VM_REMOVAL_TITLE',
+      html: `<p class="text-danger">${this.translateService.instant('INFRASTRUCTURE.VIRTUAL_MACHINE.VM_REMOVAL_QUESTION')}</p>`,
     }).subscribe(close => {
       if (!close.cancel) {
         this.onDelete.emit(this.virtualMachine);

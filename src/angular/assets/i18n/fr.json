@@ -43,7 +43,11 @@
       "HOST_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer cet hôte?"
     },
     "VIRTUAL_MACHINE": {
-      "ADD_VM": "Ajouter une VM"
+      "ADD_VM": "Ajouter une VM",
+      "VM_REMOVAL_TITLE": "Suppression de VM?",
+      "VM_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer cette VM?",
+      "SERVICE_REMOVAL_TITLE": "Suppression de service",
+      "SERVICE_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer ce setvice?"
     }
   },
   "SERVICE": {

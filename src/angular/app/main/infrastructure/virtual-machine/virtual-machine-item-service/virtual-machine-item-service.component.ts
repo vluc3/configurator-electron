@@ -26,7 +26,7 @@ export class VirtualMachineItemServiceComponent implements OnInit {
 
   delete() {
     this.modalService.open({
-      title: 'Suppression d\'hôte',
+      title: 'INFRASTRUCTURE.VIRTUAL_MACHINE.SERVICE_REMOVAL_TITLE',
       html: `<p class="text-danger">Êtes vous sûre de vouloir supprimer ce setvice</p>`,
     }).subscribe(close => {
       if (!close.cancel) {
