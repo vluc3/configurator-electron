@@ -66,7 +66,7 @@ export class HostItemComponent implements OnInit {
   onVmDelete(virtualMachine: VirtualMachine) {
     const index = this.host.virtualMachines.indexOf(virtualMachine);
     if (index !== -1) {
-      this.stateService.getStore().serviceKeys.push(...virtualMachine.services);
+      this.stateService.getCurrent().serviceKeys.push(...virtualMachine.services);
       this.host.virtualMachines.splice(index, 1);
       this.stateService.save();
     }

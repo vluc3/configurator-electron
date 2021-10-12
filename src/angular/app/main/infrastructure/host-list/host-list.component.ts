@@ -26,7 +26,10 @@ export class HostListComponent extends SubscriberComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.hosts = this.stateService.getHosts();
+    this.stateService.currentChange$.subscribe(() => {
+      this.hosts = this.stateService.getCurrent().hosts;
+    });
+    this.hosts = this.stateService.getCurrent().hosts;
   }
 
   add() {

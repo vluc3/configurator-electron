@@ -1,7 +1,7 @@
 import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
 import {StateService} from "../common/service/state.service";
 import {ModalService} from "../common/component/modal/modal.service";
-import {HomeComponent} from "../home/home.component";
+import {home} from "../common/utils/utils";
 
 @Component({
   selector: 'div[topNav]',
@@ -23,13 +23,7 @@ export class TopNavComponent implements OnInit {
   }
 
   home() {
-    this.modalService.open<any>({
-      title: "TOP_NAV.HOME",
-      component: HomeComponent,
-      width: 600,
-      noFooter: true,
-      data: {}
-    }).subscribe(close => {
+    home(this.modalService).subscribe(close => {
       if (!close.cancel && close.data) {
       }
     });

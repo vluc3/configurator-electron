@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Host} from "../model/host";
-import {Observable, Subject} from "rxjs";
-import {Network} from "../model/network";
 import {Service} from "../model/service";
 import {
   dhcpDnsService,
@@ -13,120 +11,125 @@ import {
   toipWebUiService
 } from "../utils/data";
 import {ElectronService} from "./electron.service";
+import {Project} from "../../home/new-project/new-project.component";
+import hosts from "../data/hosts.json";
 import {APP_CONFIG} from "../../../environments/environment";
+import {Observable, Subject} from "rxjs";
+import {clone} from "../utils/utils";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateService {
 
-  private services: Record<string, Service> = {
-    dhcpDnsService,
-    ntpService,
-    mailService,
-    toipWebUiService,
-    ejbcaService,
-    openVpnService,
-    ipSecService
-  };
+  public static CONFIGURATOR_PROJECTS_STORES = "CONFIGURATOR_PROJECTS_STORES";
+  public static CONFIGURATOR_CURRENT_PROJECT_STORE = "CONFIGURATOR_CURRENT_PROJECT_STORE";
 
-  projects: string[] = [];
+  projects: Project[] = [];
 
-  private store: Store = {
-    name: "Config 1",
-    hosts: [{
-      name: 'srv-esx10',
-      network: Network.DMZ,
-      datastore: 'datastore1',
-      password: 'root',
-      ip: '192.168.101.10',
-      virtualMachines: [{
-        name: 'proxy',
-        ip: '192.168.12.10',
-        mask: '255.255.255.0',
-        gateway: '192.168.12.1',
-        services: []
-      }]
-    }],
-    services: this.services,
-    serviceKeys: Object.keys(this.services).map(key => this.services[key])
-  };
+  private current: Store = null;
 
-  state = new Subject<State>();
+  private currentChange = new Subject();
 
-  get state$(): Observable<State> {
-    return this.state.asObservable();
+  public get currentChange$(): Observable<any> {
+    return this.currentChange.asObservable();
   }
 
   constructor(
     private electronService: ElectronService
   ) {
+    if (!this.electronService.isElectron) {
+      const currentText = localStorage.getItem(StateService.CONFIGURATOR_CURRENT_PROJECT_STORE);
+      if (currentText) {
+        this.current = JSON.parse(currentText);
+      }
+    }
+  }
 
-    if (electronService.isElectron) {
+  getService(key: string): Service {
+    return this.current.services[key];
+  }
+
+  setService(key: string, service: Service): void {
+    this.current.services[key] = service;
+    this.save();
+  }
+
+  getCurrent(): Store {
+    return this.current;
+  }
+
+  save(): void {
+    if (this.electronService.isElectron) {
       let projectFolder = './project/';
       if (!APP_CONFIG.production) {
         projectFolder = './release/project/';
       }
-      this.electronService.fs.readdir(projectFolder, (err, files) => {
-        this.projects = files;
+      if (!this.electronService.fs.existsSync(projectFolder)) {
+        this.electronService.fs.mkdirSync(projectFolder, {recursive: true});
+      }
+      const storeText = JSON.stringify(this.current);
+      this.electronService.fs.writeFile(`${projectFolder}${this.current.name}.json`, storeText, (err: NodeJS.ErrnoException) => {
+        console.error(err);
       });
-      electronService.fs.readFile("config.json", "utf8", (err, data) => {
+    } else if (!APP_CONFIG.production) {
+      let projectStores: Record<string, Store> = {};
+      const projectStoresText = localStorage.getItem(StateService.CONFIGURATOR_PROJECTS_STORES);
+      if (projectStoresText) {
+        projectStores = JSON.parse(projectStoresText);
+      }
+      projectStores[this.current.name] = this.current;
+      localStorage.setItem(StateService.CONFIGURATOR_PROJECTS_STORES, JSON.stringify(projectStores));
+      localStorage.setItem(StateService.CONFIGURATOR_CURRENT_PROJECT_STORE, JSON.stringify(this.current));
+    }
+  }
+
+  newProject(project: Project) {
+    const services = {
+      dhcpDnsService,
+      ntpService,
+      mailService,
+      toipWebUiService,
+      ejbcaService,
+      openVpnService,
+      ipSecService
+    };
+    this.current = {
+      name: project.name,
+      hosts: clone(hosts) as Host[],
+      services,
+      serviceKeys: Object.keys(services).map(key => services[key])
+    };
+    this.save();
+    this.currentChange.next();
+  }
+
+  setProject(project: Project) {
+    if (this.electronService.isElectron) {
+      let projectFolder = './project/';
+      if (!APP_CONFIG.production) {
+        projectFolder = './release/project/';
+      }
+      this.electronService.fs.readFile(`${projectFolder}${project.name}.json`, "utf8", (err, data) => {
         if (err) {
           console.error(err);
         } else {
           const storeText = data.toString();
           if (storeText) {
-            this.store = JSON.parse(storeText);
+            this.current = JSON.parse(storeText);
+            this.currentChange.next();
           }
         }
       });
-    } else {
-      const projectsText = localStorage.getItem("CONFIGURATOR_PROJECTS");
-      if (projectsText) {
-        this.projects = JSON.parse(projectsText);
-      }
-      const storeText = localStorage.getItem('store');
-      if (storeText) {
-        this.store = JSON.parse(storeText);
+    } else if (!APP_CONFIG.production) {
+      const projectStoresText = localStorage.getItem("CONFIGURATOR_PROJECTS_STORES");
+      if (projectStoresText) {
+        const projectStores: Record<string, Store> = JSON.parse(projectStoresText);
+        this.current = projectStores[project.name];
+        localStorage.setItem(StateService.CONFIGURATOR_CURRENT_PROJECT_STORE, JSON.stringify(this.current));
+        this.currentChange.next();
       }
     }
-  }
-
-  updateHosts(hosts: Host[]) {
-    this.store.hosts = hosts;
-    this.state.next(State.HOSTS_UPDATE);
-  }
-
-  getHosts(): Host[] {
-    return this.store.hosts;
-  }
-
-  getService(key: string): Service {
-    return this.store.services[key];
-  }
-
-  setService(key: string, service: Service): void {
-    this.store.services[key] = service;
-    this.save();
-  }
-
-  getStore(): Store {
-    return this.store;
-  }
-
-  save(): void {
-    const storeText = JSON.stringify(this.store);
-    if (this.electronService.isElectron) {
-      this.electronService.fs.writeFile("config.json", storeText, (err: NodeJS.ErrnoException) => {
-        console.error(err);
-      });
-    } else {
-      localStorage.setItem('store', storeText);
-    }
-  }
-
-  getProjects(): string[] {
-    return this.projects;
   }
 }
 
@@ -135,8 +138,4 @@ interface Store {
   hosts: Host[],
   services: Record<string, Service>;
   serviceKeys: Service[];
-}
-
-enum State {
-  HOSTS_UPDATE
 }

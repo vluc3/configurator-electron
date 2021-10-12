@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from "rxjs";
-import {ModalClose, ModalOptions} from "./modal.component";
+import {ModalEvent, ModalOptions} from "./modal.component";
 
 @Injectable({
   providedIn: 'root'
@@ -8,26 +8,35 @@ import {ModalClose, ModalOptions} from "./modal.component";
 export class ModalService {
 
   private modalOpen = new Subject<ModalOptions<any>>();
-  private modalClose = new Subject<ModalClose<any>>();
+  private modalClose = new Subject();
+  private modalEvent = new Subject<ModalEvent<any>>();
 
   public get modalOpen$() {
     return this.modalOpen.asObservable();
   }
 
+  public get modalClose$() {
+    return this.modalClose.asObservable();
+  }
+
   constructor() {
   }
 
-  open<T>(options?: ModalOptions<T>): Observable<ModalClose<T>> {
-    const subject = new Subject<ModalClose<T>>();
+  open<T>(options?: ModalOptions<T>): Observable<ModalEvent<T>> {
+    const subject = new Subject<ModalEvent<T>>();
     this.modalOpen.next(options);
-    this.modalClose.subscribe(value => {
+    this.modalEvent.subscribe(value => {
       subject.next(value);
       subject.complete();
     });
     return subject.asObservable();
   }
 
-  public close<T>(close: ModalClose<T>): void {
-    this.modalClose.next(close);
+  close(){
+    this.modalClose.next();
+  }
+
+  public send<T>(close: ModalEvent<T>): void {
+    this.modalEvent.next(close);
   }
 }

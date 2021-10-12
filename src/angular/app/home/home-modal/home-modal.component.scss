@@ -1,0 +1,42 @@
+.home-modal {
+  display: flex;
+  justify-content: stretch;
+
+  .left {
+    flex: 3 1 0;
+    padding: 10px;
+
+    .icon {
+      text-align: center;
+
+      img {
+        width: 128px;
+      }
+    }
+
+    .info {
+      p {
+        text-align: center;
+      }
+    }
+
+    .actions {
+      .btn {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .right {
+    flex: 2 1 0;
+    background: #3c4b64;
+    padding: 10px 0;
+
+    .list-group {
+      &-item {
+        cursor: pointer;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}

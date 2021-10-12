@@ -36,6 +36,11 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
         this.modal = new bootstrap.Modal(this.modalDiv.nativeElement, {});
         this.modal.show();
       });
+    this.modalService.modalClose$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.cancel();
+      });
   }
 
   public sanitize(html: string): SafeHtml {
@@ -48,13 +53,13 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
       return;
     }
     this.modal.hide();
-    this.modalService.close({cancel: false, data: this.options?.data});
+    this.modalService.send({cancel: false, data: this.options?.data});
     setTimeout(() => this.options = {}, 500);
   }
 
   public cancel(): void {
     this.modal.hide();
-    this.modalService.close({cancel: true});
+    this.modalService.send({cancel: true});
     setTimeout(() => this.options = {}, 500);
   }
 
@@ -82,6 +87,7 @@ export interface ModalOptions<T> {
   width?: number;
   btnText?: BtnText;
   noFooter?: boolean;
+  notClosable?: boolean;
 }
 
 export interface BtnText {
@@ -89,7 +95,7 @@ export interface BtnText {
   cancel?: string;
 }
 
-export interface ModalClose<T> {
+export interface ModalEvent<T> {
   cancel: boolean;
   data?: T;
 }

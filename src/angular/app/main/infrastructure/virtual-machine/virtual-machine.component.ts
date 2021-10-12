@@ -30,8 +30,8 @@ export class VirtualMachineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.hosts = this.stateService.getHosts();
-    this.services = this.stateService.getStore().serviceKeys;
+    this.hosts = this.stateService.getCurrent().hosts;
+    this.services = this.stateService.getCurrent().serviceKeys;
   }
 
   getHosts(network: Network): Host[] {
@@ -107,7 +107,7 @@ export class VirtualMachineComponent implements OnInit {
     const index = this.hosts.indexOf(host);
     if (index !== -1) {
       host.virtualMachines.forEach(virtualMachine => {
-        this.stateService.getStore().serviceKeys.push(...virtualMachine.services);
+        this.stateService.getCurrent().serviceKeys.push(...virtualMachine.services);
       });
       this.hosts.splice(index, 1);
       this.stateService.save();

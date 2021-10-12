@@ -53,7 +53,7 @@ export class SideNavComponent implements OnInit {
   }
 
   get projectName(): string {
-    return this.stateService.getStore().name;
+    return this.stateService.getCurrent().name;
   }
 }
 

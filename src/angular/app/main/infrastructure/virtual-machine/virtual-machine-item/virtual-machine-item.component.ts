@@ -59,7 +59,7 @@ export class VirtualMachineItemComponent implements OnInit {
     const index = this.virtualMachine.services.indexOf(service);
     if (index !== -1) {
       this.virtualMachine.services.splice(index, 1);
-      this.stateService.getStore().serviceKeys.push(service);
+      this.stateService.getCurrent().serviceKeys.push(service);
       this.stateService.save();
     }
   }

@@ -34,6 +34,9 @@
     "CREATE_NEW_CONFIGURATION": "Créer une nouvelle configuration",
     "IMPORT_EXISTING_CONFIGURATION": "Importer une configuration existante"
   },
+  "NEW_PROJECT": {
+    "NEW_PROJECT": "Nouveau projet"
+  },
   "INFRASTRUCTURE": {
     "HOST": {
       "NEW_HOST": "Nouvel hôte",

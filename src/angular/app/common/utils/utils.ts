@@ -1,4 +1,8 @@
 import {AbstractControl, FormGroup, ValidationErrors} from "@angular/forms";
+import {ModalService} from "../component/modal/modal.service";
+import {HomeModalComponent} from "../../home/home-modal/home-modal.component";
+import {Observable} from "rxjs";
+import {ModalEvent} from "../component/modal/modal.component";
 
 export function clone<T>(t: T): T {
   const s = JSON.stringify(t);
@@ -54,4 +58,15 @@ export function isFormValid(key: string, formGroup: FormGroup) {
     return true;
   }
   return false;
+}
+
+export function home(modalService: ModalService, closable = true): Observable<ModalEvent<any>> {
+  return modalService.open<any>({
+    title: "TOP_NAV.HOME",
+    component: HomeModalComponent,
+    width: 600,
+    noFooter: true,
+    notClosable: !closable,
+    data: {}
+  });
 }

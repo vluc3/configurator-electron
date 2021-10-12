@@ -15,6 +15,7 @@
       <div class="modal-header">
         <h5 class="modal-title">{{options.title | translate }}</h5>
         <button
+          *ngIf="!options.notClosable"
           type="button"
           class="btn-close"
           aria-label="Close"
