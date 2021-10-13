@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, HostBinding, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {StateService} from "../../../common/service/state.service";
 import {SubscriberComponent} from "../../../common/abstract/subscriber.component";
+import {Network} from "../../../common/model/network";
 
 @Component({
   selector: 'div[network]',
@@ -21,48 +22,6 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
   }
 
   ngOnInit(): void {
-
-    // // @ts-ignore
-    // nx.define("ExtendLink", nx.graphic.Topology.Link, {
-    //   view: function (view) {
-    //     view.content.push({
-    //       name: 'startText',
-    //       type: 'nx.graphic.Text',
-    //       props: {
-    //         value: "",
-    //         x: 20,
-    //         y: -5
-    //       },
-    //       methods: {
-    //         init: function (options) {
-    //           this.inherited(options);
-    //           this.view("icon").watch("scale", this._updateScale, this);
-    //           this._updateScale("scale", this.view("icon").scale());
-    //         },
-    //         dispose: function () {
-    //           this.view("icon").unwatch("scale", this._updateScale, this);
-    //           this.inherited();
-    //         },
-    //         _updateScale: function (pname, pvalue) {
-    //           pvalue = pvalue || 1;
-    //           var statusIcon = this.view("status");
-    //           statusIcon.sets({
-    //             width: 16 * pvalue,
-    //             height: 16 * pvalue,
-    //             x: 20 * pvalue,
-    //             y: -5 * pvalue
-    //           });
-    //         },
-    //         setModel: function (model) {
-    //           this.inherited(model);
-    //           var status = model.get('status') || 'normal';
-    //           this.view('status').set('src', statusIconMap[status]);
-    //         }
-    //       }
-    //     });
-    //     return view;
-    //   }
-    // });
   }
 
   ngAfterViewInit(): void {
@@ -74,246 +33,217 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
     nx.graphic.Icons.registerFontIcon("cfg-openvpn", "configurator", "\ue905", 32);
     nx.graphic.Icons.registerFontIcon("cfg-ip-lock", "configurator", "\ue904", 32);
 
-    const topologyData: any = {
-      nodes: [{
-        id: 0,
-        name: `Mobile`,
-        device_type: "phone",
-        color: "black",
-        fixed: true,
-        x: -200,
-        y: 100
+    const nodes = [{
+      id: 0,
+      name: `Mobile`,
+      device_type: "phone",
+      color: "black",
+      fixed: true,
+      x: 0,
+      y: 0
+    }, {
+      id: 1,
+      name: `Internet`,
+      device_type: "cloud",
+      color: "black",
+      fixed: true,
+      x: 100,
+      y: 0
+    }, {
+      id: 2,
+      name: `Firewall`,
+      device_type: "firewall",
+      color: "black",
+      fixed: true,
+      x: 200,
+      y: 0
+    }];
 
-      }, {
-        id: 1,
-        name: `Internet`,
-        device_type: "cloud",
-        color: "black",
-        fixed: true,
-        x: -150,
-        y: 100
-      }, {
-        id: 2,
-        name: `Firewall`,
-        device_type: "firewall",
-        color: "black",
-        fixed: true,
-        x: -100,
-        y: 100
-      }, {
-        id: 3,
-        name: `VM Proxy`,
-        device_type: "server",
-        color: "black",
-        fixed: true,
-        x: -150,
-        y: 150
-      },
+    const links: any[] = [{
+      color: "black",
+      width: 1,
+      source: 0,
+      target: 1
+    }, {
+      color: "black",
+      width: 1,
+      source: 1,
+      target: 2
+    }];
 
-        {
-          id: 4,
-          name: `Service DNS/DHCP`,
-          device_type: "cfg-globe",
-          color: "black",
-          fixed: true,
-          x: -90,
-          y: 175
-        }, {
-          id: 5,
-          name: `Service NTP`,
-          device_type: "cfg-network-time",
-          color: "black",
-          fixed: true,
-          x: -110,
-          y: 175
-        }, {
-          id: 6,
-          name: `VM 1`,
+    const nodeSet = [];
+
+    let nodesLength = 1;
+
+    const hosts = this.stateService.getCurrent().hosts;
+    const dmzHosts = hosts.filter(host => {
+      nodesLength += host.virtualMachines.length;
+      return host.network === Network.DMZ;
+    });
+    const expHosts = hosts.filter(host => {
+      return host.network === Network.EXPLOITATION;
+    });
+    let id = 3;
+    // let x = 100;
+    // let y = -100;
+    const center = {x: 200, y: 0};
+    let i = 0;
+    const nodeT = 2 * Math.PI / nodesLength;
+/*
+
+    dmzHosts.forEach(host => {
+      host.virtualMachines.forEach(vm => {
+        i++;
+        let nodeX = center.x + 200 * Math.cos(i * nodeT + Math.PI);
+        let nodeY = center.y + 200 * Math.sin(i * nodeT + Math.PI);
+        nodes.push({
+          id,
+          name: `${vm.name} - ${vm.ip}`,
           device_type: "server",
           color: "black",
           fixed: true,
-          x: -100,
-          y: 150
-        },
-
-        {
-          id: 7,
-          name: `Service EJBCA`,
-          device_type: "cfg-file-certificate",
-          color: "black",
-          fixed: true,
-          x: -40,
-          y: 175
-        }, {
-          id: 8,
-          name: `Service Mail`,
-          device_type: "cfg-envelope",
-          color: "black",
-          fixed: true,
-          x: -60,
-          y: 175
-        }, {
-          id: 9,
-          name: `VM 2`,
-          device_type: "server",
-          color: "black",
-          fixed: true,
-          x: -50,
-          y: 150
-        }],
-      nodeSet: [{
-        nodes: [4, 5, 6],
-        x: -100,
-        y: 150,
-        name: "VM 1",
-        iconType: "server",
-        color: "black"
-      }, {
-        nodes: [7, 8, 9],
-        x: -50,
-        y: 150,
-        name: "VM 2",
-        iconType: "server",
-        color: "black"
-      }],
-      links: [{
-        color: "black",
-        width: 1,
-        source: 0,
-        target: 1
-      }, {
-        color: "black",
-        width: 1,
-        source: 1,
-        target: 2
-      }, {
-        // label: "192.168.1.2 - DMZ - 192.168.1.30",
-        color: "black",
-        width: 1,
-        source: 2,
-        target: 3
-      }, {
-        // label: "192.168.1.2 - EXPLOITATION - 192.168.1.22",
-        color: "black",
-        width: 1,
-        source: 2,
-        target: 6
-      }, {
-        color: "red",
-        width: 1,
-        source: 4,
-        target: 6
-      }, {
-        color: "red",
-        width: 1,
-        source: 5,
-        target: 6
-      },
-
-        {
-          // label: "192.168.1.2 - EXPLOITATION - 192.168.1.23",
+          x: nodeX,
+          y: nodeY
+        });
+        links.push({
+          label: "DMZ",
           color: "black",
           width: 1,
           source: 2,
-          target: 9
-        }, {
-          color: "red",
-          width: 1,
-          source: 7,
-          target: 9
-        }, {
-          color: "red",
-          width: 1,
-          source: 8,
-          target: 9
-        }]
-    };
-
-    /*
-    const hosts = this.stateService.getCurrent().hosts;
-    const dmzHosts = hosts.filter(host => host.network === Network.DMZ);
-    const expHosts = hosts.filter(host => host.network === Network.EXPLOITATION);
-
-    let links = [];
-    let id = 0;
-    let nodeSet = [];
-    const groups: any = {};
-    [{hosts: expHosts, x: -40}, {hosts: dmzHosts, x: 40}].forEach(conf => {
-
-      let dY = 200;
-      conf.hosts.forEach(host => {
-        let dX = conf.x;
-        const hostNodes = [];
-        host.virtualMachines.forEach(vm => {
-          const nodes = [];
-          const nodesData = [];
-          vm.services.forEach(service => {
-            nodesData.push({
-              id,
-              name: `S - ${service.name}`,
-              device_type: service.icon,
-              color: "red",
-              fixed: true
-            });
-            nodes.push(id);
-            id++;
-          });
-          if (nodes.length > 0) {
-            const t = 360 / nodes.length;
-            const r = 10;
-            nodesData.forEach((node, index) => {
-              node.x = dX + r * Math.cos(index * t);
-              node.y = dY + r * Math.sin(index * t);
-            });
-            topologyData.nodes.push(...nodesData);
-            // nodeSet.push({
-            //   nodes: nodes,
-            //   x: dX,
-            //   y: dY,
-            //   // name: `VM - ${vm.name}`,
-            //   iconType: "server",
-            //   group: host.name
-            // });
-            hostNodes.push(...nodes);
-
-          }
-          // else {
-            topologyData.nodes.push({
-              id,
-              x: dX,
-              y: dY,
-              name: `VM - ${vm.name}`,
-              device_type: "server",
-              color: "blue"
-            });
-          nodes.forEach(node => topologyData.links.push({"source": node, "target": id, width: 5, color: "red"}))
-            hostNodes.push(id);
-            id++;
-          // }
-          dX += 25;
+          target: id
         });
-        groups[host.name] = hostNodes;
-        dY += 10;
+        // x += 100;
+        id++;
       });
     });
 
-    nodeSet.forEach(ns => {
-      topologyData.nodeSet.push({
-        id,
-        nodes: ns.nodes,
-        x: ns.x,
-        y: ns.y,
-        name: ns.name,
-        iconType: "server",
-        color: "blue"
+    // x = 100;
+    // y = 100;
+    expHosts.forEach(host => {
+      host.virtualMachines.forEach(vm => {
+        i++;
+        let nodeX = center.x + 200 * Math.cos(i * nodeT + Math.PI);
+        let nodeY = center.y + 200 * Math.sin(i * nodeT + Math.PI);
+        nodes.push({
+          id,
+          name: `${vm.name} - ${vm.ip}`,
+          device_type: "server",
+          color: "black",
+          fixed: true,
+          x: nodeX,
+          y: nodeY
+        });
+        links.push({
+          label: "EXPLOITATION",
+          color: "black",
+          width: 1,
+          source: 2,
+          target: id
+        });
+        const sNodes = [id];
+        id++;
+        const t = 2 * Math.PI / vm.services.length;
+        const r = 20;
+        vm.services.forEach((service, index) => {
+          let nX = nodeX + r * Math.cos(index * t + Math.PI / 4);
+          let nY = nodeY + r * Math.sin(index * t + Math.PI / 4);
+          sNodes.push(id);
+          nodes.push({
+            id,
+            name: `Service ${service.name}`,
+            device_type: service.icon,
+            color: "black",
+            fixed: true,
+            x: nX,
+            y: nY
+          });
+          links.push({
+            color: "black",
+            width: 1,
+            source: sNodes[0],
+            target: id
+          });
+          id++;
+        });
+        nodeSet.push({
+          nodes: sNodes,
+          x: nodeX,
+          y: nodeY,
+          name: vm.name,
+          iconType: "server",
+          color: "black"
+        });
+        // x += 100;
       });
-      groups[ns.group] = groups[ns.group] || [];
-      groups[ns.group].push(id);
-      id++;
     });
 */
 
-    console.log(topologyData);
+    [dmzHosts, expHosts].forEach(network => {
+      network.forEach(host => {
+        host.virtualMachines.forEach(vm => {
+          i++;
+          let nodeX = center.x + 200 * Math.cos(i * nodeT + Math.PI);
+          let nodeY = center.y + 200 * Math.sin(i * nodeT + Math.PI);
+          nodes.push({
+            id,
+            name: `${vm.name} - ${vm.ip}`,
+            device_type: "server",
+            color: "black",
+            fixed: true,
+            x: nodeX,
+            y: nodeY
+          });
+          links.push({
+            label: host.network,
+            color: "black",
+            width: 1,
+            source: 2,
+            target: id
+          });
+          const sNodes = [id];
+          id++;
+          const t = 2 * Math.PI / vm.services.length;
+          const r = 20;
+          vm.services.forEach((service, index) => {
+            let nX = nodeX + r * Math.cos(index * t + Math.PI / 4);
+            let nY = nodeY + r * Math.sin(index * t + Math.PI / 4);
+            sNodes.push(id);
+            nodes.push({
+              id,
+              name: `Service ${service.name}`,
+              device_type: service.icon,
+              color: "black",
+              fixed: true,
+              x: nX,
+              y: nY
+            });
+            links.push({
+              color: "black",
+              width: 1,
+              source: sNodes[0],
+              target: id
+            });
+            id++;
+          });
+          if(sNodes.length > 1){
+            nodeSet.push({
+              nodes: sNodes,
+              x: nodeX,
+              y: nodeY,
+              name: vm.name,
+              iconType: "server",
+              color: "black"
+            });
+          }
+        });
+      });
+    });
+
+    const topologyData: any = {
+      nodes,
+      nodeSet,
+      links
+    };
 
     const app = new nx.ui.Application();
 
@@ -323,6 +253,8 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
     // configuration object
     const topologyConfig = {
       adaptive: true,
+      // if true, the nodes' icons are shown, a dot is shown instead
+      showIcon: true,
       // configuration for nodes
       width: this.diagramDiv.nativeElement.clientWidth,
       height: this.diagramDiv.nativeElement.clientHeight,
@@ -344,9 +276,7 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
         iconType: 'model.iconType',
         color: "model.color",
         collapsed: "model.collapsed"
-      },
-      // if true, the nodes' icons are shown, a dot is shown instead
-      showIcon: true,
+      }
     };
 
     // instantiate Topology class

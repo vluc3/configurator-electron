@@ -2,46 +2,26 @@
   <span class="name">{{projectName}}</span>
 </div>
 <div class="navigation">
-  <div class="nav-title">Infrastructure</div>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a routerLink="infrastructure/host" class="nav-link d-flex align-items-center">
+  <ng-container *ngFor="let item of menu">
+    <div class="nav-title">{{item.title}}</div>
+    <ul class="nav flex-column">
+      <li
+        *ngFor="let item of item.items"
+        [class.active]="isActive(item)"
+        class="nav-item"
+      >
+        <a
+          [routerLink]="item.link"
+          class="nav-link d-flex align-items-center"
+        >
         <span class="sidebar-icon">
-          <i class="cfg-server"></i>
+          <i class="{{item.icon}}"></i>
         </span>
-        <span class="sidebar-text">Hôtes ESXi</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="infrastructure/vm" class="nav-link d-flex align-items-center">
-        <span class="sidebar-icon">
-          <i class="cfg-cubes"></i>
-        </span>
-        <span class="sidebar-text">Machines virtuelles</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="infrastructure/network" class="nav-link d-flex align-items-center">
-        <span class="sidebar-icon">
-          <i class="cfg-network-wired"></i>
-        </span>
-        <span class="sidebar-text">Réseau</span>
-      </a>
-    </li>
-  </ul>
-  <div class="nav-title">Service</div>
-  <ul class="nav flex-column">
-    <li class="nav-item" *ngFor="let service of services">
-      <a [routerLink]="service.link" class="nav-link d-flex align-items-center">
-        <span class="sidebar-icon">
-          <i class="{{service.icon}}"></i>
-        </span>
-        <span class="sidebar-text">
-          {{service.name}}
-        </span>
-      </a>
-    </li>
-  </ul>
+          <span class="sidebar-text">{{item.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </ng-container>
 </div>
 <div class="footer">
 </div>

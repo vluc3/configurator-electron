@@ -23,7 +23,7 @@
     .nav-item {
       transition: background 800ms;
 
-      &:hover {
+      &:hover, &.active {
         background: #526480;
 
         .nav-link {
@@ -40,6 +40,7 @@
 
         .sidebar-icon {
           height: 26px;
+
           i {
             font-size: 1.6rem;
           }
