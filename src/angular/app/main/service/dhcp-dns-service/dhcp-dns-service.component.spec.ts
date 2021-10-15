@@ -1,6 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DhcpDnsServiceComponent } from './dhcp-dns-service.component';
+import {DhcpDnsServiceComponent} from './dhcp-dns-service.component';
+import {StateService} from "../../../common/service/state.service";
+import {stateService} from "../../../common/utils/utils.spec";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('DhcpDnsServiceComponent', () => {
   let component: DhcpDnsServiceComponent;
@@ -8,9 +13,14 @@ describe('DhcpDnsServiceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhcpDnsServiceComponent ]
+      declarations: [DhcpDnsServiceComponent],
+      imports: [AppTranslateModule, HttpClientModule, FormsModule, ReactiveFormsModule],
+      providers: [{
+        provide: StateService,
+        useValue: stateService
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

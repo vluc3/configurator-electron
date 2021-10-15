@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TopNavComponent } from './top-nav.component';
+import {TopNavComponent} from './top-nav.component';
+import {AppTranslateModule} from "../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('TopNavComponent', () => {
   let component: TopNavComponent;
@@ -8,9 +10,11 @@ describe('TopNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopNavComponent ]
+      declarations: [TopNavComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: []
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

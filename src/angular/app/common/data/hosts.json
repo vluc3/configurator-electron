@@ -1,5 +1,5 @@
 [{
-  "name": "srv-esx10",
+  "name": "srv-esx1",
   "network": "DMZ",
   "datastore": "datastore1",
   "password": "aaaa",

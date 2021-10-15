@@ -21,8 +21,7 @@ export class HostListItemComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private translateService: TranslateService,
-    private stateService: StateService
+    private translateService: TranslateService
   ) {
   }
 
@@ -37,7 +36,7 @@ export class HostListItemComponent implements OnInit {
     }).subscribe(close => {
       if (!close.cancel && close.data) {
         copyEntries(this.host, close.data);
-        this.stateService.save();
+        // this.stateService.save();
       }
     });
   }

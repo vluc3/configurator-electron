@@ -1,16 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HostListComponent } from './host-list.component';
+import {HostListComponent} from './host-list.component';
+import {stateService} from "../../../common/utils/utils.spec";
+import {StateService} from "../../../common/service/state.service";
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
-describe('HostComponent', () => {
+describe('HostListComponent', () => {
   let component: HostListComponent;
   let fixture: ComponentFixture<HostListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HostListComponent ]
+      declarations: [HostListComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: [{
+        provide: StateService,
+        useValue: stateService
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,21 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 
-import { NewProjectComponent } from './new-project.component';
+import {NewProjectComponent} from "./new-project.component";
 
-describe('NewProjectComponent', () => {
+describe("NewProjectComponent", () => {
+
   let component: NewProjectComponent;
   let fixture: ComponentFixture<NewProjectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewProjectComponent ]
+      declarations: [NewProjectComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewProjectComponent);
     component = fixture.componentInstance;
+    component.data = {
+      name: "",
+      file: ""
+    };
     fixture.detectChanges();
   });
 

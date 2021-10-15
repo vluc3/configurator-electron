@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewHostComponent } from './new-host.component';
+import {NewHostComponent} from './new-host.component';
 
-describe('HostComponent', () => {
+describe('NewHostComponent', () => {
   let component: NewHostComponent;
   let fixture: ComponentFixture<NewHostComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewHostComponent ]
+      declarations: [NewHostComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

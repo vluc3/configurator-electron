@@ -1,16 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ModalComponent } from './modal.component';
+import {ModalComponent} from './modal.component';
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('ModalComponent', () => {
-  let component: ModalComponent;
-  let fixture: ComponentFixture<ModalComponent>;
+  let component: ModalComponent<any>;
+  let fixture: ComponentFixture<ModalComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalComponent ]
+      declarations: [ModalComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: []
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

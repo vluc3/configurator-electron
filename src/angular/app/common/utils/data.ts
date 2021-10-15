@@ -25,8 +25,7 @@ export const dhcpDnsService: DhcpDnsService = {
 export const ntpService: NtpService = {
   name: 'NTP',
   icon: 'cfg-network-time',
-  defaultNtpServers: ['0.fr.pool.ntp.org', '1.fr.pool.ntp.org', '2.fr.pool.ntp.org', '3.fr.pool.ntp.org'],
-  communicationSystemNtpServer: ['192.168.100.40']
+  defaultNtpServers: ['0.fr.pool.ntp.org', '1.fr.pool.ntp.org', '2.fr.pool.ntp.org', '3.fr.pool.ntp.org']
 };
 
 export const mailService: MailService = {

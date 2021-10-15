@@ -14,7 +14,7 @@ export function copyEntries(to: any, from: any, option?: { ignore: string[] }) {
     return;
   }
   Object.entries(from).forEach(([key, value]) => {
-    if (!option || option.ignore.indexOf(key) === -1) {
+    if (!option || !option.ignore || option.ignore.indexOf(key) === -1) {
       to[key] = value;
     }
   });
@@ -35,7 +35,7 @@ export function ipValidator(control: AbstractControl): ValidationErrors | null {
 
 export function isIpValid(ip: string): boolean {
   if (!ip) {
-    return false;
+    return true;
   }
   const parts = ip.split('.');
   if (parts.length !== 4) {
@@ -58,6 +58,67 @@ export function isFormValid(key: string, formGroup: FormGroup) {
     return true;
   }
   return false;
+}
+
+export function isNetworkValid(ip: string, mask: string, gateway: string): boolean {
+
+  if (!isIpValid(ip) || !isIpValid(mask) || !isIpValid(gateway) || ip === gateway || !isMaskValid(mask)) {
+    return false;
+  }
+
+  const ipParts = ip.split(".");
+  const maskParts = mask.split(".");
+  const minParts = [];
+  const maxParts = [];
+  for (let index = 0; index < 4; index++) {
+    minParts[index] = parseInt(ipParts[index]) & parseInt(maskParts[index]);
+    maxParts[index] = (parseInt(ipParts[index]) | ~parseInt(maskParts[index])) + 256;
+  }
+  if (gateway === minParts.join(".") || gateway === maxParts.join(".")) {
+    return false;
+  }
+  const gatewayParts = gateway.split(".");
+
+  for (let index = 0; index < 4; index++) {
+    if (gatewayParts[index] >= minParts[index] && gatewayParts[index] <= maxParts[index]) {
+      continue;
+    }
+    return false;
+  }
+  return true;
+}
+
+export function isMaskValid(mask: string): boolean {
+  if (mask === null) {
+    return false;
+  }
+  if (!isIpValid(mask)) {
+    return false;
+  }
+  let d = 24;
+  let maskValue = 0;
+  const parts = mask.split(".");
+  for (let i = 0; i < parts.length; i++) {
+    let n = parseInt(parts[i]);
+    if (n !== (n & 0xff)) {
+      return false;
+    }
+    maskValue += n << d;
+    d -= 8;
+  }
+  let pattern = 1;
+  let ctr = 0;
+  let find = false;
+  for (let i = 0; i < 32; i++) {
+    if ((maskValue & pattern) !== 0) {
+      ctr++;
+      find = true;
+    } else if (find) {
+      return false;
+    }
+    pattern <<= 1;
+  }
+  return ctr !== -1;
 }
 
 export function home(modalService: ModalService, closable = true): Observable<ModalEvent<any>> {

@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ToipWebUiServiceComponent } from './toip-web-ui-service.component';
+import {ToipWebUiServiceComponent} from './toip-web-ui-service.component';
+import {stateService} from "../../../common/utils/utils.spec";
+import {StateService} from "../../../common/service/state.service";
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('ToipWebUiServiceComponent', () => {
   let component: ToipWebUiServiceComponent;
@@ -8,9 +12,14 @@ describe('ToipWebUiServiceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ToipWebUiServiceComponent ]
+      declarations: [ToipWebUiServiceComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: [{
+        provide: StateService,
+        useValue: stateService
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -45,7 +45,7 @@ export class HostItemComponent implements OnInit {
     }).subscribe(close => {
       if (!close.cancel && close.data) {
         this.host.virtualMachines?.push(close.data);
-        this.stateService.save();
+        // this.stateService.save();
       }
     });
   }
@@ -58,7 +58,7 @@ export class HostItemComponent implements OnInit {
     }).subscribe(close => {
       if (!close.cancel && close.data) {
         this.host = close.data
-        this.stateService.save();
+        // this.stateService.save();
       }
     });
   }
@@ -68,7 +68,7 @@ export class HostItemComponent implements OnInit {
     if (index !== -1) {
       this.stateService.getCurrent().serviceKeys.push(...virtualMachine.services);
       this.host.virtualMachines.splice(index, 1);
-      this.stateService.save();
+      // this.stateService.save();
     }
   }
 }

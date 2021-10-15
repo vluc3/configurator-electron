@@ -68,7 +68,7 @@ export class VirtualMachineComponent implements OnInit {
           this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
         }
       }
-      this.stateService.save();
+      // this.stateService.save();
     }
   }
 
@@ -99,7 +99,7 @@ export class VirtualMachineComponent implements OnInit {
           this.services.splice(index, 1);
         }
       }
-      this.stateService.save();
+      // this.stateService.save();
     }
   }
 
@@ -110,7 +110,7 @@ export class VirtualMachineComponent implements OnInit {
         this.stateService.getCurrent().serviceKeys.push(...virtualMachine.services);
       });
       this.hosts.splice(index, 1);
-      this.stateService.save();
+      // this.stateService.save();
     }
   }
 }

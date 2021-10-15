@@ -2,7 +2,14 @@ import {Component, EventEmitter, HostBinding, OnInit, ViewEncapsulation} from '@
 import {ModalBody} from "../../../../common/component/modal/modal.component";
 import {VirtualMachine} from "../../../../common/model/virtual-machine";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {copyEntries, ipValidator, isFormValid, keypressRegex} from "../../../../common/utils/utils";
+import {
+  copyEntries,
+  ipValidator,
+  isFormValid,
+  isIpValid, isMaskValid,
+  isNetworkValid,
+  keypressRegex
+} from "../../../../common/utils/utils";
 
 @Component({
   selector: 'div[newVirtualMachine]',
@@ -30,7 +37,8 @@ export class NewVirtualMachineComponent implements ModalBody<VirtualMachine>, On
       ]),
       mask: new FormControl(this.data.mask, [
         Validators.required,
-        ipValidator
+        ipValidator,
+        this.maskValidator
       ]),
       gateway: new FormControl(this.data.gateway, [
         ipValidator
@@ -54,11 +62,30 @@ export class NewVirtualMachineComponent implements ModalBody<VirtualMachine>, On
     return keypressRegex(event, '^[0-9\.]+$');
   }
 
+  maskValidator(control: AbstractControl): ValidationErrors | null {
+    const value: string = control.value;
+    if (!isMaskValid(value)) {
+      return {maskNotValid: {value}};
+    }
+    return null;
+  }
+
   private checkIps: ValidatorFn = (_: AbstractControl): ValidationErrors | null => {
-    const ip = this.formGroup?.get('ip')?.value ? parseInt(this.formGroup?.get('ip')?.value.replace(/\./g, '')) : 0;
-    const mask = this.formGroup?.get('mask')?.value ? parseInt(this.formGroup?.get('mask')?.value.replace(/\./g, '')) : 0;
-    const gateway = this.formGroup?.get('gateway')?.value ? parseInt(this.formGroup?.get('gateway')?.value.replace(/\./g, '')) : 0;
-    return (ip & mask) === (gateway & mask) ? null : {ipError: true};
+    if (!this.formGroup) {
+      return null;
+    }
+    if (this.formGroup.get('ip').errors || this.formGroup.get('mask').errors || !this.formGroup.get('gateway').value) {
+      return null;
+    }
+    if (!isNetworkValid(
+      this.formGroup.get('ip').value,
+      this.formGroup.get('mask').value,
+      this.formGroup.get('gateway').value
+    )) {
+      return {ipError: true};
+    }
+
+    return null;
   }
 
 }

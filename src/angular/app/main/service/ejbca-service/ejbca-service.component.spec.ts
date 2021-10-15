@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EjbcaServiceComponent } from './ejbca-service.component';
+import {EjbcaServiceComponent} from './ejbca-service.component';
+import {stateService} from "../../../common/utils/utils.spec";
+import {StateService} from "../../../common/service/state.service";
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('EjbcaServiceComponent', () => {
   let component: EjbcaServiceComponent;
@@ -8,9 +12,14 @@ describe('EjbcaServiceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EjbcaServiceComponent ]
+      declarations: [EjbcaServiceComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: [{
+        provide: StateService,
+        useValue: stateService
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

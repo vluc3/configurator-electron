@@ -47,7 +47,7 @@ export class HostListComponent extends SubscriberComponent implements OnInit {
     }).subscribe(close => {
       if (!close.cancel && close.data) {
         this.hosts.push(close.data);
-        this.stateService.save();
+        // this.stateService.save();
       }
     });
   }
@@ -55,6 +55,6 @@ export class HostListComponent extends SubscriberComponent implements OnInit {
   delete(host: Host) {
     const index = this.hosts.indexOf(host);
     this.hosts.splice(index, 1);
-    this.stateService.save();
+    // this.stateService.save();
   }
 }

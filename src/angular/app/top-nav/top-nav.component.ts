@@ -33,5 +33,6 @@ export class TopNavComponent implements OnInit {
   }
 
   save() {
+    this.stateService.save();
   }
 }

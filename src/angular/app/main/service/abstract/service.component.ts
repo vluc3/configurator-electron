@@ -13,7 +13,6 @@ export abstract class ServiceComponent implements OnInit {
 
   formGroup: FormGroup;
   abstract service: Service;
-  valid = false;
 
   protected constructor(
     protected stateService: StateService,
@@ -45,10 +44,8 @@ export abstract class ServiceComponent implements OnInit {
   }
 
   save() {
-    if (this.formGroup.status === "VALID") {
-      this.copyFromFormGroup();
-      this.stateService.setService(this.key, this.service);
-    }
+    this.copyFromFormGroup();
+    this.stateService.setService(this.key, this.service);
   }
 
   keypress(event: KeyboardEvent, r: string): boolean {
@@ -57,9 +54,10 @@ export abstract class ServiceComponent implements OnInit {
 
   private initValid() {
     this.formGroup.statusChanges.subscribe(status => {
-      this.valid = status === 'VALID';
+      if (status === 'VALID') {
+        this.save();
+      }
     });
-    this.valid = this.formGroup.status === "VALID";
   }
 
   protected copyFromFormGroup() {

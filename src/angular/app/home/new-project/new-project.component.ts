@@ -1,7 +1,5 @@
 import {Component, EventEmitter, HostBinding, OnInit} from '@angular/core';
 import {ModalBody} from "../../common/component/modal/modal.component";
-import {StateService} from "../../common/service/state.service";
-import {ModalService} from "../../common/component/modal/modal.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {copyEntries, isFormValid} from "../../common/utils/utils";
 
@@ -18,10 +16,7 @@ export class NewProjectComponent implements ModalBody<any>, OnInit {
   formGroup: FormGroup;
   dataValidate = new EventEmitter<{ valid: boolean, data?: Project }>();
 
-  constructor(
-    private stateService: StateService,
-    private modalService: ModalService
-  ) {
+  constructor() {
   }
 
   ngOnInit(): void {

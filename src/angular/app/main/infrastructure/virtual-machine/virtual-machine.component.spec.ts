@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { VirtualMachineComponent } from './virtual-machine.component';
+import {VirtualMachineComponent} from './virtual-machine.component';
+import {stateService} from "../../../common/utils/utils.spec";
+import {StateService} from "../../../common/service/state.service";
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('VirtualMachineComponent', () => {
   let component: VirtualMachineComponent;
@@ -8,9 +12,14 @@ describe('VirtualMachineComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VirtualMachineComponent ]
+      declarations: [VirtualMachineComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: [{
+        provide: StateService,
+        useValue: stateService
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

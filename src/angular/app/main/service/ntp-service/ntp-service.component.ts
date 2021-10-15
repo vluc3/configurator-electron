@@ -31,40 +31,33 @@ export class NtpServiceComponent extends ServiceComponent {
     this.service = clone(this.stateService.getService('ntpService')) as NtpService;
     this.formGroup = new FormGroup({});
 
-    this.service.communicationSystemNtpServer.forEach((value, index) => {
-      this.formGroup.addControl(`c-ntp-server-${index}`, new FormControl(
-        value,
-        [Validators.required/*, ipValidator*/]
-      ));
-    });
-
     this.service.defaultNtpServers.forEach((value, index) => {
-      this.formGroup.addControl(`d-ntp-server-${index}`, new FormControl(
+      this.formGroup.addControl(`ntp-server-${index}`, new FormControl(
         value,
         [Validators.required/*, ipValidator*/]
       ));
     });
   }
 
-  add(key: "defaultNtpServers" | "communicationSystemNtpServer") {
+  add() {
     let server = '';
     this.formGroup.addControl(
-      `${key === "defaultNtpServers" ? "d" : "c"}-ntp-server-${this.service[key].length}`,
+      `ntp-server-${this.service.defaultNtpServers.length}`,
       new FormControl(
         server,
         [Validators.required/*, ipValidator*/]
       ), {
         emitEvent: true
       });
-    this.service[key].push(server);
+    this.service.defaultNtpServers.push(server);
   }
 
-  remove(key: "defaultNtpServers" | "communicationSystemNtpServer", server: string) {
-    const index = this.service[key].indexOf(server);
+  remove(server: string) {
+    const index = this.service.defaultNtpServers.indexOf(server);
     if (index !== -1) {
-      this.service[key].splice(index, 1);
+      this.service.defaultNtpServers.splice(index, 1);
       this.formGroup.removeControl(
-        `${key === "defaultNtpServers" ? "d" : "c"}-ntp-server-${index}`,
+        `ntp-server-${index}`,
         {
           emitEvent: true
         }
@@ -74,10 +67,7 @@ export class NtpServiceComponent extends ServiceComponent {
 
   protected copyFromFormGroup() {
     for (let index = 0; index < this.service.defaultNtpServers.length; index++) {
-      this.service.defaultNtpServers[index] = this.formGroup.controls[`d-ntp-server-${index}`].value;
-    }
-    for (let index = 0; index < this.service.communicationSystemNtpServer.length; index++) {
-      this.service.communicationSystemNtpServer[index] = this.formGroup.controls[`c-ntp-server-${index}`].value;
+      this.service.defaultNtpServers[index] = this.formGroup.controls[`ntp-server-${index}`].value;
     }
   }
 }

@@ -52,7 +52,7 @@ export class StateService {
 
   setService(key: string, service: Service): void {
     this.current.services[key] = service;
-    this.save();
+    // this.save();
   }
 
   getCurrent(): Store {

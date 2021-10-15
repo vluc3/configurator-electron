@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NtpServiceComponent } from './ntp-service.component';
+import {NtpServiceComponent} from './ntp-service.component';
+import {stateService} from "../../../common/utils/utils.spec";
+import {StateService} from "../../../common/service/state.service";
+import {AppTranslateModule} from "../../../app-translate.module";
+import {HttpClientModule} from "@angular/common/http";
 
 describe('NtpServiceComponent', () => {
   let component: NtpServiceComponent;
@@ -8,9 +12,14 @@ describe('NtpServiceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NtpServiceComponent ]
+      declarations: [NtpServiceComponent],
+      imports: [AppTranslateModule, HttpClientModule],
+      providers: [{
+        provide: StateService,
+        useValue: stateService
+      }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

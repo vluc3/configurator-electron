@@ -122,12 +122,17 @@
             "polyfills": "src/angular/polyfills-test.ts",
             "tsConfig": "src/angular/tsconfig.spec.json",
             "karmaConfig": "src/angular/karma.conf.js",
-            "scripts": [],
+            "assets": [
+              "src/angular/favicon.ico",
+              "src/angular/assets"
+            ],
             "styles": [
+              "node_modules/next-ui/css/next.css",
               "src/angular/styles.scss"
             ],
-            "assets": [
-              "src/angular/assets"
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+              "node_modules/next-ui/js/next.js"
             ],
             "customWebpackConfig": {
               "path": "src/angular/angular.webpack.js"
