@@ -6,7 +6,7 @@
 </div>
 <div class="navigation">
   <ng-container *ngFor="let item of menu">
-    <div class="nav-title">{{item.title}}</div>
+    <div class="nav-title">{{item.title | translate}}</div>
     <ul class="nav flex-column">
       <li
         *ngFor="let item of item.items"
@@ -20,7 +20,7 @@
         <span class="sidebar-icon">
           <i class="{{item.icon}}"></i>
         </span>
-          <span class="sidebar-text">{{item.name}}</span>
+          <span class="sidebar-text">{{item.name | translate}}</span>
         </a>
       </li>
     </ul>

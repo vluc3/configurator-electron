@@ -4,6 +4,8 @@ import {SideNavComponent} from './side-nav.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {stateService} from "../common/utils/utils.spec";
 import {StateService} from "../common/service/state.service";
+import {AppTranslateModule} from "../app-translate.module";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('SideNavComponent', () => {
   let component: SideNavComponent;
@@ -12,7 +14,7 @@ describe('SideNavComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SideNavComponent],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, AppTranslateModule, HttpClientTestingModule],
       providers: [{
         provide: StateService,
         useValue: stateService

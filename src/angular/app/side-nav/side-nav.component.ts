@@ -14,48 +14,48 @@ export class SideNavComponent implements OnInit {
   @HostBinding("class") clazz = "side-nav bg-dark text-white";
 
   menu = [{
-    title: "Infrastructure",
+    title: "SIDE_NAV.INFRASTRUCTURE",
     items: [{
-      name: "Infrastructure",
+      name: "SIDE_NAV.HOSTS",
       icon: "cfg-server",
       link: "infrastructure/host"
     }, {
-      name: "Machines virtuelles",
+      name: "SIDE_NAV.VIRTUAL_MACHINES",
       icon: "cfg-cubes",
       link: "infrastructure/vm"
     }, {
-      name: "Réseau",
+      name: "SIDE_NAV.NETWORK",
       icon: "cfg-network-wired",
       link: "infrastructure/network"
     }]
   }, {
-    title: "Service",
+    title: "SIDE_NAV.SERVICE",
     items: [{
-      name: 'DNS/DHCP',
+      name: 'SIDE_NAV.DNS_DHCP',
       icon: 'cfg-globe',
       link: 'service/dns-dhcp'
     }, {
-      name: 'NTP',
+      name: 'SIDE_NAV.NTP',
       icon: 'cfg-network-time',
       link: 'service/ntp'
     }, {
-      name: 'Mails',
+      name: 'SIDE_NAV.MAILS',
       icon: 'cfg-envelope',
       link: 'service/mail'
     }, {
-      name: 'TOIP/Web UI',
+      name: 'SIDE_NAV.TOIP_WEB_UI',
       icon: 'cfg-phone-office',
       link: 'service/toip-web-ui'
     }, {
-      name: 'EJBCA',
+      name: 'SIDE_NAV.EJBCA',
       icon: 'cfg-file-certificate',
       link: 'service/ejbca'
     }, {
-      name: 'OpenVPN',
+      name: 'SIDE_NAV.OPEN_VPN',
       icon: 'cfg-openvpn',
       link: 'service/openvpn'
     }, {
-      name: 'IPSec',
+      name: 'SIDE_NAV.IP_SEC',
       icon: 'cfg-ip-lock',
       link: 'service/ip-sec'
     }]

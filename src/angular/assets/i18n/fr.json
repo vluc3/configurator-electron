@@ -27,6 +27,20 @@
     "HOME": "Accueil",
     "EXPORT": "Exporter"
   },
+  "SIDE_NAV" : {
+    "INFRASTRUCTURE": "Infrastructure",
+    "SERVICE": "Service",
+    "HOSTS": "Hôtes ESXi",
+    "VIRTUAL_MACHINES": "Machines virtuelles",
+    "NETWORK": "Réseau",
+    "DNS_DHCP": "DNS/DHCP",
+    "NTP": "NTP",
+    "MAILS": "Mails",
+    "TOIP_WEB_UI": "TOIP/Web UI",
+    "EJBCA": "EJBCA",
+    "OPEN_VPN": "OpenVPN",
+    "IP_SEC": "IPSec"
+  },
   "HOME": {
     "INFORMATION": "Application de configuration du processus d'installation de la solution :",
     "APPLICATION_NAME": "Bulle de communication sécurisée",
