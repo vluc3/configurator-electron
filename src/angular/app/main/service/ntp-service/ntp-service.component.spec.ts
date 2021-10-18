@@ -5,6 +5,7 @@ import {stateService} from "../../../common/utils/utils.spec";
 import {StateService} from "../../../common/service/state.service";
 import {AppTranslateModule} from "../../../app-translate.module";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('NtpServiceComponent', () => {
   let component: NtpServiceComponent;
@@ -13,7 +14,7 @@ describe('NtpServiceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NtpServiceComponent],
-      imports: [AppTranslateModule, HttpClientModule],
+      imports: [AppTranslateModule, HttpClientModule, FormsModule, ReactiveFormsModule],
       providers: [{
         provide: StateService,
         useValue: stateService

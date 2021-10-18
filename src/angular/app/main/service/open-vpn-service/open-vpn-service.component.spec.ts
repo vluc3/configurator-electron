@@ -5,6 +5,8 @@ import {stateService} from "../../../common/utils/utils.spec";
 import {StateService} from "../../../common/service/state.service";
 import {AppTranslateModule} from "../../../app-translate.module";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HostItemComponent} from "../../infrastructure/virtual-machine/host-item/host-item.component";
 
 describe('OpenVpnServiceComponent', () => {
   let component: OpenVpnServiceComponent;
@@ -13,7 +15,7 @@ describe('OpenVpnServiceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OpenVpnServiceComponent],
-      imports: [AppTranslateModule, HttpClientModule],
+      imports: [AppTranslateModule, HttpClientModule, FormsModule, ReactiveFormsModule],
       providers: [{
         provide: StateService,
         useValue: stateService

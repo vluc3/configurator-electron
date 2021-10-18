@@ -5,6 +5,9 @@ import {stateService} from "../../../common/utils/utils.spec";
 import {StateService} from "../../../common/service/state.service";
 import {AppTranslateModule} from "../../../app-translate.module";
 import {HttpClientModule} from "@angular/common/http";
+import {HostItemComponent} from "./host-item/host-item.component";
+import {VirtualMachineItemComponent} from "./virtual-machine-item/virtual-machine-item.component";
+import {VirtualMachineItemServiceComponent} from "./virtual-machine-item-service/virtual-machine-item-service.component";
 
 describe('VirtualMachineComponent', () => {
   let component: VirtualMachineComponent;
@@ -12,7 +15,12 @@ describe('VirtualMachineComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VirtualMachineComponent],
+      declarations: [
+        VirtualMachineComponent,
+        HostItemComponent,
+        VirtualMachineItemComponent,
+        VirtualMachineItemServiceComponent
+      ],
       imports: [AppTranslateModule, HttpClientModule],
       providers: [{
         provide: StateService,

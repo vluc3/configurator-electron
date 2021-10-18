@@ -5,6 +5,7 @@ import {StateService} from "../../../common/service/state.service";
 import {stateService} from "../../../common/utils/utils.spec";
 import {AppTranslateModule} from "../../../app-translate.module";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('MailServiceComponent', () => {
   let component: MailServiceComponent;
@@ -13,7 +14,7 @@ describe('MailServiceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MailServiceComponent],
-      imports: [AppTranslateModule, HttpClientModule],
+      imports: [AppTranslateModule, HttpClientModule, FormsModule, ReactiveFormsModule],
       providers: [{
         provide: StateService,
         useValue: stateService

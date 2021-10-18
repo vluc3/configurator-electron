@@ -5,6 +5,7 @@ import {stateService} from "../../../common/utils/utils.spec";
 import {StateService} from "../../../common/service/state.service";
 import {AppTranslateModule} from "../../../app-translate.module";
 import {HttpClientModule} from "@angular/common/http";
+import {HostListItemComponent} from "./host-list-item/host-list-item.component";
 
 describe('HostListComponent', () => {
   let component: HostListComponent;
@@ -12,7 +13,7 @@ describe('HostListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HostListComponent],
+      declarations: [HostListComponent, HostListItemComponent],
       imports: [AppTranslateModule, HttpClientModule],
       providers: [{
         provide: StateService,

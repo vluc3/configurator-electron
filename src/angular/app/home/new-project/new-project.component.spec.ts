@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 
 import {NewProjectComponent} from "./new-project.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe("NewProjectComponent", () => {
 
@@ -9,7 +10,8 @@ describe("NewProjectComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NewProjectComponent]
+      declarations: [NewProjectComponent],
+      imports: [FormsModule, ReactiveFormsModule]
     })
       .compileComponents();
   });

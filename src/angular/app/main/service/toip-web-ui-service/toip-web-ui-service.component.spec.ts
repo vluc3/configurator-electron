@@ -5,6 +5,7 @@ import {stateService} from "../../../common/utils/utils.spec";
 import {StateService} from "../../../common/service/state.service";
 import {AppTranslateModule} from "../../../app-translate.module";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('ToipWebUiServiceComponent', () => {
   let component: ToipWebUiServiceComponent;
@@ -13,7 +14,7 @@ describe('ToipWebUiServiceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ToipWebUiServiceComponent],
-      imports: [AppTranslateModule, HttpClientModule],
+      imports: [AppTranslateModule, HttpClientModule, FormsModule, ReactiveFormsModule],
       providers: [{
         provide: StateService,
         useValue: stateService

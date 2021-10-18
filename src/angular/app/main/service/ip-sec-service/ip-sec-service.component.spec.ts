@@ -4,7 +4,8 @@ import {IpSecServiceComponent} from './ip-sec-service.component';
 import {stateService} from "../../../common/utils/utils.spec";
 import {StateService} from "../../../common/service/state.service";
 import {AppTranslateModule} from "../../../app-translate.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('IpSecServiceComponent', () => {
   let component: IpSecServiceComponent;
@@ -13,7 +14,7 @@ describe('IpSecServiceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IpSecServiceComponent],
-      imports: [AppTranslateModule, HttpClientModule],
+      imports: [AppTranslateModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
       providers: [{
         provide: StateService,
         useValue: stateService
