@@ -36,6 +36,9 @@ export class HomeModalComponent implements ModalBody<any>, OnInit {
         projectFolder = './release/project/';
       }
       this.electronService.fs.readdir(projectFolder, (err, files) => {
+        if (err) {
+          return;
+        }
         files.forEach(file => {
           this.projects.push({name: file.split(".")[0], file});
         });
