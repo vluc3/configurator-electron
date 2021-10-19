@@ -23,6 +23,7 @@
   "PASSWORD_CONFIRMATION": "Confirmation mot de passe",
   "PORTS": "Ports",
   "DAYS": "jours",
+  "NAME": "Nom",
   "TOP_NAV": {
     "HOME": "Accueil",
     "EXPORT": "Exporter"
@@ -31,6 +32,7 @@
     "INFRASTRUCTURE": "Infrastructure",
     "SERVICE": "Service",
     "HOSTS": "Hôtes ESXi",
+    "FIREWALL": "Pare-feu",
     "VIRTUAL_MACHINES": "Machines virtuelles",
     "NETWORK": "Réseau",
     "DNS_DHCP": "DNS/DHCP",
@@ -55,6 +57,10 @@
     "HOST": {
       "NEW_HOST": "Nouvel hôte",
       "HOST_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer cet hôte?"
+    },
+    "FIREWALL": {
+      "DMZ_IP": "Adresse IP DMZ",
+      "EXPLOITATION_IP": "Adresse IP EXPLOITATION"
     },
     "VIRTUAL_MACHINE": {
       "ADD_VM": "Ajouter une VM",

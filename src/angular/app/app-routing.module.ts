@@ -10,6 +10,7 @@ import {ToipWebUiServiceComponent} from "./main/service/toip-web-ui-service/toip
 import {EjbcaServiceComponent} from "./main/service/ejbca-service/ejbca-service.component";
 import {OpenVpnServiceComponent} from "./main/service/open-vpn-service/open-vpn-service.component";
 import {IpSecServiceComponent} from "./main/service/ip-sec-service/ip-sec-service.component";
+import {FirewallComponent} from "./main/infrastructure/firewall/firewall.component";
 
 const routes: Routes = [{
   path: 'infrastructure/host',
@@ -17,6 +18,9 @@ const routes: Routes = [{
 }, {
   path: 'infrastructure/network',
   component: NetworkComponent
+}, {
+  path: 'infrastructure/firewall',
+  component: FirewallComponent
 }, {
   path: 'infrastructure/vm',
   component: VirtualMachineComponent

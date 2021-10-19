@@ -20,6 +20,10 @@ export class SideNavComponent implements OnInit {
       icon: "cfg-server",
       link: "infrastructure/host"
     }, {
+      name: "SIDE_NAV.FIREWALL",
+      icon: "cfg-firewall",
+      link: "infrastructure/firewall"
+    }, {
       name: "SIDE_NAV.VIRTUAL_MACHINES",
       icon: "cfg-cubes",
       link: "infrastructure/vm"

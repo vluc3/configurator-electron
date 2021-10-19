@@ -1,5 +1,5 @@
 export interface Firewall {
-  name: string;
+  name?: string;
   dmzIp: string;
   exploitationIp: string;
 }

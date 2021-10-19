@@ -31,6 +31,7 @@ import {HostListItemComponent} from './main/infrastructure/host-list/host-list-i
 import {HomeModalComponent} from './home/home-modal/home-modal.component';
 import {NewProjectComponent} from './home/new-project/new-project.component';
 import {AppTranslateModule} from "./app-translate.module";
+import {FirewallComponent} from "./main/infrastructure/firewall/firewall.component";
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -60,7 +61,8 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new Transla
     IpSecServiceComponent,
     HostListItemComponent,
     HomeModalComponent,
-    NewProjectComponent
+    NewProjectComponent,
+    FirewallComponent
   ],
   imports: [
     BrowserModule,

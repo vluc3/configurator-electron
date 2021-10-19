@@ -16,6 +16,10 @@ export const stateService = {
   current: {
     name: "Text Config",
     hosts: clone(hosts) as Host[],
+    firewall: {
+      dmzIp: "192.168.40.100",
+      exploitationIp: "192.168.223.254"
+    },
     services: {
       dhcpDnsService,
       ntpService,

@@ -1,6 +1,6 @@
 <form *ngIf="data && formGroup" [formGroup]="formGroup">
   <div class="mb-3">
-    <label for="name" class="form-label">Nom</label>
+    <label for="name" class="form-label">{{ 'NAME' | translate }}</label>
     <input
       [ngClass]="{'is-invalid': !isValid('name')}"
       formControlName="name"

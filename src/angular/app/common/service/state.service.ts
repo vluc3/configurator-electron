@@ -16,6 +16,7 @@ import hosts from "../data/hosts.json";
 import {APP_CONFIG} from "../../../environments/environment";
 import {Observable, Subject} from "rxjs";
 import {clone} from "../utils/utils";
+import {Firewall} from "../model/firewall";
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,10 @@ export class StateService {
     this.current = {
       name: project.name,
       hosts: clone(hosts) as Host[],
+      firewall: {
+        dmzIp: "192.168.40.100",
+        exploitationIp: "192.168.223.254"
+      },
       services,
       serviceKeys: Object.keys(services).map(key => services[key])
     };
@@ -136,6 +141,7 @@ export class StateService {
 interface Store {
   name: string;
   hosts: Host[],
+  firewall: Firewall,
   services: Record<string, Service>;
   serviceKeys: Service[];
 }
