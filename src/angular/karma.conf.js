@@ -9,15 +9,17 @@ module.exports = function (config) {
       require('karma-electron'),
       require('karma-jasmine-html-reporter'),
       require('karma-junit-reporter'),
-      require('karma-coverage-istanbul-reporter'),
+      require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    coverageIstanbulReporter: {
+    coverageReporter: {
       dir: require('path').join(__dirname, '../../reports/coverage'),
-      reports: ['html', 'lcovonly', 'cobertura'],
+      reporters: [
+        { type: 'cobertura', subdir: '.', file: 'cobertura.xml' }
+      ],
       fixWebpackSourcePaths: true
     },
     junitReporter: {
@@ -25,7 +27,10 @@ module.exports = function (config) {
       outputFile: 'junit.xml',
       useBrowserName: false
     },
-    reporters: ['progress', 'junit'],
+    reporters: ['progress', 'junit', 'coverage'],
+    preprocessors: {
+      'src/**/*.ts': ['coverage']
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
