@@ -30,12 +30,10 @@
               "src/angular/assets"
             ],
             "styles": [
-              "node_modules/next-ui/css/next.css",
               "src/angular/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
-              "node_modules/next-ui/js/next.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
             ],
             "customWebpackConfig": {
               "path": "src/angular/angular.webpack.js"

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Directive, OnInit} from '@angular/core';
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
@@ -6,9 +6,7 @@ import {FormGroup} from "@angular/forms";
 import {copyEntries, isFormValid, keypressRegex} from "../../../common/utils/utils";
 import {Service} from "../../../common/model/service";
 
-@Component({
-  template: ''
-})
+@Directive()
 export abstract class ServiceComponent implements OnInit {
 
   formGroup: FormGroup;

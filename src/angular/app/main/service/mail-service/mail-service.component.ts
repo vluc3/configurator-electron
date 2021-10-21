@@ -17,7 +17,8 @@ export class MailServiceComponent extends ServiceComponent implements OnInit {
 
   @HostBinding('class') clazz = 'mail-service service';
 
-  service: MailService
+  service: MailService;
+  show = false;
 
   constructor(
     stateService: StateService,

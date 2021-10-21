@@ -108,7 +108,7 @@
                 type="checkbox"
                 [id]="option.name"
                 [checked]="option.enabled"
-                (change)="option.enabled = $event.target.checked"
+                (change)="onOptionChange($event, option)"
               >
               <label class="form-check-label" [attr.for]="option.name">{{option.name}}</label>
             </div>

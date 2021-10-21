@@ -1,5 +1,5 @@
 import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
-import {IpSecService} from "../../../common/model/ip-sec-service";
+import {IpSecService, Option} from "../../../common/model/ip-sec-service";
 import {ServiceComponent} from "../abstract/service.component";
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
@@ -53,4 +53,7 @@ export class IpSecServiceComponent extends ServiceComponent {
     });
   }
 
+  onOptionChange(event: Event, option: Option) {
+    option.enabled = (event.target as HTMLInputElement).checked
+  }
 }
