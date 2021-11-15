@@ -30,8 +30,8 @@ export class IpSecServiceComponent extends ServiceComponent {
     title: "SERVICE.IP_SEC.INTEGRITY",
     key: "integrity"
   }, {
-    title: "SERVICE.IP_SEC.DIFFIE_HELMAN",
-    key: "diffieHelman"
+    title: "SERVICE.IP_SEC.DIFFIE_HELLMAN",
+    key: "diffieHellman"
   }];
 
   constructor(

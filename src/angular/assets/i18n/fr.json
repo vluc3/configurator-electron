@@ -125,7 +125,7 @@
       "ENCRYPTION_ALGORITHM": "Algorithme de chiffrement",
       "PSEUDO_RANDOM_FUNCTION": "Fonction pseudo-aléatoire",
       "INTEGRITY": "Intégrité",
-      "DIFFIE_HELMAN": "Diffie-Helman"
+      "DIFFIE_HELLMAN": "Diffie-Hellman"
     }
   }
 }

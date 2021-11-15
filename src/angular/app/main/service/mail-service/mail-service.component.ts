@@ -4,8 +4,8 @@ import {ServiceComponent} from "../abstract/service.component";
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
-import {clone, copyEntries} from "../../../common/utils/utils";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {clone, copyEntries, passwordValidator} from "../../../common/utils/utils";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'div[mailService]',
@@ -39,16 +39,16 @@ export class MailServiceComponent extends ServiceComponent implements OnInit {
       antivirusOutputPort: new FormControl(this.service.antivirusOutputPort, [Validators.required]),
       smtpImapInputPort: new FormControl(this.service.smtpImapInputPort, [Validators.required])
     });
-    this.formGroup.addValidators(this.checkPasswords);
+    this.formGroup.addValidators(passwordValidator("defaultPassword", this.formGroup));
   }
 
   protected copyFromFormGroup() {
     copyEntries(this.service, this.formGroup.getRawValue(), {ignore: ["passwordConfirmation"]});
   }
 
-  private checkPasswords: ValidatorFn = (_: AbstractControl): ValidationErrors | null => {
-    const password = this.formGroup?.get('defaultPassword')?.value;
-    const passwordConfirmation = this.formGroup?.get('passwordConfirmation')?.value
-    return password && passwordConfirmation && password === passwordConfirmation ? null : {passwordConfirmation: true}
-  }
+  // private checkPasswords: ValidatorFn = (_: AbstractControl): ValidationErrors | null => {
+  //   const password = this.formGroup?.get('defaultPassword')?.value;
+  //   const passwordConfirmation = this.formGroup?.get('passwordConfirmation')?.value
+  //   return password && passwordConfirmation && password === passwordConfirmation ? null : {passwordConfirmation: true}
+  // }
 }

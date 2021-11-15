@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'configurator';
-  src:  url('fonts/configurator.eot?ujef16');
-  src:  url('fonts/configurator.eot?ujef16#iefix') format('embedded-opentype'),
-    url('fonts/configurator.ttf?ujef16') format('truetype'),
-    url('fonts/configurator.woff?ujef16') format('woff'),
-    url('fonts/configurator.svg?ujef16#configurator') format('svg');
+  src:  url('fonts/configurator.eot?7cyxzm');
+  src:  url('fonts/configurator.eot?7cyxzm#iefix') format('embedded-opentype'),
+    url('fonts/configurator.ttf?7cyxzm') format('truetype'),
+    url('fonts/configurator.woff?7cyxzm') format('woff'),
+    url('fonts/configurator.svg?7cyxzm#configurator') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,12 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.cfg-proxy:before {
+  content: "\e922";
+}
+.cfg-debian-repo:before {
+  content: "\e921";
+}
 .cfg-firewall:before {
   content: "\e920";
 }

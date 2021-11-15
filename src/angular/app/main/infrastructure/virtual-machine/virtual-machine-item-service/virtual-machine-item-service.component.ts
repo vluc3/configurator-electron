@@ -14,7 +14,7 @@ export class VirtualMachineItemServiceComponent implements OnInit {
   @HostBinding('class') clazz = 'virtual-machine-item-service';
 
   @Input() service: Service;
-  @Input() deletable = false;
+  @Input() deletable = true;
   @Output() onDelete = new EventEmitter<Service>();
 
   constructor(

@@ -1,10 +1,10 @@
 import {app, BrowserWindow, screen, webContents} from 'electron';
+// import {app, BrowserWindow, screen, webContents} from '@electron/remote';
 import * as path from 'path';
 import * as fs from 'fs';
 
 // Initialize remote module
 require('@electron/remote/main').initialize();
-require('@electron/remote/main').enable(webContents);
 
 let browserWindow: BrowserWindow = null;
 const args = process.argv.slice(1);
@@ -26,7 +26,7 @@ function createWindow(): BrowserWindow {
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
-      contextIsolation: false // ,  // false if you want to run e2e test with Spectron
+      contextIsolation: false,// false if you want to run e2e test with Spectron
     },
   });
 
@@ -59,6 +59,8 @@ function createWindow(): BrowserWindow {
     // when you should delete the corresponding element.
     browserWindow = null;
   });
+
+  require('@electron/remote/main').enable(browserWindow.webContents);
 
   return browserWindow;
 }

@@ -7,7 +7,7 @@ import {
   ipSecService,
   mailService,
   ntpService,
-  openVpnService,
+  openVpnService, repoService,
   toipWebUiService
 } from "../utils/data";
 import {ElectronService} from "./electron.service";
@@ -93,7 +93,8 @@ export class StateService {
       toipWebUiService,
       ejbcaService,
       openVpnService,
-      ipSecService
+      ipSecService,
+      repoService
     };
     this.current = {
       name: project.name,

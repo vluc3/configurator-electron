@@ -31,6 +31,8 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
         this.options = options;
         if (options.html) {
           this.valid = true;
+        } else {
+          this.valid = false;
         }
         // @ts-ignore
         this.modal = new bootstrap.Modal(this.modalDiv.nativeElement, {});

@@ -8,7 +8,9 @@ import {IpSecService} from "../model/ip-sec-service";
 import encryptionAlgorithms from "../data/encryptionAlgorithms.json";
 import pseudoRandomFunctions from "../data/pseudoRandomFunctions.json";
 import integrity from "../data/integrity.json";
-import diffieHelman from "../data/diffieHelman.json";
+import diffieHellman from "../data/diffieHellman.json";
+import {RepoService} from "../model/repo-service";
+import {ProxyService} from "../model/proxy-service";
 
 export const dhcpDnsService: DhcpDnsService = {
   name: 'DNS/DHCP',
@@ -84,5 +86,15 @@ export const ipSecService: IpSecService = {
   encryptionAlgorithms,
   pseudoRandomFunctions,
   integrity,
-  diffieHelman
+  diffieHellman
+};
+
+export const repoService: RepoService = {
+  name: "Repo",
+  icon: "cfg-debian-repo"
+};
+
+export const proxyService: ProxyService = {
+  name: "Proxy",
+  icon: "cfg-proxy"
 };

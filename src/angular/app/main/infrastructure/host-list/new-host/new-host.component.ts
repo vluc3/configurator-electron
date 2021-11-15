@@ -1,8 +1,8 @@
 import {Component, EventEmitter, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
 import {ModalBody} from "../../../../common/component/modal/modal.component";
 import {Host} from "../../../../common/model/host";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {copyEntries, ipValidator, isFormValid, keypressRegex} from "../../../../common/utils/utils";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {copyEntries, ipValidator, isFormValid, keypressRegex, passwordValidator} from "../../../../common/utils/utils";
 
 @Component({
   selector: 'div[newHost]',
@@ -34,7 +34,9 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
       ),
       passwordConfirmation: new FormControl(this.data?.password),
       datastore: new FormControl(this.data?.datastore, [Validators.required])
-    }, {validators: this.checkPasswords});
+    });
+
+    this.formGroup.addValidators(passwordValidator("password", this.formGroup));
 
     this.formGroup.statusChanges.subscribe(status => {
       const valid = status === 'VALID';
@@ -53,9 +55,10 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
     return keypressRegex(event, '^[0-9\.]+$');
   }
 
-  private checkPasswords: ValidatorFn = (_: AbstractControl): ValidationErrors | null => {
-    const password = this.formGroup?.get('password')?.value;
-    const passwordConfirmation = this.formGroup?.get('passwordConfirmation')?.value
-    return password && passwordConfirmation && password === passwordConfirmation ? null : {passwordConfirmation: true}
-  }
+  //
+  // private checkPasswords: ValidatorFn = (_: AbstractControl): ValidationErrors | null => {
+  //   const password = this.formGroup?.get('password')?.value;
+  //   const passwordConfirmation = this.formGroup?.get('passwordConfirmation')?.value
+  //   return password && passwordConfirmation && password === passwordConfirmation ? null : {passwordConfirmation: true}
+  // }
 }

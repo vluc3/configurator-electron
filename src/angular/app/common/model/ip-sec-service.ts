@@ -5,10 +5,11 @@ export interface IpSecService extends SecService {
   encryptionAlgorithms: Option[];
   pseudoRandomFunctions: Option[];
   integrity: Option[];
-  diffieHelman: Option[];
+  diffieHellman: Option[];
 }
 
 export interface Option {
   name: string;
   enabled: boolean;
+  value: string;
 }

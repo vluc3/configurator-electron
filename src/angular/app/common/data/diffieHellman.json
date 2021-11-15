@@ -1,0 +1,42 @@
+[
+  {
+    "name": "MODP_768",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_768</transform>"
+  },
+  {
+    "name": "MODP_1024",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_1024</transform>"
+  },
+  {
+    "name": "MODP_1536",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_1536</transform>"
+  },
+  {
+    "name": "MODP_2048",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_2048</transform>"
+  },
+  {
+    "name": "MODP_3072",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_3072</transform>"
+  },
+  {
+    "name": "MODP_4096",
+    "enabled": true,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_4096</transform>"
+  },
+  {
+    "name": "MODP_6144",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_6144</transform>"
+  },
+  {
+    "name": "MODP_8192",
+    "enabled": false,
+    "value": "<transform type=\"DH_GROUP\">DH_MODP_8192</transform>"
+  }
+]

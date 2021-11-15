@@ -28,7 +28,7 @@
       *ngFor="let service of virtualMachine.services"
       virtualMachineItemService
       [service]="service"
-      [deletable]="true"
+      [deletable]="deletable"
       [draggable]="true"
       (dragstart)="serviceDragStart.emit({event: $event, service})"
       (onDelete)="onServiceDelete($event)"

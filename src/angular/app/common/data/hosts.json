@@ -1,5 +1,5 @@
 [{
-  "name": "srv-esx1",
+  "name": "esx-1",
   "network": "DMZ",
   "datastore": "datastore1",
   "password": "aaaa",
@@ -9,6 +9,11 @@
     "ip": "192.168.12.10",
     "mask": "255.255.255.0",
     "gateway": "192.168.12.1",
-    "services": []
+    "services": [
+      {
+        "name": "Proxy",
+        "icon": "cfg-proxy"
+      }
+    ]
   }]
 }]

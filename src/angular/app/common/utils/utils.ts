@@ -1,4 +1,4 @@
-import {AbstractControl, FormGroup, ValidationErrors} from "@angular/forms";
+import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {ModalService} from "../component/modal/modal.service";
 import {HomeModalComponent} from "../../home/home-modal/home-modal.component";
 import {Observable} from "rxjs";
@@ -95,13 +95,40 @@ export function isMaskValid(mask: string): boolean {
   if (!isIpValid(mask)) {
     return false;
   }
+  // let d = 24;
+  // let maskValue = 0;
+  // const parts = mask.split(".");
+  // for (let i = 0; i < parts.length; i++) {
+  //   let n = parseInt(parts[i]);
+  //   if (n !== (n & 0xff)) {
+  //     return false;
+  //   }
+  //   maskValue += n << d;
+  //   d -= 8;
+  // }
+  // let pattern = 1;
+  // let ctr = 0;
+  // let find = false;
+  // for (let i = 0; i < 32; i++) {
+  //   if ((maskValue & pattern) !== 0) {
+  //     ctr++;
+  //     find = true;
+  //   } else if (find) {
+  //     return false;
+  //   }
+  //   pattern <<= 1;
+  // }
+  return getShort(mask) !== -1;
+}
+
+export function getShort(mask: string): number {
   let d = 24;
   let maskValue = 0;
   const parts = mask.split(".");
   for (let i = 0; i < parts.length; i++) {
     let n = parseInt(parts[i]);
     if (n !== (n & 0xff)) {
-      return false;
+      return -1;
     }
     maskValue += n << d;
     d -= 8;
@@ -114,11 +141,21 @@ export function isMaskValid(mask: string): boolean {
       ctr++;
       find = true;
     } else if (find) {
-      return false;
+      return -1;
     }
     pattern <<= 1;
   }
-  return ctr !== -1;
+  return ctr;
+}
+
+
+export function passwordValidator(passwordKey = "password", formGroup: FormGroup): ValidatorFn {
+  const validator: ValidatorFn = (_: AbstractControl) => {
+    const password = formGroup.get(passwordKey)?.value;
+    const passwordConfirmation = formGroup.get('passwordConfirmation')?.value
+    return password && passwordConfirmation && password === passwordConfirmation ? null : {passwordConfirmation: true}
+  }
+  return validator;
 }
 
 export function home(modalService: ModalService, closable = true): Observable<ModalEvent<any>> {
