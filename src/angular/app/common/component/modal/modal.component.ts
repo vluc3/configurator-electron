@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnInit, Type, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Type, ViewChild} from '@angular/core';
 import {ModalService} from "./modal.service";
 import {SubscriberComponent} from "../../abstract/subscriber.component";
 import {takeUntil} from "rxjs/operators";
@@ -19,7 +19,8 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
   }
@@ -28,20 +29,27 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
     this.modalService.modalOpen$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(options => {
+        if (this.modal) {
+          this.hide();
+        }
         this.options = options;
         if (options.html) {
           this.valid = true;
         } else {
           this.valid = false;
         }
-        // @ts-ignore
+
         this.modal = new bootstrap.Modal(this.modalDiv.nativeElement, {});
         this.modal.show();
       });
     this.modalService.modalClose$
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        this.cancel();
+      .subscribe((fireEvent) => {
+        if (fireEvent) {
+          this.cancel();
+        } else {
+          this.hide();
+        }
       });
   }
 
@@ -54,15 +62,21 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
       this.modal._triggerBackdropTransition();
       return;
     }
-    this.modal.hide();
-    this.modalService.send({cancel: false, data: this.options?.data});
-    setTimeout(() => this.options = {}, 500);
+    const data = this.options?.data;
+    this.hide();
+    this.modalService.send({cancel: false, data});
   }
 
   public cancel(): void {
-    this.modal.hide();
+    this.hide();
     this.modalService.send({cancel: true});
-    setTimeout(() => this.options = {}, 500);
+  }
+
+  private hide() {
+    this.modal.hide();
+    delete this.modal;
+    this.options = {};
+    this.changeDetectorRef.detectChanges();
   }
 
   dataValidate(event: { valid: boolean, data?: T }) {
@@ -83,6 +97,7 @@ export interface ModalBody<T> {
 
 export interface ModalOptions<T> {
   title?: string;
+  titleParams?: any,
   component?: Type<ModalBody<T>>;
   data?: T;
   html?: string;

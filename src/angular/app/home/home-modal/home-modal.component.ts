@@ -3,10 +3,10 @@ import {ModalBody} from "../../common/component/modal/modal.component";
 import {StateService} from "../../common/service/state.service";
 import {ModalService} from "../../common/component/modal/modal.service";
 import {NewProjectComponent, Project} from "../new-project/new-project.component";
-import {home} from "../../common/utils/utils";
+import {getProjectFolder, home} from "../../common/utils/utils";
 import {ElectronService} from "../../common/service/electron.service";
-import {APP_CONFIG} from "../../../environments/environment";
 import {Router} from "@angular/router";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'div[homeModal]',
@@ -25,22 +25,24 @@ export class HomeModalComponent implements ModalBody<any>, OnInit {
     private stateService: StateService,
     private modalService: ModalService,
     private electronService: ElectronService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {
   }
 
   ngOnInit(): void {
+    this.init();
+  }
+
+  private init() {
+    this.projects = [];
     if (this.electronService.isElectron) {
-      let projectFolder = './project/';
-      if (!APP_CONFIG.production) {
-        projectFolder = './release/project/';
-      }
-      this.electronService.fs.readdir(projectFolder, (err, files) => {
+      this.electronService.fs.readdir(getProjectFolder(), (err, files) => {
         if (err) {
           return;
         }
         files.forEach(file => {
-          this.projects.push({name: file.split(".")[0], file});
+          this.projects.push({name: file.split(".")[0]});
         });
       });
     } else {
@@ -53,32 +55,55 @@ export class HomeModalComponent implements ModalBody<any>, OnInit {
     }
   }
 
-  newProject() {
-    this.modalService.close();
-    setTimeout(() => {
-      this.modalService.open<Project>({
-        title: "NEW_PROJECT.NEW_PROJECT",
-        component: NewProjectComponent,
-        width: 600,
-        data: {
-          name: ""
+  newProject(duplicate?: string) {
+    this.modalService.open<Project>({
+      title: duplicate ? "NEW_PROJECT.DUPLICATE_PROJECT" : "NEW_PROJECT.NEW_PROJECT",
+      titleParams: duplicate ? {name: duplicate} : undefined,
+      component: NewProjectComponent,
+      width: 600,
+      data: {
+        name: "",
+        duplicate
+      }
+    }).subscribe(close => {
+      if (close.cancel) {
+        home(this.modalService, this.stateService.getCurrent() !== null)
+      } else if (close.data) {
+        if (!this.stateService.newProject(close.data)) {
+          this.nameAlreadyExists(close.data);
+          return;
         }
-      }).subscribe(close => {
-        if (close.cancel) {
-          setTimeout(() => {
-            home(this.modalService, this.stateService.getCurrent() !== null)
-          }, 600);
-        } else if (close.data) {
-          this.stateService.newProject(close.data);
-          this.router.navigate(["infrastructure", "host"]);
-        }
-      });
-    }, 500);
+        this.router.navigate(["infrastructure", "host"]);
+      }
+    });
+  }
+
+  private nameAlreadyExists(project: Project) {
+    this.modalService.open({
+      title: 'NEW_PROJECT.NEW_PROJECT',
+      html: `<p class="text-danger">${this.translateService.instant('HOME.PROJECT_WITH_THIS_NAME_ALREADY_EXISTS')}</p>`,
+    }).subscribe(close => {
+      if (close.cancel) {
+        home(this.modalService, this.stateService.getCurrent() !== null);
+      } else {
+        this.newProject(project.duplicate);
+      }
+    });
   }
 
   setProject(project: Project) {
     this.stateService.setProject(project);
     this.router.navigate(["infrastructure", "host"]);
     this.modalService.close();
+  }
+
+  duplicate(project: Project) {
+    this.newProject(project.name);
+  }
+
+  remove(project: Project) {
+    if (this.stateService.removeProject(project)) {
+      home(this.modalService, this.stateService.getCurrent() !== null);
+    }
   }
 }

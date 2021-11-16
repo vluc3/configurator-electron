@@ -18,3 +18,22 @@ declare class Vault {
 
   encrypt(str: string): Promise<string>;
 }
+
+declare namespace bootstrap {
+  export class Modal {
+
+    constructor(element: HTMLElement, config: any);
+
+    show(element?: HTMLElement);
+
+    toggle(element?: HTMLElement);
+
+    hide();
+
+    dispose();
+
+    handleUpdate();
+
+    _triggerBackdropTransition();
+  }
+}

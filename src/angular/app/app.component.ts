@@ -23,9 +23,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.stateService.currentChange$.subscribe(() => {
-      this.current = this.stateService.getCurrent() !== null;
+      this.current = !!this.stateService.getCurrent();
     });
-    this.current = this.stateService.getCurrent() !== null;
+    this.current = !!this.stateService.getCurrent();
   }
 
   ngAfterViewInit(): void {

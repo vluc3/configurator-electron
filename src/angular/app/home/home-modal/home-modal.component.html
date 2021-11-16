@@ -11,10 +11,6 @@
       <span class="icon"><i class="cfg-plus-square"></i></span>
       <span>{{ 'HOME.CREATE_NEW_CONFIGURATION' | translate }}</span>
     </button>
-    <!--<button type="button" class="btn btn-outline-dark btn-with-icon">
-      <span class="icon"><i class="cfg-upload"></i></span>
-      <span>{{ 'HOME.IMPORT_EXISTING_CONFIGURATION' | translate }}</span>
-    </button>-->
   </div>
 </div>
 <div class="right">
@@ -29,14 +25,14 @@
       <i class="cfg-ellipsis-v"></i>
     </span>
         <ul class="dropdown-menu">
-          <li class="dropdown-menu-item px-1 py-1">
+          <li class="dropdown-menu-item px-1 py-1" (click)="duplicate(project)">
             <span><i class="cfg-clone"></i></span>
             <span class="px-1">{{ 'DUPLICATE' | translate }}</span>
           </li>
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li class="dropdown-menu-item delete text-danger px-1 py-1">
+          <li class="dropdown-menu-item delete text-danger px-1 py-1" (click)="remove(project)">
             <span><i class="cfg-trash-alt"></i></span>
             <span class="px-1">{{'REMOVE' | translate}}</span>
           </li>

@@ -7,7 +7,8 @@ import {
   ipSecService,
   mailService,
   ntpService,
-  openVpnService, repoService,
+  openVpnService,
+  repoService,
   toipWebUiService
 } from "../utils/data";
 import {ElectronService} from "./electron.service";
@@ -15,7 +16,7 @@ import {Project} from "../../home/new-project/new-project.component";
 import hosts from "../data/hosts.json";
 import {APP_CONFIG} from "../../../environments/environment";
 import {Observable, Subject} from "rxjs";
-import {clone} from "../utils/utils";
+import {clone, getProjectFolder} from "../utils/utils";
 import {Firewall} from "../model/firewall";
 
 @Injectable({
@@ -62,12 +63,13 @@ export class StateService {
 
   save(): void {
     if (this.electronService.isElectron) {
-      let projectFolder = './project/';
-      if (!APP_CONFIG.production) {
-        projectFolder = './release/project/';
-      }
+      let projectFolder = getProjectFolder();
       if (!this.electronService.fs.existsSync(projectFolder)) {
         this.electronService.fs.mkdirSync(projectFolder, {recursive: true});
+      }
+      const projectFile = `${projectFolder}${this.current.name}.json`;
+      if (this.electronService.fs.existsSync(projectFile)) {
+        return;
       }
       const storeText = JSON.stringify(this.current);
       this.electronService.fs.writeFile(`${projectFolder}${this.current.name}.json`, storeText, (err: NodeJS.ErrnoException) => {
@@ -85,7 +87,23 @@ export class StateService {
     }
   }
 
-  newProject(project: Project) {
+  newProject(project: Project): boolean {
+    if (this.electronService.isElectron) {
+      const projectFolder = getProjectFolder();
+      const projectFile = `${projectFolder}${project.name}.json`;
+      if (this.electronService.fs.existsSync(projectFile)) {
+        return false;
+      }
+      if (project.duplicate) {
+        const data = this.electronService.fs.readFileSync(`${getProjectFolder()}${project.duplicate}.json`, "utf8");
+        const store: Store = JSON.parse(data.toString());
+        store.name = project.name;
+        const storeText = JSON.stringify(store);
+        this.electronService.fs.writeFileSync(`${projectFolder}${store.name}.json`, storeText);
+        this.setProject(project);
+        return true;
+      }
+    }
     const services = {
       dhcpDnsService,
       ntpService,
@@ -108,15 +126,12 @@ export class StateService {
     };
     this.save();
     this.currentChange.next();
+    return true;
   }
 
   setProject(project: Project) {
     if (this.electronService.isElectron) {
-      let projectFolder = './project/';
-      if (!APP_CONFIG.production) {
-        projectFolder = './release/project/';
-      }
-      this.electronService.fs.readFile(`${projectFolder}${project.name}.json`, "utf8", (err, data) => {
+      this.electronService.fs.readFile(`${getProjectFolder()}${project.name}.json`, "utf8", (err, data) => {
         if (err) {
           console.error(err);
         } else {
@@ -136,6 +151,18 @@ export class StateService {
         this.currentChange.next();
       }
     }
+  }
+
+  removeProject(project: Project) {
+    if (this.electronService.isElectron) {
+      this.electronService.fs.unlinkSync(`${getProjectFolder()}${project.name}.json`);
+      if (this.current && this.current.name === project.name) {
+        delete this.current;
+        this.currentChange.next();
+      }
+      return true;
+    }
+    return false;
   }
 }
 

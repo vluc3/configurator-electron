@@ -8,7 +8,7 @@ import {ModalEvent, ModalOptions} from "./modal.component";
 export class ModalService {
 
   private modalOpen = new Subject<ModalOptions<any>>();
-  private modalClose = new Subject();
+  private modalClose = new Subject<boolean>();
   private modalEvent = new Subject<ModalEvent<any>>();
 
   public get modalOpen$() {
@@ -32,8 +32,8 @@ export class ModalService {
     return subject.asObservable();
   }
 
-  close(){
-    this.modalClose.next();
+  close(fireEvent = false){
+    this.modalClose.next(fireEvent);
   }
 
   public send<T>(close: ModalEvent<T>): void {

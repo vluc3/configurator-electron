@@ -3,6 +3,7 @@ import {ModalService} from "../component/modal/modal.service";
 import {HomeModalComponent} from "../../home/home-modal/home-modal.component";
 import {Observable} from "rxjs";
 import {ModalEvent} from "../component/modal/modal.component";
+import {APP_CONFIG} from "../../../environments/environment";
 
 export function clone<T>(t: T): T {
   const s = JSON.stringify(t);
@@ -167,4 +168,12 @@ export function home(modalService: ModalService, closable = true): Observable<Mo
     notClosable: !closable,
     data: {}
   });
+}
+
+export function getProjectFolder(): string {
+  let projectFolder = './project/';
+  if (!APP_CONFIG.production) {
+    projectFolder = './release/project/';
+  }
+  return projectFolder;
 }

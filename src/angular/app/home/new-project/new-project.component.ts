@@ -41,5 +41,5 @@ export class NewProjectComponent implements ModalBody<any>, OnInit {
 
 export interface Project {
   name: string;
-  file?: string;
+  duplicate?: string;
 }
