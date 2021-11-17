@@ -49,7 +49,9 @@
     "VERSION": "V 1.1",
     "CREATE_NEW_CONFIGURATION": "Créer une nouvelle configuration",
     "IMPORT_EXISTING_CONFIGURATION": "Importer une configuration existante",
-    "PROJECT_WITH_THIS_NAME_ALREADY_EXISTS": "Un projet portant ce nom existe déjà"
+    "PROJECT_WITH_THIS_NAME_ALREADY_EXISTS": "Un projet portant ce nom existe déjà",
+    "PROJECT_REMOVE": "Suppression de projet",
+    "PROJECT_REMOVE_QUESTION": "Êtes vous sûre de vouloir supprimer le projet {{name}}?"
   },
   "NEW_PROJECT": {
     "NEW_PROJECT": "Nouveau projet",

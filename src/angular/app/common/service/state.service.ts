@@ -118,6 +118,7 @@ export class StateService {
       name: project.name,
       hosts: clone(hosts) as Host[],
       firewall: {
+        name: "Pare-feu",
         dmzIp: "192.168.40.100",
         exploitationIp: "192.168.223.254"
       },

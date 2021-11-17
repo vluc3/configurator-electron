@@ -102,8 +102,17 @@ export class HomeModalComponent implements ModalBody<any>, OnInit {
   }
 
   remove(project: Project) {
-    if (this.stateService.removeProject(project)) {
-      home(this.modalService, this.stateService.getCurrent() !== null);
-    }
+    this.modalService.open({
+      title: 'HOME.PROJECT_REMOVE',
+      html: `<p class="text-danger">${this.translateService.instant("HOME.PROJECT_REMOVE_QUESTION", {name: project.name})}</p>`,
+    }).subscribe(close => {
+      if (close.cancel) {
+        home(this.modalService, this.stateService.getCurrent() !== null);
+      } else {
+        if (this.stateService.removeProject(project)) {
+          home(this.modalService, this.stateService.getCurrent() !== null);
+        }
+      }
+    });
   }
 }
