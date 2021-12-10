@@ -44,25 +44,6 @@
         </div>
         <div class="form-group mb-2 row">
           <label
-            for="administrationZone"
-            class="col-sm-2 col-form-label col-form-label-sm"
-          >
-            {{ 'ADMINISTRATION' | translate }} :
-          </label>
-          <div class="col-sm-10">
-            <div class="input-group input-group-sm">
-              <input
-                [ngClass]="{'is-invalid': !isValid('administrationZone')}"
-                formControlName="administrationZone"
-                class="form-control form-control-sm"
-                id="administrationZone"
-              >
-              <span class="input-group-text">.{{ formGroup.getRawValue()['domainName'] }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group mb-2 row">
-          <label
             for="dmzZone"
             class="col-sm-2 col-form-label col-form-label-sm"
           >

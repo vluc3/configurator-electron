@@ -10,6 +10,10 @@
         <span><i class="cfg-pen"></i></span>
         <span class="px-1">{{ 'EDIT' | translate }}</span>
       </li>
+      <li class="dropdown-menu-item px-1 py-1" (click)="clone()">
+        <span><i class="cfg-pen"></i></span>
+        <span class="px-1">{{ 'CLONE' | translate }}</span>
+      </li>
       <li *ngIf="deletable">
         <hr class="dropdown-divider">
       </li>

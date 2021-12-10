@@ -23,6 +23,7 @@ import {EjbcaService} from "../common/model/ejbca-service";
 import {ToipWebUiService} from "../common/model/toip-web-ui-service";
 import {NtpService} from "../common/model/ntp-service";
 import {DhcpDnsService} from "../common/model/dhcp-dns-service";
+import {esxVars, globalVars} from "../common/yaml/ansible-esx";
 
 @Component({
   selector: 'div[topNav]',
@@ -76,6 +77,7 @@ export class TopNavComponent implements OnInit {
             vaultObject["MAIL_VAULT"] = {
               mail_user_defaut_pass: mailService.defaultPassword
             };
+
             const esx = {
               ESX: {
                 list_esx: {}
@@ -84,25 +86,26 @@ export class TopNavComponent implements OnInit {
             const esx_secret = {
               list_esx: {}
             };
-            this.stateService.getCurrent().hosts.forEach(host => {
-              esx_secret.list_esx[host.name] = {root_user: "root", root_pass: host.password};
-              esx.ESX.list_esx[host.name] = {
-                servname: `srv-${host.name}`,
-                root_user: `{{ ESX_VAULT.list_esx['${host.name}'].root_user }}`,
-                root_pass: `{{ ESX_VAULT.list_esx['${host.name}'].root_pass }}`,
-                adm_ip: host.ip,
-                list_int_network: {
-                  [host.network === Network.DMZ ? "int_network_dmz" : "int_network_toip"]: "ens224"
-                },
-                datastore: host.datastore,
-                default: {
-                  iso_install: "isos/debian-10.5.0-amd64-AUTO-CRYPT.iso",
-                  disk_size: 40,
-                  ram_size: 4096,
-                  nb_cpu: 4
-                },
-                guest_id: "debian10_64Guest"
-              };
+            this.stateService.getCurrent().hosts.forEach((host, index) => {
+              host.id = `esx${index + 1}`;
+              esx_secret.list_esx[host.id] = {root_user: "root", root_pass: host.password};
+              // esx.ESX.list_esx[host.name] = {
+              //   servname: `srv-${host.name}`,
+              //   root_user: `{{ ESX_VAULT.list_esx['${host.name}'].root_user }}`,
+              //   root_pass: `{{ ESX_VAULT.list_esx['${host.name}'].root_pass }}`,
+              //   adm_ip: host.ip,
+              //   list_int_network: {
+              //     [host.network === Network.DMZ ? "int_network_dmz" : "int_network_toip"]: "ens224"
+              //   },
+              //   datastore: host.datastore,
+              //   default: {
+              //     iso_install: "isos/debian-10.5.0-amd64-AUTO-CRYPT.iso",
+              //     disk_size: 40,
+              //     ram_size: 4096,
+              //     nb_cpu: 4
+              //   },
+              //   guest_id: "debian10_64Guest"
+              // };
             });
             vaultObject["ESX_VAULT"] = esx_secret;
             vault = new this.electronService.Vault({password: close.data.password});
@@ -117,14 +120,15 @@ export class TopNavComponent implements OnInit {
             });
             this.electronService.fs.writeFile(
               `${dir}/${ExportComponent.ANSIBLE_ESX_VARS}`,
-              YAML.stringify(esx),
+              esxVars(this.stateService.getCurrent().hosts),
               (err) => {
                 console.error(err);
               }
             );
+
             this.electronService.fs.writeFile(
               `${dir}/${ExportComponent.ANSIBLE_GLOBAL_VARS}`,
-              `${YAML.stringify(this.getGlobal())}${this.fixed()}${YAML.stringify(this.getVms()).replace("GLOBAL:", "")}`,
+              `${globalVars(this.stateService.getCurrent())}${this.fixed()}${YAML.stringify(this.getVms()).replace("GLOBAL:", "")}`,
               (err) => {
                 console.error(err);
               }
@@ -168,7 +172,7 @@ export class TopNavComponent implements OnInit {
       domain_root: dhcpDnsService.domainName.substring(0, dhcpDnsService.domainName.lastIndexOf(".")),
       domain_extension: dhcpDnsService.domainName.substring(dhcpDnsService.domainName.lastIndexOf(".") + 1),
       toip_subdomain: dhcpDnsService.exploitationZone,
-      admin_subdomain: dhcpDnsService.administrationZone,
+      // admin_subdomain: dhcpDnsService.administrationZone,
       dmz_subdomain: dhcpDnsService.dmzZone,
       dns_forwarders: dhcpDnsService.defaultDnsServers,
       dhcp_range_start: dhcpDnsService.dhcpRangeBegin,

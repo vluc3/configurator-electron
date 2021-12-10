@@ -64,7 +64,9 @@ export class VirtualMachineComponent implements OnInit {
         const index = this.hosts[hostIndex].virtualMachines[vmIndex].services.findIndex(s => s.name === serviceName);
         if (index !== -1) {
           const service = this.hosts[hostIndex].virtualMachines[vmIndex].services[index];
-          this.services.push(service);
+          if (!service.replicable) {
+            this.services.push(service);
+          }
           this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
         }
       }
@@ -73,6 +75,7 @@ export class VirtualMachineComponent implements OnInit {
   }
 
   virtualMachineDrop(event: ServiceDropInfo, network: Network) {
+
     event.event.preventDefault();
     if (network === Network.DMZ) {
       return;
@@ -80,7 +83,7 @@ export class VirtualMachineComponent implements OnInit {
     const serviceName = event.event.dataTransfer?.getData("serviceName");
     if (serviceName) {
       const position = event.event.dataTransfer?.getData("position");
-      if (position) {
+      if (position) { // Drag & Drop from another VM
         const p = position.split('-');
         const hostIndex = Number(p[0]);
         const vmIndex = Number(p[1]);
@@ -88,21 +91,43 @@ export class VirtualMachineComponent implements OnInit {
         if (index !== -1) {
           const service = this.hosts[hostIndex].virtualMachines[vmIndex].services[index];
           if (event.virtualMachine) {
-            event.virtualMachine.services?.push(service);
+            if (service.replicable) {
+              if (event.virtualMachine.services.findIndex(s => s.name === serviceName) === -1) {
+                event.virtualMachine.services?.push({...service});
+                this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
+              } else {
+                // TODO dialog error
+              }
+            } else {
+              event.virtualMachine.services?.push(service);
+              this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
+            }
           }
-          this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
         }
-      } else {
+      } else { // Drag & Drop from services right list
         const index = this.services.findIndex(s => s.name === serviceName);
         if (index !== -1) {
-          event.virtualMachine?.services?.push(this.services[index]);
-          this.services.splice(index, 1);
+          const service = this.services[index];
+          if (service.replicable) {
+            if (event.virtualMachine.services.findIndex(s => s.name === serviceName) === -1) {
+              event.virtualMachine.services?.push({...service});
+            } else {
+              // TODO dialog error
+            }
+          } else {
+            event.virtualMachine?.services?.push(service);
+            this.services.splice(index, 1);
+          }
         }
       }
       // this.stateService.save();
     }
   }
 
+  /**
+   * Delete Host
+   * @param host
+   */
   delete(host: Host) {
     const index = this.hosts.indexOf(host);
     if (index !== -1) {

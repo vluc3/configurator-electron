@@ -8,7 +8,7 @@ import {
   openVpnService,
   toipWebUiService
 } from "./data";
-import hosts from "../data/hosts.json";
+import hosts from "../data/hosts";
 import {Host} from "../model/host";
 import {Subject} from "rxjs";
 

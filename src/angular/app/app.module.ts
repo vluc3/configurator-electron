@@ -25,17 +25,13 @@ import {ToipWebUiServiceComponent} from './main/service/toip-web-ui-service/toip
 import {EjbcaServiceComponent} from './main/service/ejbca-service/ejbca-service.component';
 import {OpenVpnServiceComponent} from './main/service/open-vpn-service/open-vpn-service.component';
 import {IpSecServiceComponent} from './main/service/ip-sec-service/ip-sec-service.component';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {HttpClientModule} from "@angular/common/http";
 import {HostListItemComponent} from './main/infrastructure/host-list/host-list-item/host-list-item.component';
 import {HomeModalComponent} from './home/home-modal/home-modal.component';
 import {NewProjectComponent} from './home/new-project/new-project.component';
 import {AppTranslateModule} from "./app-translate.module";
 import {FirewallComponent} from "./main/infrastructure/firewall/firewall.component";
 import {ExportComponent} from "./top-nav/export/export.component";
-
-// AoT requires an exported function for factories
-const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
   declarations: [

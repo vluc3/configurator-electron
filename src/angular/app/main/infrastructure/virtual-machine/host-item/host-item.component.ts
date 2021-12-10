@@ -7,6 +7,7 @@ import {StateService} from "../../../../common/service/state.service";
 import {NewHostComponent} from "../../host-list/new-host/new-host.component";
 import {clone} from "../../../../common/utils/utils";
 import {ServiceDragInfo} from "../../../../common/model/service-drag-info";
+import {nrpeService} from "../../../../common/utils/data";
 
 @Component({
   selector: 'div[hostItem]',
@@ -37,7 +38,7 @@ export class HostItemComponent implements OnInit {
       title: "Vms & Services",
       component: NewVirtualMachineComponent,
       data: {
-        services: [],
+        services: [{...nrpeService}],
         ip: '',
         mask: ''
       },

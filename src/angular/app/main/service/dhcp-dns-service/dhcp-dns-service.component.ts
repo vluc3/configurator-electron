@@ -32,7 +32,6 @@ export class DhcpDnsServiceComponent extends ServiceComponent {
     this.formGroup = new FormGroup({
       domainName: new FormControl(this.service.domainName, [Validators.required]),
       exploitationZone: new FormControl(this.service.exploitationZone, [Validators.required]),
-      administrationZone: new FormControl(this.service.administrationZone, [Validators.required]),
       dmzZone: new FormControl(this.service.dmzZone, [Validators.required]),
       dhcpRangeBegin: new FormControl(this.service.dhcpRangeBegin, [Validators.required, ipValidator]),
       dhcpRangeEnd: new FormControl(this.service.dhcpRangeEnd, [Validators.required, ipValidator])

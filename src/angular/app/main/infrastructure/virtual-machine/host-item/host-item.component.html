@@ -23,8 +23,9 @@
     <div
       virtualMachineItem
       *ngFor="let virtualMachine of host.virtualMachines"
+      [host]="host"
       [virtualMachine]="virtualMachine"
-      [deletable]="host.network != 'DMZ'"
+      [deletable]="host.network !== 'DMZ'"
       (dragover)="$event.preventDefault()"
       (drop)="virtualMachineDrop.emit({event:$event, virtualMachine})"
       (serviceDragStart)="serviceDragStart.emit({

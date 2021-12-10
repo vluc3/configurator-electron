@@ -4,16 +4,20 @@ import {Service} from "../model/service";
 import {
   dhcpDnsService,
   ejbcaService,
-  ipSecService,
+  elkService,
+  ldapService,
   mailService,
+  nagiosService,
+  nrpeService,
   ntpService,
-  openVpnService,
   repoService,
-  toipWebUiService
+  toipWebUiService,
+  openVpnService,
+  ipSecService, proxyService
 } from "../utils/data";
 import {ElectronService} from "./electron.service";
 import {Project} from "../../home/new-project/new-project.component";
-import hosts from "../data/hosts.json";
+import hosts from "../data/hosts";
 import {APP_CONFIG} from "../../../environments/environment";
 import {Observable, Subject} from "rxjs";
 import {clone, getProjectFolder} from "../utils/utils";
@@ -67,10 +71,11 @@ export class StateService {
       if (!this.electronService.fs.existsSync(projectFolder)) {
         this.electronService.fs.mkdirSync(projectFolder, {recursive: true});
       }
-      const projectFile = `${projectFolder}${this.current.name}.json`;
-      if (this.electronService.fs.existsSync(projectFile)) {
-        return;
-      }
+      // TODO move to create project
+      // const projectFile = `${projectFolder}${this.current.name}.json`;
+      //       // if (this.electronService.fs.existsSync(projectFile)) {
+      //       //   return;
+      //       // }
       const storeText = JSON.stringify(this.current);
       this.electronService.fs.writeFile(`${projectFolder}${this.current.name}.json`, storeText, (err: NodeJS.ErrnoException) => {
         console.error(err);
@@ -112,7 +117,12 @@ export class StateService {
       ejbcaService,
       openVpnService,
       ipSecService,
-      repoService
+      repoService,
+      nrpeService,
+      nagiosService,
+      elkService,
+      ldapService,
+      proxyService
     };
     this.current = {
       name: project.name,
@@ -167,7 +177,7 @@ export class StateService {
   }
 }
 
-interface Store {
+export interface Store {
   name: string;
   hosts: Host[],
   firewall: Firewall,

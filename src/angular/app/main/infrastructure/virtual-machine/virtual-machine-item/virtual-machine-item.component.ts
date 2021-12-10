@@ -6,6 +6,8 @@ import {StateService} from "../../../../common/service/state.service";
 import {NewVirtualMachineComponent} from "../new-virtual-machine/new-virtual-machine.component";
 import {clone} from "../../../../common/utils/utils";
 import {TranslateService} from "@ngx-translate/core";
+import {Host} from "../../../../common/model/host";
+import {nrpeService} from "../../../../common/utils/data";
 
 @Component({
   selector: 'div[virtualMachineItem]',
@@ -18,6 +20,7 @@ export class VirtualMachineItemComponent implements OnInit {
   @HostBinding('class') clazz = 'virtual-machine-item';
 
   @Input() virtualMachine: VirtualMachine;
+  @Input() host: Host;
   @Input() deletable = true;
   @Output() serviceDragStart = new EventEmitter<{ service: Service, event: DragEvent }>();
   @Output() onDelete = new EventEmitter<VirtualMachine>();
@@ -46,6 +49,24 @@ export class VirtualMachineItemComponent implements OnInit {
     });
   }
 
+  clone() {
+    const vm = clone(this.virtualMachine);
+    vm.ip = vm.ip.substring(0, vm.ip.lastIndexOf("."));
+    vm.name = "";
+    vm.services = [{...nrpeService}];
+    this.modalService.open<VirtualMachine>({
+      title: "Vms & Services",
+      component: NewVirtualMachineComponent,
+      data: vm,
+      width: 800
+    }).subscribe(close => {
+      if (!close.cancel && close.data) {
+        this.host.virtualMachines.push(close.data)
+        this.stateService.save();
+      }
+    });
+  }
+
   delete() {
     this.modalService.open({
       title: 'VM_REMOVAL_TITLE',
@@ -61,7 +82,9 @@ export class VirtualMachineItemComponent implements OnInit {
     const index = this.virtualMachine.services.indexOf(service);
     if (index !== -1) {
       this.virtualMachine.services.splice(index, 1);
-      this.stateService.getCurrent().serviceKeys.push(service);
+      if (!service.replicable) {
+        this.stateService.getCurrent().serviceKeys.push(service);
+      }
       this.stateService.save();
     }
   }
