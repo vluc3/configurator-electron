@@ -96,29 +96,6 @@ export function isMaskValid(mask: string): boolean {
   if (!isIpValid(mask)) {
     return false;
   }
-  // let d = 24;
-  // let maskValue = 0;
-  // const parts = mask.split(".");
-  // for (let i = 0; i < parts.length; i++) {
-  //   let n = parseInt(parts[i]);
-  //   if (n !== (n & 0xff)) {
-  //     return false;
-  //   }
-  //   maskValue += n << d;
-  //   d -= 8;
-  // }
-  // let pattern = 1;
-  // let ctr = 0;
-  // let find = false;
-  // for (let i = 0; i < 32; i++) {
-  //   if ((maskValue & pattern) !== 0) {
-  //     ctr++;
-  //     find = true;
-  //   } else if (find) {
-  //     return false;
-  //   }
-  //   pattern <<= 1;
-  // }
   return getShort(mask) !== -1;
 }
 
@@ -176,4 +153,13 @@ export function getProjectFolder(): string {
     projectFolder = './release/project/';
   }
   return projectFolder;
+}
+
+
+export function jsonStringify<T>(object: T, ignore?: (c: T) => void) {
+  const c = clone(object);
+  if (ignore) {
+    ignore(c);
+  }
+  return JSON.stringify(c);
 }

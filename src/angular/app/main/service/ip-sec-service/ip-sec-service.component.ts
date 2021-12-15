@@ -1,11 +1,10 @@
-import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, HostBinding, ViewEncapsulation} from '@angular/core';
 import {IpSecService, Option} from "../../../common/model/ip-sec-service";
 import {ServiceComponent} from "../abstract/service.component";
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
 import {clone, ipValidator} from "../../../common/utils/utils";
-import {OpenVpnService} from "../../../common/model/open-vpn-service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -54,6 +53,7 @@ export class IpSecServiceComponent extends ServiceComponent {
   }
 
   onOptionChange(event: Event, option: Option) {
-    option.enabled = (event.target as HTMLInputElement).checked
+    option.enabled = (event.target as HTMLInputElement).checked;
+    this.save();
   }
 }

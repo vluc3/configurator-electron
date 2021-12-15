@@ -25,7 +25,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="services.length > 0" class="service">
+<div *ngIf="serviceIds.length > 0" class="service">
   <div class="card card-hover-shadow-2x mb-3">
     <div class="card-header">
       <div class="title">
@@ -37,11 +37,11 @@
       <ul class="items list-group list-group-flush">
         <div
           virtualMachineItemService
-          *ngFor="let service of services"
+          *ngFor="let serviceId of serviceIds"
           class="item list-group-item"
-          [service]="service"
+          [serviceId]="serviceId"
           [draggable]="true"
-          (dragstart)="dragstart($event, service)"
+          (dragstart)="dragstart($event, serviceId)"
         >
         </div>
       </ul>

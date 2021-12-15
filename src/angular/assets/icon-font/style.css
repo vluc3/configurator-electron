@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'configurator';
-  src:  url('fonts/configurator.eot?9lnbf9');
-  src:  url('fonts/configurator.eot?9lnbf9#iefix') format('embedded-opentype'),
-    url('fonts/configurator.ttf?9lnbf9') format('truetype'),
-    url('fonts/configurator.woff?9lnbf9') format('woff'),
-    url('fonts/configurator.svg?9lnbf9#configurator') format('svg');
+  src:  url('fonts/configurator.eot?p13qlz');
+  src:  url('fonts/configurator.eot?p13qlz#iefix') format('embedded-opentype'),
+    url('fonts/configurator.ttf?p13qlz') format('truetype'),
+    url('fonts/configurator.woff?p13qlz') format('woff'),
+    url('fonts/configurator.svg?p13qlz#configurator') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,18 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.cfg-ldap:before {
+  content: "\e923";
+}
+.cfg-elastic:before {
+  content: "\e924";
+}
+.cfg-nagios:before {
+  content: "\e925";
+}
+.cfg-nrpe:before {
+  content: "\e926";
+}
 .cfg-proxy:before {
   content: "\e922";
 }

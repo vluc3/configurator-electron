@@ -41,6 +41,7 @@ export class ModalComponent<T> extends SubscriberComponent implements OnInit {
 
         this.modal = new bootstrap.Modal(this.modalDiv.nativeElement, {});
         this.modal.show();
+        this.changeDetectorRef.detectChanges();
       });
     this.modalService.modalClose$
       .pipe(takeUntil(this.unsubscribe$))

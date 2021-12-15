@@ -26,6 +26,9 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
 
   ngAfterViewInit(): void {
 
+    /**
+     * Register icons that not exists in ui toolkit
+     */
     nx.graphic.Icons.registerFontIcon("cfg-globe", "configurator", "\ue903", 32);
     nx.graphic.Icons.registerFontIcon("cfg-network-time", "configurator", "\ue909", 32);
     nx.graphic.Icons.registerFontIcon("cfg-envelope", "configurator", "\ue908", 32);
@@ -33,6 +36,12 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
     nx.graphic.Icons.registerFontIcon("cfg-file-certificate", "configurator", "\ue906", 32);
     nx.graphic.Icons.registerFontIcon("cfg-openvpn", "configurator", "\ue905", 32);
     nx.graphic.Icons.registerFontIcon("cfg-ip-lock", "configurator", "\ue904", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-ldap", "configurator", "\ue923", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-nrpe", "configurator", "\ue926", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-elastic", "configurator", "\ue924", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-debian-repo", "configurator", "\ue921", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-proxy", "configurator", "\ue922", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-nagios", "configurator", "\ue925", 32);
 
     const nodes = [{
       id: 0,
@@ -72,7 +81,8 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
 
     const nodeSet = [];
     let nodesLength = 1;
-    const hosts = this.stateService.getCurrent().hosts;
+    const store = this.stateService.getCurrent();
+    const hosts = store.hosts;
     const dmzHosts = hosts.filter(host => {
       nodesLength += host.virtualMachines.length;
       return host.network === Network.DMZ;
@@ -108,14 +118,14 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
           id++;
           const t = 2 * Math.PI / vm.services.length;
           const r = 40;
-          vm.services.forEach((service, index) => {
+          vm.services.forEach((serviceId, index) => {
             let nX = nodeX + r * Math.cos(index * t - Math.PI / 2);
             let nY = nodeY + r * Math.sin(index * t - Math.PI / 2);
             sNodes.push(id);
             nodes.push({
               id,
-              name: `Service - ${service.name}`,
-              device_type: service.icon,
+              name: `Service - ${store.services[serviceId].name}`,
+              device_type: store.services[serviceId].icon,
               color: "red",
               fixed: true,
               x: nX,
@@ -191,56 +201,5 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
 
     // bind the topology object to the app
     topology.attach(app);
-  }
-}
-
-// const drawMethod = (model, link) => {
-//   console.log(model, link);
-//   var _offset = link.getOffset();
-//   // @ts-ignore
-//   var offset = new nx.geometry.Vector(0, _offset);
-//   var width = (link._width || 1) * (link._stageScale || 1);
-//   var line = link.reverse() ? link.line().negate() : link.line();
-//   var d;
-//   var pathEL = link.view('path');
-//   var lineEl = link.view('line');
-//   var lineBGEl = link.view('line_bg');
-//
-//   var path = [];
-//   var n, point;
-//   n = line.normal().multiply(_offset * 3);
-//   point = line.center().add(n);
-//   path.push('M', line.start.x, line.start.y);
-//   path.push('Q', point.x, point.y, line.end.x, line.end.y);
-//   d = path.join(' ');
-//
-//   return d;
-// }
-
-declare namespace nx {
-
-}
-
-declare namespace nx.ui {
-  class Application {
-    container(element: HTMLElement): void;
-  }
-}
-
-declare namespace nx.graphic {
-  class Topology {
-    constructor(data: any);
-
-    data(data: any): void;
-
-    attach(app: nx.ui.Application): void;
-
-    getLayer(groups: string): any;
-  }
-
-  class Icons {
-    static registerIcon(name: string, url: string, width: number, height: number): void;
-
-    static registerFontIcon(name: string, fontfamily: string, fontCharacter: string, fontSize: number): void;
   }
 }

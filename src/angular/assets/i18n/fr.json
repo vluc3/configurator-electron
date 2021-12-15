@@ -5,6 +5,8 @@
   "REMOVE": "Supprimer",
   "DUPLICATE": "Dupliquer",
   "VALIDATE": "Valider",
+  "YES": "Oui",
+  "NO": "Non",
   "ADD": "Ajouter",
   "EDIT": "Modifier",
   "HOST_LIST": "Liste des Hôtes",
@@ -55,7 +57,9 @@
   },
   "NEW_PROJECT": {
     "NEW_PROJECT": "Nouveau projet",
-    "DUPLICATE_PROJECT": "Dupliquer le projet {{name}}"
+    "DUPLICATE_PROJECT": "Dupliquer le projet {{name}}",
+    "WARNING": "Attention",
+    "CHANGES_NOT_SAVED": "Vos modifications n'ont pas été sauvegardées, voulez vous les sauvegarder avant de fermer l'application?"
   },
   "INFRASTRUCTURE": {
     "HOST": {

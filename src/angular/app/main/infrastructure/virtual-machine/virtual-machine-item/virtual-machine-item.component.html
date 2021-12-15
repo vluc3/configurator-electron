@@ -10,8 +10,8 @@
         <span><i class="cfg-pen"></i></span>
         <span class="px-1">{{ 'EDIT' | translate }}</span>
       </li>
-      <li class="dropdown-menu-item px-1 py-1" (click)="clone()">
-        <span><i class="cfg-pen"></i></span>
+      <li *ngIf="host.network !== 'DMZ'" class="dropdown-menu-item px-1 py-1" (click)="clone()">
+        <span><i class="cfg-clone"></i></span>
         <span class="px-1">{{ 'CLONE' | translate }}</span>
       </li>
       <li *ngIf="deletable">
@@ -25,16 +25,14 @@
   </div>
 </div>
 <div class="virtual-machine-item-body">
-  <!--  <span>{{virtualMachine.mask}}</span>-->
-  <!--  <span *ngIf="virtualMachine.gateway">{{virtualMachine.gateway}}</span>-->
   <div class="virtual-machine-item-services">
     <div
-      *ngFor="let service of virtualMachine.services"
+      *ngFor="let serviceId of virtualMachine.services"
       virtualMachineItemService
-      [service]="service"
+      [serviceId]="serviceId"
       [deletable]="deletable"
       [draggable]="true"
-      (dragstart)="serviceDragStart.emit({event: $event, service})"
+      (dragstart)="serviceDragStart.emit({event: $event, serviceId: serviceId})"
       (onDelete)="onServiceDelete($event)"
     >
     </div>

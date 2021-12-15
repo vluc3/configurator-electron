@@ -1,4 +1,4 @@
-import {app, BrowserWindow, screen, webContents} from 'electron';
+import {app, BrowserWindow, ipcMain, screen} from 'electron';
 // import {app, BrowserWindow, screen, webContents} from '@electron/remote';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -9,6 +9,7 @@ require('@electron/remote/main').initialize();
 let browserWindow: BrowserWindow = null;
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
+let canClose = false;
 
 function createWindow(): BrowserWindow {
 
@@ -61,6 +62,19 @@ function createWindow(): BrowserWindow {
   });
 
   require('@electron/remote/main').enable(browserWindow.webContents);
+
+  browserWindow.on("close", event => {
+    if (canClose) {
+      return;
+    }
+    // check if we can close app in the renderer
+    event.preventDefault();
+    browserWindow.webContents.send("want:close");
+    ipcMain.on("can:close", (e) => {
+      canClose = true;
+      app.quit();
+    });
+  });
 
   return browserWindow;
 }

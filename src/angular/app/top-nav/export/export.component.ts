@@ -22,9 +22,6 @@ export class ExportComponent implements ModalBody<any>, OnInit {
   formGroup: FormGroup;
   dataValidate = new EventEmitter<{ valid: boolean, data?: { password: string } }>();
 
-  constructor() {
-  }
-
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       password: new FormControl(this.data.password, [Validators.required]),

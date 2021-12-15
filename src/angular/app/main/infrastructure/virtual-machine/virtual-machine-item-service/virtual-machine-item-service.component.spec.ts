@@ -20,9 +20,10 @@ describe('VirtualMachineItemServiceComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VirtualMachineItemServiceComponent);
     component = fixture.componentInstance;
-    component.service = {
+    component.serviceId = {
       name: "",
-      icon: ""
+      icon: "",
+      services: []
     };
     fixture.detectChanges();
   });

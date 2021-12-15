@@ -7,7 +7,7 @@ import {NewVirtualMachineComponent} from "../new-virtual-machine/new-virtual-mac
 import {clone} from "../../../../common/utils/utils";
 import {TranslateService} from "@ngx-translate/core";
 import {Host} from "../../../../common/model/host";
-import {nrpeService} from "../../../../common/utils/data";
+import {nrpeService} from "../../../../common/data/defaults";
 
 @Component({
   selector: 'div[virtualMachineItem]',
@@ -22,7 +22,10 @@ export class VirtualMachineItemComponent implements OnInit {
   @Input() virtualMachine: VirtualMachine;
   @Input() host: Host;
   @Input() deletable = true;
-  @Output() serviceDragStart = new EventEmitter<{ service: Service, event: DragEvent }>();
+  /**
+   * Output to propagate service drag start event
+   */
+  @Output() serviceDragStart = new EventEmitter<{ serviceId: string, event: DragEvent }>();
   @Output() onDelete = new EventEmitter<VirtualMachine>();
 
   constructor(
@@ -53,7 +56,7 @@ export class VirtualMachineItemComponent implements OnInit {
     const vm = clone(this.virtualMachine);
     vm.ip = vm.ip.substring(0, vm.ip.lastIndexOf("."));
     vm.name = "";
-    vm.services = [{...nrpeService}];
+    vm.services = [nrpeService.id];
     this.modalService.open<VirtualMachine>({
       title: "Vms & Services",
       component: NewVirtualMachineComponent,
@@ -78,12 +81,13 @@ export class VirtualMachineItemComponent implements OnInit {
     });
   }
 
-  onServiceDelete(service: Service) {
-    const index = this.virtualMachine.services.indexOf(service);
+  onServiceDelete(serviceId: string) {
+    const index = this.virtualMachine.services.indexOf(serviceId);
     if (index !== -1) {
       this.virtualMachine.services.splice(index, 1);
-      if (!service.replicable) {
-        this.stateService.getCurrent().serviceKeys.push(service);
+      const isReplicable = this.stateService.getService(serviceId).replicable;
+      if (!isReplicable) {
+        this.stateService.getCurrent().serviceKeys.push(serviceId);
       }
       this.stateService.save();
     }

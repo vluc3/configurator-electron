@@ -41,7 +41,7 @@ export abstract class ServiceComponent implements OnInit {
     });
   }
 
-  save() {
+  protected save() {
     this.copyFromFormGroup();
     this.stateService.setService(this.key, this.service);
   }
@@ -51,7 +51,8 @@ export abstract class ServiceComponent implements OnInit {
   }
 
   private initValid() {
-    this.formGroup.statusChanges.subscribe(status => {
+    this.formGroup.statusChanges
+      .subscribe(status => {
       if (status === 'VALID') {
         this.save();
       }

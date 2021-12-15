@@ -10,7 +10,7 @@
     <ul class="nav flex-column">
       <li
         *ngFor="let item of item.items"
-        [class.active]="isActive(item)"
+        [class.active]="isActive(item.link)"
         class="nav-item"
       >
         <a

@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./side-nav.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SideNavComponent implements OnInit {
+export class SideNavComponent {
 
   @HostBinding("class") clazz = "side-nav bg-dark text-white";
 
@@ -71,18 +71,11 @@ export class SideNavComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-  }
-
   get projectName(): string {
     return this.stateService.getCurrent().name;
   }
 
-  isActive(link: Link): boolean {
-    return `/${link.link}` === this.router.url;
+  isActive(link: string): boolean {
+    return `/${link}` === this.router.url;
   }
-}
-
-interface Link extends Service {
-  link: string;
 }

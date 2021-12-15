@@ -5,10 +5,10 @@ import {ToipWebUiService} from "../model/toip-web-ui-service";
 import {EjbcaService} from "../model/ejbca-service";
 import {OpenVpnService} from "../model/open-vpn-service";
 import {IpSecService} from "../model/ip-sec-service";
-import encryptionAlgorithms from "../data/encryptionAlgorithms.json";
-import pseudoRandomFunctions from "../data/pseudoRandomFunctions.json";
-import integrity from "../data/integrity.json";
-import diffieHellman from "../data/diffieHellman.json";
+import encryptionAlgorithms from "./encryption-algorithms";
+import pseudoRandomFunctions from "./pseudo-random-functions";
+import integrity from "./integrity";
+import diffieHellman from "./diffie-hellman";
 import {RepoService} from "../model/repo-service";
 import {ProxyService} from "../model/proxy-service";
 import {NrpeService} from "../model/nrpe-service";
@@ -16,6 +16,7 @@ import {NagiosService} from "../model/nagios-service";
 import {Service} from "../model/service";
 
 export const dhcpDnsService: DhcpDnsService = {
+  id: "dhcpDnsService",
   name: 'DNS/DHCP',
   icon: 'cfg-globe',
   domainName: 'smv-telecom.sl',
@@ -28,6 +29,7 @@ export const dhcpDnsService: DhcpDnsService = {
 };
 
 export const ntpService: NtpService = {
+  id: "ntpService",
   name: 'NTP',
   icon: 'cfg-network-time',
   defaultNtpServers: ['0.fr.pool.ntp.org', '1.fr.pool.ntp.org', '2.fr.pool.ntp.org', '3.fr.pool.ntp.org'],
@@ -35,6 +37,7 @@ export const ntpService: NtpService = {
 };
 
 export const mailService: MailService = {
+  id: "mailService",
   name: 'Mails',
   icon: 'cfg-envelope',
   domainName: 'smv-telecom.sl',
@@ -47,6 +50,7 @@ export const mailService: MailService = {
 };
 
 export const toipWebUiService: ToipWebUiService = {
+  id: "toipWebUiService",
   name: 'TOIP/Web UI',
   icon: 'cfg-phone-office',
   domainName: 'smv-telecom.sl',
@@ -60,6 +64,7 @@ export const toipWebUiService: ToipWebUiService = {
 };
 
 export const ejbcaService: EjbcaService = {
+  id: "ejbcaService",
   name: 'EJBCA',
   icon: 'cfg-file-certificate',
   country: 'FR',
@@ -73,6 +78,7 @@ export const ejbcaService: EjbcaService = {
 };
 
 export const openVpnService: OpenVpnService = {
+  id: "openVpnService",
   name: 'OpenVPN',
   icon: 'cfg-openvpn',
   ip: '192.168.40.150',
@@ -84,9 +90,11 @@ export const openVpnService: OpenVpnService = {
 };
 
 export const ipSecService: IpSecService = {
+  id: "ipSecService",
   name: 'IPSec',
   icon: 'cfg-ip-lock',
   ip: '192.168.40.151',
+  notDeployable: true,
   clientInPort: 4500,
   vpnClientNetwork: '192.168.43.0',
   authenticationDuration: 1800,
@@ -99,18 +107,21 @@ export const ipSecService: IpSecService = {
 };
 
 export const repoService: RepoService = {
+  id: "repoService",
   name: "Repo",
   icon: "cfg-debian-repo",
   services: ["repo"]
 };
 
 export const proxyService: ProxyService = {
+  id: "proxyService",
   name: "Proxy",
   icon: "cfg-proxy",
   services: ["proxies", "sbc"]
 };
 
 export const nrpeService: NrpeService = {
+  id: "nrpeService",
   name: "Nrpe",
   icon: "cfg-nrpe",
   services: ["nrpe"],
@@ -118,18 +129,21 @@ export const nrpeService: NrpeService = {
 };
 
 export const nagiosService: NagiosService = {
+  id: "nagiosService",
   name: "Nagios",
   icon: "cfg-nagios",
   services: ["nagios"]
 }
 
 export const elkService: Service = {
+  id: "elkService",
   name: "Elk",
-  icon: "cfg-elk",
+  icon: "cfg-elastic",
   services: ["kibana", "elasticsearch"]
 }
 
 export const ldapService: Service = {
+  id: "ldapService",
   name: "Ldap",
   icon: "cfg-ldap",
   services: ["ldap"]

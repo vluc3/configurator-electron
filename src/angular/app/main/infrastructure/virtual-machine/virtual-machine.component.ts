@@ -2,7 +2,6 @@ import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
 import {StateService} from "../../../common/service/state.service";
 import {Host} from "../../../common/model/host";
 import {ModalService} from "../../../common/component/modal/modal.service";
-import {Service} from "../../../common/model/service";
 import {Network} from "../../../common/model/network";
 import {ServiceDragInfo} from "../../../common/model/service-drag-info";
 import {ServiceDropInfo} from "../../../common/model/service-drop-info";
@@ -19,7 +18,7 @@ export class VirtualMachineComponent implements OnInit {
 
   hosts: Host[];
 
-  services: Service[];
+  serviceIds: string[];
 
   networks: Network[] = [Network.EXPLOITATION, Network.DMZ];
 
@@ -31,7 +30,7 @@ export class VirtualMachineComponent implements OnInit {
 
   ngOnInit(): void {
     this.hosts = this.stateService.getCurrent().hosts;
-    this.services = this.stateService.getCurrent().serviceKeys;
+    this.serviceIds = this.stateService.getCurrent().serviceKeys;
   }
 
   getHosts(network: Network): Host[] {
@@ -45,55 +44,41 @@ export class VirtualMachineComponent implements OnInit {
     const hostIndex = this.hosts.indexOf(host);
     const vmIndex = host.virtualMachines.indexOf(serviceDragInfo.virtualMachine);
     serviceDragInfo.event.dataTransfer?.setData("position", `${hostIndex}-${vmIndex}`);
-    serviceDragInfo.event.dataTransfer?.setData("serviceName", serviceDragInfo.service.name);
+    serviceDragInfo.event.dataTransfer?.setData("serviceId", serviceDragInfo.serviceId);
   }
 
-  dragstart(event: DragEvent, service: Service): void {
-    event?.dataTransfer?.setData("serviceName", service.name);
+  dragstart(event: DragEvent, serviceId: string): void {
+    event?.dataTransfer?.setData("serviceId", serviceId);
   }
 
-  drop(event: DragEvent) {
-    event.preventDefault();
-    const serviceName = event?.dataTransfer?.getData("serviceName");
-    if (serviceName) {
-      const position = event?.dataTransfer?.getData("position");
-      if (position) {
-        const p = position.split('-');
-        const hostIndex = Number(p[0]);
-        const vmIndex = Number(p[1]);
-        const index = this.hosts[hostIndex].virtualMachines[vmIndex].services.findIndex(s => s.name === serviceName);
-        if (index !== -1) {
-          const service = this.hosts[hostIndex].virtualMachines[vmIndex].services[index];
-          if (!service.replicable) {
-            this.services.push(service);
-          }
-          this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
-        }
-      }
-      // this.stateService.save();
-    }
-  }
-
+  /**
+   *
+   * @param event
+   * @param network
+   */
   virtualMachineDrop(event: ServiceDropInfo, network: Network) {
 
     event.event.preventDefault();
+    // Deactivate temporally for DMZ network
     if (network === Network.DMZ) {
       return;
     }
-    const serviceName = event.event.dataTransfer?.getData("serviceName");
-    if (serviceName) {
+    const serviceId = event.event.dataTransfer?.getData("serviceId");
+    if (serviceId) {
       const position = event.event.dataTransfer?.getData("position");
-      if (position) { // Drag & Drop from another VM
+      if (position) {
+        // Drag & Drop from another VM
         const p = position.split('-');
         const hostIndex = Number(p[0]);
         const vmIndex = Number(p[1]);
-        const index = this.hosts[hostIndex].virtualMachines[vmIndex].services.findIndex(s => s.name === serviceName);
+        const index = this.hosts[hostIndex].virtualMachines[vmIndex].services.findIndex(id => id === serviceId);
         if (index !== -1) {
           const service = this.hosts[hostIndex].virtualMachines[vmIndex].services[index];
           if (event.virtualMachine) {
-            if (service.replicable) {
-              if (event.virtualMachine.services.findIndex(s => s.name === serviceName) === -1) {
-                event.virtualMachine.services?.push({...service});
+            const isReplicable = this.stateService.getService(service).replicable;
+            if (isReplicable) {
+              if (event.virtualMachine.services.findIndex(id => id === serviceId) === -1) {
+                event.virtualMachine.services?.push(service);
                 this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
               } else {
                 // TODO dialog error
@@ -104,19 +89,21 @@ export class VirtualMachineComponent implements OnInit {
             }
           }
         }
-      } else { // Drag & Drop from services right list
-        const index = this.services.findIndex(s => s.name === serviceName);
+      } else {
+        // Drag & Drop from services right list
+        const index = this.serviceIds.findIndex(id => id === serviceId);
         if (index !== -1) {
-          const service = this.services[index];
-          if (service.replicable) {
-            if (event.virtualMachine.services.findIndex(s => s.name === serviceName) === -1) {
-              event.virtualMachine.services?.push({...service});
+          const service = this.serviceIds[index];
+          const isReplicable = this.stateService.getService(service).replicable;
+          if (isReplicable) {
+            if (event.virtualMachine.services.findIndex(id => id === serviceId) === -1) {
+              event.virtualMachine.services?.push(service);
             } else {
               // TODO dialog error
             }
           } else {
             event.virtualMachine?.services?.push(service);
-            this.services.splice(index, 1);
+            this.serviceIds.splice(index, 1);
           }
         }
       }

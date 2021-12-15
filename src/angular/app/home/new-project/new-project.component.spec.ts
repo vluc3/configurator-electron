@@ -20,8 +20,7 @@ describe("NewProjectComponent", () => {
     fixture = TestBed.createComponent(NewProjectComponent);
     component = fixture.componentInstance;
     component.data = {
-      name: "",
-      file: ""
+      name: "test"
     };
     fixture.detectChanges();
   });

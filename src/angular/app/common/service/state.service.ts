@@ -5,23 +5,26 @@ import {
   dhcpDnsService,
   ejbcaService,
   elkService,
+  ipSecService,
   ldapService,
   mailService,
   nagiosService,
   nrpeService,
   ntpService,
-  repoService,
-  toipWebUiService,
   openVpnService,
-  ipSecService, proxyService
-} from "../utils/data";
+  proxyService,
+  repoService,
+  toipWebUiService
+} from "../data/defaults";
 import {ElectronService} from "./electron.service";
 import {Project} from "../../home/new-project/new-project.component";
 import hosts from "../data/hosts";
 import {APP_CONFIG} from "../../../environments/environment";
 import {Observable, Subject} from "rxjs";
-import {clone, getProjectFolder} from "../utils/utils";
+import {clone, getProjectFolder, jsonStringify} from "../utils/utils";
 import {Firewall} from "../model/firewall";
+import {ModalService} from "../component/modal/modal.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +38,22 @@ export class StateService {
 
   private current: Store = null;
 
+  private readonly services = {
+    dhcpDnsService,
+    ntpService,
+    mailService,
+    toipWebUiService,
+    ejbcaService,
+    openVpnService,
+    ipSecService,
+    repoService,
+    nrpeService,
+    nagiosService,
+    elkService,
+    ldapService,
+    proxyService
+  };
+
   private currentChange = new Subject();
 
   public get currentChange$(): Observable<any> {
@@ -42,9 +61,33 @@ export class StateService {
   }
 
   constructor(
-    private electronService: ElectronService
+    private electronService: ElectronService,
+    private modalService: ModalService,
+    private translateService: TranslateService
   ) {
-    if (!this.electronService.isElectron) {
+    if (this.electronService.isElectron) {
+      this.electronService.ipcRenderer.on("want:close", (event) => {
+        if (this.isNotSaved()) {
+          this.modalService.open({
+            title: "NEW_PROJECT.WARNING",
+            html: `<p class="text-danger">${this.translateService.instant("NEW_PROJECT.CHANGES_NOT_SAVED")}</p>`,
+            btnText: {
+              validate: "YES",
+              cancel: "NO"
+            }
+          }).subscribe(result => {
+            if (result.cancel) {
+              this.electronService.ipcRenderer.send("can:close");
+              return;
+            }
+            this.save();
+            this.electronService.ipcRenderer.send("can:close");
+          });
+        } else {
+          this.electronService.ipcRenderer.send("can:close");
+        }
+      });
+    } else if (!APP_CONFIG.production) {
       const currentText = localStorage.getItem(StateService.CONFIGURATOR_CURRENT_PROJECT_STORE);
       if (currentText) {
         this.current = JSON.parse(currentText);
@@ -58,12 +101,12 @@ export class StateService {
 
   setService(key: string, service: Service): void {
     this.current.services[key] = service;
-    // this.save();
   }
 
   getCurrent(): Store {
     return this.current;
   }
+
 
   save(): void {
     if (this.electronService.isElectron) {
@@ -76,10 +119,8 @@ export class StateService {
       //       // if (this.electronService.fs.existsSync(projectFile)) {
       //       //   return;
       //       // }
-      const storeText = JSON.stringify(this.current);
-      this.electronService.fs.writeFile(`${projectFolder}${this.current.name}.json`, storeText, (err: NodeJS.ErrnoException) => {
-        console.error(err);
-      });
+      const storeText = this.serialize(this.current);
+      this.writeProjectFile(this.current.name, storeText)
     } else if (!APP_CONFIG.production) {
       let projectStores: Record<string, Store> = {};
       const projectStoresText = localStorage.getItem(StateService.CONFIGURATOR_PROJECTS_STORES);
@@ -100,30 +141,15 @@ export class StateService {
         return false;
       }
       if (project.duplicate) {
-        const data = this.electronService.fs.readFileSync(`${getProjectFolder()}${project.duplicate}.json`, "utf8");
-        const store: Store = JSON.parse(data.toString());
+        const data = this.readProjectFile(project.duplicate);
+        const store: Store = this.deserialize(data.toString());
         store.name = project.name;
-        const storeText = JSON.stringify(store);
-        this.electronService.fs.writeFileSync(`${projectFolder}${store.name}.json`, storeText);
+        const storeText = this.serialize(store);
+        this.writeProjectFile(store.name, storeText);
         this.setProject(project);
         return true;
       }
     }
-    const services = {
-      dhcpDnsService,
-      ntpService,
-      mailService,
-      toipWebUiService,
-      ejbcaService,
-      openVpnService,
-      ipSecService,
-      repoService,
-      nrpeService,
-      nagiosService,
-      elkService,
-      ldapService,
-      proxyService
-    };
     this.current = {
       name: project.name,
       hosts: clone(hosts) as Host[],
@@ -132,8 +158,8 @@ export class StateService {
         dmzIp: "192.168.40.100",
         exploitationIp: "192.168.223.254"
       },
-      services,
-      serviceKeys: Object.keys(services).map(key => services[key])
+      services: clone(this.services),
+      serviceKeys: this.getServiceKeys(hosts)
     };
     this.save();
     this.currentChange.next();
@@ -142,17 +168,11 @@ export class StateService {
 
   setProject(project: Project) {
     if (this.electronService.isElectron) {
-      this.electronService.fs.readFile(`${getProjectFolder()}${project.name}.json`, "utf8", (err, data) => {
-        if (err) {
-          console.error(err);
-        } else {
-          const storeText = data.toString();
-          if (storeText) {
-            this.current = JSON.parse(storeText);
-            this.currentChange.next();
-          }
-        }
-      });
+      const storeText = this.readProjectFile(project.name);
+      if (storeText) {
+        this.current = this.deserialize(storeText);
+        this.currentChange.next();
+      }
     } else if (!APP_CONFIG.production) {
       const projectStoresText = localStorage.getItem("CONFIGURATOR_PROJECTS_STORES");
       if (projectStoresText) {
@@ -162,6 +182,27 @@ export class StateService {
         this.currentChange.next();
       }
     }
+  }
+
+  private getServiceKeys(hosts: Host[]): string[] {
+    return Object.keys(this.services).map(key => this.services[key].id).filter(id => {
+      if (this.services[id].notDeployable) {
+        return false;
+      }
+      if (this.services[id].replicable) {
+        return true;
+      }
+      for (let i = 0; i < hosts.length; i++) {
+        const host = hosts[i];
+        for (let j = 0; j < host.virtualMachines.length; j++) {
+          const virtualMachine = host.virtualMachines[j];
+          if (virtualMachine.services.indexOf(id) !== -1) {
+            return false;
+          }
+        }
+      }
+      return true;
+    })
   }
 
   removeProject(project: Project) {
@@ -175,6 +216,52 @@ export class StateService {
     }
     return false;
   }
+
+  private serialize(store: Store): string {
+    return jsonStringify(store, clone => {
+      for (const key in clone.services) {
+        delete clone.services[key].icon;
+        delete clone.services[key].replicable;
+        delete clone.services[key].notDeployable;
+        delete clone.services[key].name;
+        delete clone.services[key].services;
+        delete clone.serviceKeys;
+      }
+    });
+  }
+
+  private deserialize(serialized: string): Store {
+    const store: Store = JSON.parse(serialized);
+    for (const key in this.services) {
+      const defaultService = this.services[key];
+      if (defaultService) {
+        store.services[key].name = defaultService.name;
+        store.services[key].icon = defaultService.icon;
+        store.services[key].replicable = defaultService.replicable;
+        store.services[key].notDeployable = defaultService.notDeployable;
+        store.services[key].services = defaultService.services;
+      }
+    }
+    store.serviceKeys = this.getServiceKeys(store.hosts);
+    return store;
+  }
+
+  private readProjectFile(projectName: string): string {
+    return this.electronService.fs.readFileSync(`${getProjectFolder()}${projectName}.json`, "utf8");
+  }
+
+  private writeProjectFile(projectName: string, data: string) {
+    this.electronService.fs.writeFileSync(`${getProjectFolder()}${projectName}.json`, data);
+  }
+
+  private isNotSaved(): boolean {
+    if (this.current) {
+      const saved = this.readProjectFile(this.current.name);
+      const current = this.serialize(this.current);
+      return saved !== current;
+    }
+    return false;
+  }
 }
 
 export interface Store {
@@ -182,5 +269,5 @@ export interface Store {
   hosts: Host[],
   firewall: Firewall,
   services: Record<string, Service>;
-  serviceKeys: Service[];
+  serviceKeys: string[];
 }

@@ -1,0 +1,31 @@
+import {Option} from "../model/ip-sec-service";
+
+const pseudoRandomFunctions: Option[] = [
+  {
+    name: "PRF_HMAC_SHA2_256",
+    enabled: true,
+    value: `<transform type="PRF">PRF_HMAC_SHA2_256</transform>`
+  },
+  {
+    name: "PRF_HMAC_SHA2_384",
+    enabled: false,
+    value: `<transform type="PRF">PRF_HMAC_SHA2_384</transform>`
+  },
+  {
+    name: "PRF_HMAC_SHA2_512",
+    enabled: false,
+    value: `<transform type="PRF">PRF_HMAC_SHA2_512</transform>`
+  },
+  {
+    name: "PRF_HMAC_SHA1",
+    enabled: false,
+    value: `<transform type="PRF">PRF_HMAC_SHA1</transform>`
+  },
+  {
+    name: "PRF_MD5_128",
+    enabled: false,
+    value: `<transform type="PRF">PRF_HMAC_MD5</transform>`
+  }
+];
+
+export default pseudoRandomFunctions;

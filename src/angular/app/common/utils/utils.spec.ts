@@ -7,7 +7,7 @@ import {
   ntpService,
   openVpnService,
   toipWebUiService
-} from "./data";
+} from "../data/defaults";
 import hosts from "../data/hosts";
 import {Host} from "../model/host";
 import {Subject} from "rxjs";

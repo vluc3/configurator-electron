@@ -7,7 +7,7 @@ import {StateService} from "../../../../common/service/state.service";
 import {NewHostComponent} from "../../host-list/new-host/new-host.component";
 import {clone} from "../../../../common/utils/utils";
 import {ServiceDragInfo} from "../../../../common/model/service-drag-info";
-import {nrpeService} from "../../../../common/utils/data";
+import {nrpeService} from "../../../../common/data/defaults";
 
 @Component({
   selector: 'div[hostItem]',
@@ -38,7 +38,7 @@ export class HostItemComponent implements OnInit {
       title: "Vms & Services",
       component: NewVirtualMachineComponent,
       data: {
-        services: [{...nrpeService}],
+        services: [nrpeService.id],
         ip: '',
         mask: ''
       },
@@ -67,7 +67,12 @@ export class HostItemComponent implements OnInit {
   onVmDelete(virtualMachine: VirtualMachine) {
     const index = this.host.virtualMachines.indexOf(virtualMachine);
     if (index !== -1) {
-      this.stateService.getCurrent().serviceKeys.push(...virtualMachine.services);
+      virtualMachine.services.forEach(id => {
+        if (this.stateService.getService(id).replicable) {
+          return;
+        }
+        this.stateService.getCurrent().serviceKeys.push(id);
+      });
       this.host.virtualMachines.splice(index, 1);
       // this.stateService.save();
     }

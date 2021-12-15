@@ -37,3 +37,30 @@ declare namespace bootstrap {
     _triggerBackdropTransition();
   }
 }
+
+
+
+
+declare namespace nx.ui {
+  class Application {
+    container(element: HTMLElement): void;
+  }
+}
+
+declare namespace nx.graphic {
+  class Topology {
+    constructor(data: any);
+
+    data(data: any): void;
+
+    attach(app: nx.ui.Application): void;
+
+    getLayer(groups: string): any;
+  }
+
+  class Icons {
+    static registerIcon(name: string, url: string, width: number, height: number): void;
+
+    static registerFontIcon(name: string, fontfamily: string, fontCharacter: string, fontSize: number): void;
+  }
+}

@@ -9,8 +9,8 @@ import {MailService} from "../model/mail-service";
 import {NtpService} from "../model/ntp-service";
 import {DhcpDnsService} from "../model/dhcp-dns-service";
 import {VirtualMachine} from "../model/virtual-machine";
-import {ntpService, proxyService, repoService} from "../utils/data";
-import {getShort} from "../utils/utils";
+import {ntpService, proxyService, repoService} from "../data/defaults";
+import {getShort} from "./utils";
 
 function esx(host: Host): string {
   return `
@@ -43,12 +43,12 @@ ESX:
 }
 
 function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
-  const isNotRepo = vm.services.findIndex(service => service.name === repoService.name) === -1;
-  const isProxy = vm.services.findIndex(service => service.name === proxyService.name) > -1;
+  const isNotRepo = vm.services.findIndex(id => id === repoService.id) === -1;
+  const isProxy = vm.services.findIndex(id => id === proxyService.id) > -1;
   let services = ``;
-  vm.services.forEach(service => {
+  vm.services.forEach(id => {
     for (const key in store.services) {
-      if (store.services[key].name === service.name) {
+      if (store.services[key].id === id) {
         store.services[key].services.forEach(s => {
           services += `
         - ${s}`;
@@ -66,7 +66,7 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
       ip_digit: ${vm.ip.substring(vm.ip.lastIndexOf(".") + 1)}
       list_ips:
         ${host.network === Network.DMZ ? "dmz_ip" : "toip_ip"}:  ${vm.ip}
-      ntp_conf: ${vm.services.findIndex(service => service.name === ntpService.name) === -1 ? "client" : "server"}
+      ntp_conf: ${vm.services.findIndex(id => id === ntpService.id) === -1 ? "client" : "server"}
       list_system_files:
         << : *defaults
       iso_install: {{ vars.GLOBAL.${isNotRepo ? (isProxy ? "iso_crypt_proxy" : "iso_crypt") : "iso_crypt_repo"} }}
@@ -75,18 +75,16 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
 }
 
 export function globalVars(store: Store) {
-  const openVpnService = store.services["openVpnService"] as OpenVpnService;
-  const ipSecService = store.services["ipSecService"] as IpSecService;
-  const ejbcaService = store.services["ejbcaService"] as EjbcaService;
-  const toipWebUiService = store.services["toipWebUiService"] as ToipWebUiService;
-  const mailService = store.services["mailService"] as MailService;
-  const ntpService = store.services["ntpService"] as NtpService;
-  const dhcpDnsService = store.services["dhcpDnsService"] as DhcpDnsService;
+  const openVpnService = store.services.openVpnService as OpenVpnService;
+  const ipSecService = store.services.ipSecService as IpSecService;
+  const ejbcaService = store.services.ejbcaService as EjbcaService;
+  const toipWebUiService = store.services.toipWebUiService as ToipWebUiService;
+  const mailService = store.services.mailService as MailService;
+  const ntpService = store.services.ntpService as NtpService;
+  const dhcpDnsService = store.services.dhcpDnsService as DhcpDnsService;
   const net_toip_root = store.firewall.exploitationIp.split(".");
-  const fw_toip_ip_digit = net_toip_root.pop();
   let [netmask_long_toip, netmask_short_toip] = short(Network.EXPLOITATION, store);
   const net_dmz_root = store.firewall.dmzIp.split(".");
-  const fw_dmz_ip_digit = net_dmz_root.pop();
   let [netmask_long_dmz, netmask_short_dmz] = short(Network.DMZ, store);
 
   let dns_forwarders = ``;
@@ -128,8 +126,7 @@ export function globalVars(store: Store) {
     })
   });
 
-  return `
-GLOBAL:
+  return `GLOBAL:
 
   netmask_long_toip: ${netmask_long_toip}
   netmask_long_dmz: ${netmask_long_dmz}
@@ -293,4 +290,28 @@ function short(network: Network, store: Store) {
     });
   });
   return [mask, short];
+}
+
+export function getVault(store: Store): string {
+  const mailService = store.services.mailService as MailService;
+  return `
+
+# MAIL
+MAIL_VAULT:
+  mail_user_defaut_pass: ${mailService.defaultPassword}
+
+${vaultEsx(store.hosts)}`;
+}
+
+function vaultEsx(hosts: Host[]): string {
+  const esxs = hosts.map(host => {
+    return `
+  ${host.id}:
+    root_user: "root"
+    root_pass: "${host.password}"`;
+  })
+  return `#### ESX servers
+ESX_VAULT:
+ list_esx:${esxs}
+  `;
 }

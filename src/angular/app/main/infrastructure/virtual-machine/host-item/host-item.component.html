@@ -30,7 +30,7 @@
       (drop)="virtualMachineDrop.emit({event:$event, virtualMachine})"
       (serviceDragStart)="serviceDragStart.emit({
           event: $event.event,
-          service: $event.service,
+          serviceId: $event.serviceId,
           virtualMachine
       })"
       (onDelete)="onVmDelete($event)"

@@ -5,5 +5,5 @@ export interface VirtualMachine {
   ip: string;
   mask: string;
   gateway?: string;
-  services: Service[];
+  services: string[];
 }

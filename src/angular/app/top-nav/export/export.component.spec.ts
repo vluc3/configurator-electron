@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExportComponent } from './export.component';
+import {AppTranslateModule} from "../../app-translate.module";
 
 describe('ExportComponent', () => {
   let component: ExportComponent;
@@ -8,6 +9,7 @@ describe('ExportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [AppTranslateModule],
       declarations: [ ExportComponent ]
     })
     .compileComponents();
