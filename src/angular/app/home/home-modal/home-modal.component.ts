@@ -7,6 +7,7 @@ import {getProjectFolder, home} from "../../common/utils/utils";
 import {ElectronService} from "../../common/service/electron.service";
 import {Router} from "@angular/router";
 import {TranslateService} from "@ngx-translate/core";
+import {window} from "rxjs/operators";
 
 @Component({
   selector: 'div[homeModal]',
@@ -20,6 +21,17 @@ export class HomeModalComponent implements ModalBody<any>, OnInit {
 
   data: any;
   projects: Project[] = [];
+
+  get version() {
+    let version = "";
+    if (this.electronService.isElectron) {
+      // @ts-ignore
+      version = this.electronService.process.env.npm_package_version;
+    }
+    return {
+      version
+    }
+  }
 
   constructor(
     private stateService: StateService,

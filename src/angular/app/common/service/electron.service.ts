@@ -17,6 +17,7 @@ export class ElectronService {
   childProcess: typeof childProcess;
   fs: typeof fs;
   Vault: typeof Vault;
+  process: any;
 
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
@@ -34,6 +35,7 @@ export class ElectronService {
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
       this.Vault = window.require("ansible-vault").Vault;
+      this.process = window.process;
 
       // If you want to use a NodeJS 3rd party deps in Renderer process (like @electron/remote),
       // it must be declared in dependencies of both package.json (in root and app folders)

@@ -1,7 +1,7 @@
 {
   "name": "configurator",
-  "version": "0.0.1",
-  "main": "pkg/index.js",
+  "version": "1.1",
+  "main": "index.js",
   "private": true,
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
