@@ -5,7 +5,7 @@ import {home} from "../common/utils/utils";
 import {secretPassword, secretVars} from "../common/data/ansible";
 import {ElectronService} from "../common/service/electron.service";
 import {ExportComponent} from "./export/export.component";
-import {esxVars, getVault, globalVars} from "../common/utils/ansible-esx";
+import {esxVars, hosts, getVault, globalVars} from "../common/utils/ansible-esx";
 
 @Component({
   selector: 'div[topNav]',
@@ -56,7 +56,6 @@ export class TopNavComponent {
           vault.decrypt(secretVars).then(decrypt => {
             const secretVars = `${decrypt}${getVault(this.stateService.getCurrent())}`;
             vault = new this.electronService.Vault({password: close.data.password});
-            // console.log(secretVars);
             vault.encrypt(secretVars).then(async encrypt => {
               this.electronService.fs.writeFileSync(
                 `${dir}/${ExportComponent.ANSIBLE_SECRET_VARS}`,
@@ -72,10 +71,56 @@ export class TopNavComponent {
               `${dir}/${ExportComponent.ANSIBLE_GLOBAL_VARS}`,
               globalVars(this.stateService.getCurrent())
             );
+
+            const _hosts: string = hosts(this.stateService.getCurrent()).join('\n');
+
+            this.electronService.fs.writeFileSync(
+              `${dir}/${ExportComponent.HOSTS}`,
+              _hosts
+            );
           });
         });
       });
+    } else {
+      this.logExport();
     }
+  }
+
+  private logExport() {
+    // this.logExportTitle('SECRET VARS');
+    // const _secretVars = `${getVault(this.stateService.getCurrent())}`;
+    // console.log(_secretVars);
+    // console.log('');
+
+    this.logExportTitle('ESX VARS');
+    const _esxVars = esxVars(this.stateService.getCurrent().hosts);
+    console.log(_esxVars);
+    console.log('');
+
+    this.logExportTitle('GLOBAL VARS');
+    const _globalVars = globalVars(this.stateService.getCurrent());
+    console.log(_globalVars);
+    console.log('');
+
+    this.logExportTitle('HOSTS');
+    const _hosts = hosts(this.stateService.getCurrent());
+
+    for (const host of _hosts) {
+      console.log(host);
+    }
+
+    console.log('');
+
+    this.logExportTitle('STORE');
+    console.log(this.stateService.getCurrent());
+  }
+
+  private logExportTitle(title: string) {
+    console.log('____________________________________________');
+    console.log('');
+    console.log(title);
+    console.log('____________________________________________');
+    console.log('');
   }
 
   save() {

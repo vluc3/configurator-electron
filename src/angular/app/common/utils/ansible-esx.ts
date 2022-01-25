@@ -277,6 +277,63 @@ export function globalVars(store: Store) {
   `;
 }
 
+export function hosts(store: Store): string[] {
+  let result: string[] = [];
+
+  for (const host of store.hosts) {
+    const section: string = `[${host.name}]`;
+    const entry: string = `${host.name} ansible_host="{{ vars.ESX.list_esx.${host.id}.adm_ip }}"`;
+    result.push(section);
+    result.push(entry);
+    result.push('');
+
+    for (const virtualMachine of host.virtualMachines) {
+      const section: string = `[${virtualMachine.name}]`;
+      const ipProperty: string = (host.network === Network.DMZ) ? 'dmz_ip' : 'toip_ip';
+      const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_server['${virtualMachine.name}'].list_ips.${ipProperty} }}"`;
+      result.push(section);
+      result.push(entry);
+      result.push('');
+    }
+  }
+
+  let section: string = `[localhost]`;
+  let entry: string = '127.0.0.1';
+  result.push(section);
+  result.push(entry);
+
+  result = [].concat(
+    result,
+    hostChildren(store, 'bulle:children', false),
+    hostChildren(store, 'repo:children', true)
+  );
+
+  result.push('');
+  return result;
+}
+
+function hostChildren(store: Store, section: string, isRepoService: boolean): string[] {
+  const result: string[] = [];
+
+  result.push('');
+  section = `[${section}]`;
+  result.push(section);
+
+  for (const host of store.hosts) {
+    for (const virtualMachine of host.virtualMachines) {
+      const service: string = virtualMachine.services.find(id => id === repoService.id);
+      const push: boolean = (isRepoService) ? !! service : ! service;
+
+      if (push) {
+        const entry: string = virtualMachine.name;
+        result.push(entry);
+      }
+    }
+  }
+
+  return result;
+}
+
 function short(network: Network, store: Store) {
   let mask = "";
   let short = Number.MAX_VALUE;
