@@ -7,7 +7,9 @@
 /app-builds
 /release
 main.js
-src/**/*.js
+src/angular/app/**/*.js
+src/electron/**/*.js
+src/e2e/**/*.js
 !src/angular/karma.conf.js
 !src/angular/angular.webpack.js
 *.js.map
