@@ -71,12 +71,9 @@ export class TopNavComponent {
               `${dir}/${ExportComponent.ANSIBLE_GLOBAL_VARS}`,
               globalVars(this.stateService.getCurrent())
             );
-
-            const _hosts: string = hosts(this.stateService.getCurrent()).join('\n');
-
             this.electronService.fs.writeFileSync(
               `${dir}/${ExportComponent.HOSTS}`,
-              _hosts
+              hosts(this.stateService.getCurrent()).join('\n')
             );
           });
         });
@@ -111,8 +108,8 @@ export class TopNavComponent {
 
     console.log('');
 
-    this.logExportTitle('STORE');
-    console.log(this.stateService.getCurrent());
+    // this.logExportTitle('STORE');
+    // console.log(this.stateService.getCurrent());
   }
 
   private logExportTitle(title: string) {

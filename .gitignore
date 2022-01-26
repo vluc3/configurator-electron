@@ -47,6 +47,7 @@ app/node_modules
 npm-debug.log
 testem.log
 /typings
+/snapshot
 
 # e2e
 /e2e/*.js

@@ -42,7 +42,7 @@ export class VirtualMachineItemComponent implements OnInit {
     this.modalService.open<VirtualMachine>({
       title: "Vms & Services",
       component: NewVirtualMachineComponent,
-      data: clone(this.virtualMachine),
+      data: this.virtualMachine,
       width: 800
     }).subscribe(close => {
       if (!close.cancel && close.data) {
