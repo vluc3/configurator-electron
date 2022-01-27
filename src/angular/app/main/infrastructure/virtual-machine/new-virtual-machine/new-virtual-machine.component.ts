@@ -8,6 +8,7 @@ import {
   isFormValid,
   isMaskValid,
   isNetworkValid,
+  maskIpValidator,
 } from "../../../../common/utils/utils";
 
 import {CoreComponent} from '../../../service/abstract/core-component';
@@ -39,7 +40,7 @@ export class NewVirtualMachineComponent extends CoreComponent implements ModalBo
       ]),
       mask: new FormControl(this.data.mask, [
         Validators.required,
-        ipValidator,
+        maskIpValidator,
         this.maskValidator
       ]),
       gateway: new FormControl(this.data.gateway, [

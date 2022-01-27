@@ -4,7 +4,7 @@ import {ServiceComponent} from "../abstract/service.component";
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
-import {clone, ipValidator} from "../../../common/utils/utils";
+import {clone, ipValidator, networkIpValidator} from "../../../common/utils/utils";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -32,7 +32,7 @@ export class OpenVpnServiceComponent extends ServiceComponent {
     this.formGroup = new FormGroup({
       ip: new FormControl(this.service.ip, [Validators.required, ipValidator]),
       clientInPort: new FormControl(this.service.clientInPort, [Validators.required]),
-      vpnClientNetwork: new FormControl(this.service.vpnClientNetwork, [Validators.required, ipValidator]),
+      vpnClientNetwork: new FormControl(this.service.vpnClientNetwork, [Validators.required, networkIpValidator]),
       internInPort: new FormControl(this.service.internInPort, [Validators.required]),
       connectionAttemptsNumber: new FormControl(this.service.connectionAttemptsNumber, [Validators.required])
     });

@@ -33,13 +33,25 @@ export function keypressRegex(event: KeyboardEvent, r: string): boolean {
 
 export function ipValidator(control: AbstractControl): ValidationErrors | null {
   const value: string = control.value;
+  if (!isIpValid(value, false)) {
+    return {ipNotValid: {value}};
+  }
+  return null;
+}
+
+export function networkIpValidator(control: AbstractControl): ValidationErrors | null {
+  const value: string = control.value;
   if (!isIpValid(value)) {
     return {ipNotValid: {value}};
   }
   return null;
 }
 
-export function isIpValid(ip: string): boolean {
+export function maskIpValidator(control: AbstractControl): ValidationErrors | null {
+  return networkIpValidator(control);
+}
+
+export function isIpValid(ip: string, canEndWithZero: boolean = true): boolean {
   if (!ip) {
     return true;
   }
@@ -56,6 +68,10 @@ export function isIpValid(ip: string): boolean {
       return false;
     }
   }
+  if (! canEndWithZero && Number(parts[3]) === 0) {
+    return false;
+  }
+
   return true;
 }
 
@@ -68,7 +84,7 @@ export function isFormValid(key: string, formGroup: FormGroup) {
 
 export function isNetworkValid(ip: string, mask: string, gateway: string): boolean {
 
-  if (!isIpValid(ip) || !isIpValid(mask) || !isIpValid(gateway) || ip === gateway || !isMaskValid(mask)) {
+  if (!isIpValid(ip, false) || !isIpValid(mask) || !isIpValid(gateway, false) || ip === gateway || !isMaskValid(mask)) {
     return false;
   }
 
