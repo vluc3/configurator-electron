@@ -17,7 +17,8 @@
               id="domainName"
               formControlName="domainName"
               class="form-control form-control-sm"
-            >
+              (keypress)="intAlphaSeparatorKeypress($event)"
+              >
           </div>
         </div>
       </fieldset>
@@ -36,7 +37,7 @@
               id="webPort"
               formControlName="webPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -56,7 +57,7 @@
               id="interfacePort"
               formControlName="interfacePort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -76,7 +77,7 @@
               id="externSipPort"
               formControlName="externSipPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -93,7 +94,7 @@
               id="internSipPort"
               formControlName="internSipPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -110,7 +111,7 @@
               id="externOpenSipPort"
               formControlName="externOpenSipPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -127,7 +128,7 @@
               id="internOpenSipPort"
               formControlName="internOpenSipPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>

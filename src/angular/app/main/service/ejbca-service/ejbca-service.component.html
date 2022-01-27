@@ -17,7 +17,7 @@
               id="country"
               formControlName="country"
               class="form-control form-control-sm"
-            >
+              >
           </div>
         </div>
 
@@ -34,7 +34,7 @@
               id="city"
               formControlName="city"
               class="form-control form-control-sm"
-            >
+              >
           </div>
         </div>
 
@@ -51,7 +51,7 @@
               id="organization"
               formControlName="organization"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[A-Za-z0-9\-_]+$')"
+              (keypress)="intAlphaSeparatorKeypress($event)"
             >
           </div>
         </div>
@@ -74,7 +74,7 @@
                 id="certificationAuthorityValidityDays"
                 formControlName="certificationAuthorityValidityDays"
                 class="form-control form-control-sm"
-                (keypress)="keypress($event, '^[0-9]+$')"
+                (keypress)="intKeypress($event)"
               >
               <span class="input-group-text">{{ 'DAYS' | translate }}</span>
             </div>
@@ -95,7 +95,7 @@
                 id="certificationServerValidityDays"
                 formControlName="certificationServerValidityDays"
                 class="form-control form-control-sm"
-                (keypress)="keypress($event, '^[0-9]+$')"
+                (keypress)="intKeypress($event)"
               >
               <span class="input-group-text">{{ 'DAYS' | translate }}</span>
             </div>
@@ -116,7 +116,7 @@
                 id="certificationUserValidityDays"
                 formControlName="certificationUserValidityDays"
                 class="form-control form-control-sm"
-                (keypress)="keypress($event, '^[0-9]+$')"
+                (keypress)="intKeypress($event)"
               >
               <span class="input-group-text">{{ 'DAYS' | translate }}</span>
             </div>
@@ -139,7 +139,7 @@
               id="length"
               formControlName="length"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>

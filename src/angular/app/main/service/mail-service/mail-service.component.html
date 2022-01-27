@@ -17,7 +17,8 @@
               id="domainName"
               formControlName="domainName"
               class="form-control form-control-sm"
-            >
+              (keypress)="intAlphaSeparatorKeypress($event)"
+              >
           </div>
         </div>
       </fieldset>
@@ -84,7 +85,7 @@
               id="antivirusInputPort"
               formControlName="antivirusInputPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -101,7 +102,7 @@
               id="antispamInputPort"
               formControlName="antispamInputPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -118,7 +119,7 @@
               id="antivirusOutputPort"
               formControlName="antivirusOutputPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>
@@ -138,7 +139,7 @@
               id="smtpImapInputPort"
               formControlName="smtpImapInputPort"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
           </div>
         </div>

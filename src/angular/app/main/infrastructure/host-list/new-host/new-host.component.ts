@@ -2,7 +2,8 @@ import {Component, EventEmitter, HostBinding, OnInit, ViewEncapsulation} from '@
 import {ModalBody} from "../../../../common/component/modal/modal.component";
 import {Host} from "../../../../common/model/host";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {copyEntries, ipValidator, isFormValid, keypressRegex, passwordValidator} from "../../../../common/utils/utils";
+import {copyEntries, ipValidator, isFormValid, passwordValidator} from "../../../../common/utils/utils";
+import {CoreComponent} from '../../../service/abstract/core-component';
 
 @Component({
   selector: 'div[newHost]',
@@ -10,7 +11,7 @@ import {copyEntries, ipValidator, isFormValid, keypressRegex, passwordValidator}
   styleUrls: ['./new-host.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NewHostComponent implements ModalBody<Host>, OnInit {
+export class NewHostComponent extends CoreComponent implements ModalBody<Host>, OnInit {
 
   @HostBinding('class') clazz = 'host';
   data: Host;
@@ -18,6 +19,7 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
   dataValidate = new EventEmitter<{ valid: boolean, data?: Host }>();
 
   constructor() {
+    super()
   }
 
   ngOnInit(): void {
@@ -49,10 +51,6 @@ export class NewHostComponent implements ModalBody<Host>, OnInit {
 
   isValid(key: string): boolean {
     return isFormValid(key, this.formGroup);
-  }
-
-  ipKeypress(event: KeyboardEvent): boolean {
-    return keypressRegex(event, '^[0-9\.]+$');
   }
 
   //

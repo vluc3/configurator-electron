@@ -5,6 +5,11 @@ import {Observable} from "rxjs";
 import {ModalEvent} from "../component/modal/modal.component";
 import {APP_CONFIG} from "../../../environments/environment";
 
+export const intRegex: string = '^[0-9]+$';
+export const intAlphaSeparatorRegex: string = '^[0-9a-zA-Z-_\.]+$';
+export const alphaSeparatorRegex: string = '^[A-Za-zÀÂÄÀÉÈÊËÌÎÏÒÔÖÙÛÜÇàâäàéèêëìîïòôöùûüç-]+$';
+export const ipRegex: string = '^[0-9\.]+$';
+
 export function clone<T>(t: T): T {
   const s = JSON.stringify(t);
   return JSON.parse(s);

@@ -20,7 +20,8 @@
               [formControlName]="'ntp-server-' + i"
               [ngClass]="{'is-invalid': !isValid('ntp-server-' + i)}"
               [value]="server"
-            >
+              (keypress)="intAlphaSeparatorKeypress($event)"
+              >
             <button class="btn btn-light btn-sm" (click)="remove(server)">
               <i class="cfg-minus-circle"></i>
             </button>

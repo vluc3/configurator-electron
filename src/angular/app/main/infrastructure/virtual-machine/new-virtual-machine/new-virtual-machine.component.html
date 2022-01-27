@@ -9,6 +9,7 @@
       type="text"
       class="form-control"
       aria-describedby="nameHelp"
+      (keypress)="intAlphaSeparatorKeypress($event)"
     >
     <div id="nameHelp" class="form-text">Nom de la vm ex. srv-proxy</div>
   </div>

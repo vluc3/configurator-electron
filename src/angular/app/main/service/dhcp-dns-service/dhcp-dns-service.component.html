@@ -17,7 +17,8 @@
               formControlName="domainName"
               class="form-control form-control-sm"
               id="domainName"
-            >
+              (keypress)="intAlphaSeparatorKeypress($event)"
+              >
           </div>
         </div>
       </fieldset>
@@ -37,7 +38,8 @@
                 formControlName="exploitationZone"
                 class="form-control form-control-sm"
                 id="exploitationZone"
-              >
+                (keypress)="intAlphaSeparatorKeypress($event)"
+                >
               <span class="input-group-text">.{{ formGroup.getRawValue()['domainName'] }}</span>
             </div>
           </div>
@@ -56,7 +58,8 @@
                 formControlName="dmzZone"
                 class="form-control form-control-sm"
                 id="dmzZone"
-              >
+                (keypress)="intAlphaSeparatorKeypress($event)"
+                >
               <span class="input-group-text">.{{ formGroup.getRawValue()['domainName'] }}</span>
             </div>
           </div>
@@ -82,7 +85,8 @@
                 [formControlName]="'server-' + i"
                 [ngClass]="{'is-invalid': !isValid('server-' + i)}"
                 [value]="server"
-              >
+                (keypress)="ipKeypress($event)"
+                >
               <button class="btn btn-light btn-sm" (click)="remove(server)">
                 <i class="cfg-minus-circle"></i>
               </button>
@@ -108,7 +112,8 @@
               formControlName="dhcpRangeBegin"
               class="form-control form-control-sm"
               id="dhcpRangeBegin"
-            >
+              (keypress)="ipKeypress($event)"
+              >
           </div>
         </div>
         <div class="form-group row">
@@ -124,7 +129,8 @@
               formControlName="dhcpRangeEnd"
               class="form-control form-control-sm"
               id="dhcpRangeEnd"
-            >
+              (keypress)="ipKeypress($event)"
+              >
           </div>
         </div>
       </fieldset>

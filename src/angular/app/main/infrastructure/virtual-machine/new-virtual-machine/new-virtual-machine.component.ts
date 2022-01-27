@@ -6,10 +6,11 @@ import {
   copyEntries,
   ipValidator,
   isFormValid,
-  isIpValid, isMaskValid,
+  isMaskValid,
   isNetworkValid,
-  keypressRegex
 } from "../../../../common/utils/utils";
+
+import {CoreComponent} from '../../../service/abstract/core-component';
 
 @Component({
   selector: 'div[newVirtualMachine]',
@@ -17,7 +18,7 @@ import {
   styleUrls: ['./new-virtual-machine.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NewVirtualMachineComponent implements ModalBody<VirtualMachine>, OnInit {
+export class NewVirtualMachineComponent extends CoreComponent implements ModalBody<VirtualMachine>, OnInit {
 
   @HostBinding('class') clazz = 'new-virtual-machine';
 
@@ -26,6 +27,7 @@ export class NewVirtualMachineComponent implements ModalBody<VirtualMachine>, On
   dataValidate = new EventEmitter<{ valid: boolean, data?: VirtualMachine }>();
 
   constructor() {
+    super();
   }
 
   ngOnInit(): void {
@@ -56,10 +58,6 @@ export class NewVirtualMachineComponent implements ModalBody<VirtualMachine>, On
 
   isValid(key: string): boolean {
     return isFormValid(key, this.formGroup);
-  }
-
-  ipKeypress(event: KeyboardEvent): boolean {
-    return keypressRegex(event, '^[0-9\.]+$');
   }
 
   maskValidator(control: AbstractControl): ValidationErrors | null {

@@ -3,11 +3,12 @@ import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
 import {FormGroup} from "@angular/forms";
-import {copyEntries, isFormValid, keypressRegex} from "../../../common/utils/utils";
+import {copyEntries, isFormValid} from "../../../common/utils/utils";
 import {Service} from "../../../common/model/service";
+import {CoreComponent} from './core-component';
 
 @Directive()
-export abstract class ServiceComponent implements OnInit {
+export abstract class ServiceComponent extends CoreComponent implements OnInit {
 
   formGroup: FormGroup;
   abstract service: Service;
@@ -18,6 +19,7 @@ export abstract class ServiceComponent implements OnInit {
     protected translateService: TranslateService,
     protected key: string
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -44,10 +46,6 @@ export abstract class ServiceComponent implements OnInit {
   protected save() {
     this.copyFromFormGroup();
     this.stateService.setService(this.key, this.service);
-  }
-
-  keypress(event: KeyboardEvent, r: string): boolean {
-    return keypressRegex(event, r);
   }
 
   private initValid() {

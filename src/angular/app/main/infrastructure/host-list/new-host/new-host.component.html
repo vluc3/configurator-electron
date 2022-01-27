@@ -9,6 +9,7 @@
       type="text"
       class="form-control"
       aria-describedby="nameHelp"
+      (keypress)="intAlphaSeparatorKeypress($event)"
     >
     <div id="nameHelp" class="form-text">Nom de hôte ex. srv-esx1</div>
   </div>
@@ -68,6 +69,7 @@
       name="datastore"
       type="text"
       class="form-control"
+      (keypress)="intAlphaSeparatorKeypress($event)"
     >
   </div>
 </form>

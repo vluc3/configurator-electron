@@ -2,7 +2,8 @@ import {Component, HostBinding, OnInit, ViewEncapsulation} from "@angular/core";
 import {StateService} from "../../../common/service/state.service";
 import {Firewall} from "../../../common/model/firewall";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {copyEntries, ipValidator, isFormValid, keypressRegex} from "../../../common/utils/utils";
+import {copyEntries, ipValidator, isFormValid} from "../../../common/utils/utils";
+import {CoreComponent} from "../../service/abstract/core-component";
 
 @Component({
   selector: "div[firewall]",
@@ -10,7 +11,7 @@ import {copyEntries, ipValidator, isFormValid, keypressRegex} from "../../../com
   styleUrls: ["./firewall.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
-export class FirewallComponent implements OnInit {
+export class FirewallComponent extends CoreComponent implements OnInit {
 
   @HostBinding('class') clazz = 'firewall service';
   formGroup: FormGroup;
@@ -20,6 +21,7 @@ export class FirewallComponent implements OnInit {
   constructor(
     private stateService: StateService
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -41,9 +43,4 @@ export class FirewallComponent implements OnInit {
   isValid(key: string): boolean {
     return isFormValid(key, this.formGroup);
   }
-
-  ipKeypress(event: KeyboardEvent): boolean {
-    return keypressRegex(event, '^[0-9\.]+$');
-  }
-
 }

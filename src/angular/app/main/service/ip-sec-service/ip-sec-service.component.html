@@ -16,7 +16,7 @@
             id="ip"
             formControlName="ip"
             class="form-control form-control-sm"
-            (keypress)="keypress($event, '^[0-9\.]+$')"
+            (keypress)="ipKeypress($event)"
           >
         </div>
       </div>
@@ -34,7 +34,7 @@
             id="clientInPort"
             formControlName="clientInPort"
             class="form-control form-control-sm"
-            (keypress)="keypress($event, '^[0-9]+$')"
+            (keypress)="intKeypress($event)"
           >
         </div>
       </div>
@@ -52,7 +52,7 @@
             id="vpnClientNetwork"
             formControlName="vpnClientNetwork"
             class="form-control form-control-sm"
-            (keypress)="keypress($event, '^[0-9\.]+$')"
+            (keypress)="ipKeypress($event)"
           >
         </div>
       </div>
@@ -71,7 +71,7 @@
               id="authenticationDuration"
               formControlName="authenticationDuration"
               class="form-control form-control-sm"
-              (keypress)="keypress($event, '^[0-9]+$')"
+              (keypress)="intKeypress($event)"
             >
             <span class="input-group-text">s</span>
           </div>
@@ -91,7 +91,7 @@
             id="connectionAttemptsNumber"
             formControlName="connectionAttemptsNumber"
             class="form-control form-control-sm"
-            (keypress)="keypress($event, '^[0-9]+$')"
+            (keypress)="intKeypress($event)"
           >
         </div>
       </div>
