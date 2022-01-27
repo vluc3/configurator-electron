@@ -48,6 +48,9 @@ export class TopNavComponent {
           if (close.cancel) {
             return;
           }
+
+          this.save();
+
           const dir = result.filePaths[0];
           let vault = new this.electronService.Vault({password: secretPassword});
           this.stateService.getCurrent().hosts.forEach((host, index) => {
@@ -79,6 +82,7 @@ export class TopNavComponent {
         });
       });
     } else {
+      this.save();
       this.logExport();
     }
   }
