@@ -88,20 +88,29 @@ export class TopNavComponent {
   }
 
   private logExport() {
+    // this.logExportTitle('STORE');
+    // console.log(this.stateService.getCurrent());
+    // console.log(' ');
+
     // this.logExportTitle('SECRET VARS');
+
+    // this.stateService.getCurrent().hosts.forEach((host, index) => {
+    //   host.id = `ext${index + 1}`;
+    // });
+
     // const _secretVars = `${getVault(this.stateService.getCurrent())}`;
     // console.log(_secretVars);
-    // console.log('');
+    // console.log(' ');
 
     this.logExportTitle('ESX VARS');
     const _esxVars = esxVars(this.stateService.getCurrent().hosts);
     console.log(_esxVars);
-    console.log('');
+    console.log(' ');
 
     this.logExportTitle('GLOBAL VARS');
     const _globalVars = globalVars(this.stateService.getCurrent());
     console.log(_globalVars);
-    console.log('');
+    console.log(' ');
 
     this.logExportTitle('HOSTS');
     const _hosts = hosts(this.stateService.getCurrent());
@@ -109,19 +118,14 @@ export class TopNavComponent {
     for (const host of _hosts) {
       console.log(host);
     }
-
-    console.log('');
-
-    // this.logExportTitle('STORE');
-    // console.log(this.stateService.getCurrent());
   }
 
   private logExportTitle(title: string) {
     console.log('____________________________________________');
-    console.log('');
+    console.log(' ');
     console.log(title);
     console.log('____________________________________________');
-    console.log('');
+    console.log(' ');
   }
 
   save() {

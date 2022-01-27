@@ -83,8 +83,10 @@ export function globalVars(store: Store) {
   const ntpService = store.services.ntpService as NtpService;
   const dhcpDnsService = store.services.dhcpDnsService as DhcpDnsService;
   const net_toip_root = store.firewall.exploitationIp.split(".");
+  net_toip_root.splice(3);
   let [netmask_long_toip, netmask_short_toip] = short(Network.EXPLOITATION, store);
   const net_dmz_root = store.firewall.dmzIp.split(".");
+  net_dmz_root.splice(3);
   let [netmask_long_dmz, netmask_short_dmz] = short(Network.DMZ, store);
 
   let dns_forwarders = ``;
