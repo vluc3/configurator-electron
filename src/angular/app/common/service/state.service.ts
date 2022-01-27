@@ -25,6 +25,8 @@ import {clone, getProjectFolder, jsonStringify} from "../utils/utils";
 import {Firewall} from "../model/firewall";
 import {ModalService} from "../component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
+import {secretPassword} from "../data/ansible";
+import {MailService} from '../model/mail-service';
 
 @Injectable({
   providedIn: 'root'
@@ -108,7 +110,7 @@ export class StateService {
   }
 
 
-  save(): void {
+  async save() {
     if (this.electronService.isElectron) {
       let projectFolder = getProjectFolder();
       if (!this.electronService.fs.existsSync(projectFolder)) {
@@ -119,8 +121,10 @@ export class StateService {
       //       // if (this.electronService.fs.existsSync(projectFile)) {
       //       //   return;
       //       // }
-      const storeText = this.serialize(this.current);
-      this.writeProjectFile(this.current.name, storeText)
+
+      const current = await this.encrypt();
+      const storeText = this.serialize(current);
+      this.writeProjectFile(current.name, storeText)
     } else if (!APP_CONFIG.production) {
       let projectStores: Record<string, Store> = {};
       const projectStoresText = localStorage.getItem(StateService.CONFIGURATOR_PROJECTS_STORES);
@@ -146,7 +150,7 @@ export class StateService {
         store.name = project.name;
         const storeText = this.serialize(store);
         this.writeProjectFile(store.name, storeText);
-        this.setProject(project);
+        this.setProject(project, false);
         return true;
       }
     }
@@ -166,11 +170,16 @@ export class StateService {
     return true;
   }
 
-  setProject(project: Project) {
+  async setProject(project: Project, decrypt: boolean = true) {
     if (this.electronService.isElectron) {
       const storeText = this.readProjectFile(project.name);
       if (storeText) {
         this.current = this.deserialize(storeText);
+
+        if (decrypt) {
+          await this.decrypt();
+        }
+
         this.currentChange.next();
       }
     } else if (!APP_CONFIG.production) {
@@ -244,6 +253,28 @@ export class StateService {
     }
     store.serviceKeys = this.getServiceKeys(store.hosts);
     return store;
+  }
+
+  async encrypt() {
+    const result = clone(this.current);
+    let vault = new this.electronService.Vault({password: secretPassword});
+
+    for (const host of result.hosts) {
+      host.password = await vault.encrypt(host.password);
+    }
+
+    (result.services['mailService'] as MailService).defaultPassword = await vault.encrypt((result.services['mailService'] as MailService).defaultPassword);
+    return result;
+  }
+
+  async decrypt() {
+    let vault = new this.electronService.Vault({password: secretPassword});
+
+    for (const host of this.current.hosts) {
+      host.password = await vault.decrypt(host.password);
+    }
+
+    (this.current.services['mailService'] as MailService).defaultPassword = await vault.decrypt((this.current.services['mailService'] as MailService).defaultPassword);
   }
 
   private readProjectFile(projectName: string): string {
