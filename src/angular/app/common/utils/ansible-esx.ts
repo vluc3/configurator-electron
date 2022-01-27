@@ -60,16 +60,16 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
   return `
     ${vm.name}:
       esx: ${host.id}
-      disk_size: {{ ${isNotRepo ? "vars.GLOBAL.disk_size" : "vars.GLOBAL.repo_disk_size"} }}
-      nb_cpu: {{ ${isNotRepo ? "vars.GLOBAL.nb_cpu" : "vars.GLOBAL.repo_nb_cpu"} }}
-      ram_size: {{ ${isNotRepo ? "vars.GLOBAL.ram_size" : "vars.GLOBAL.repo_ram_size"} }}
+      disk_size: "{{ ${isNotRepo ? "vars.GLOBAL.disk_size" : "vars.GLOBAL.repo_disk_size"} }}"
+      nb_cpu: "{{ ${isNotRepo ? "vars.GLOBAL.nb_cpu" : "vars.GLOBAL.repo_nb_cpu"} }}"
+      ram_size: "{{ ${isNotRepo ? "vars.GLOBAL.ram_size" : "vars.GLOBAL.repo_ram_size"} }}"
       ip_digit: ${vm.ip.substring(vm.ip.lastIndexOf(".") + 1)}
       list_ips:
         ${host.network === Network.DMZ ? "dmz_ip" : "toip_ip"}:  ${vm.ip}
       ntp_conf: ${vm.services.findIndex(id => id === ntpService.id) === -1 ? "client" : "server"}
       list_system_files:
         << : *defaults
-      iso_install: {{ vars.GLOBAL.${isNotRepo ? (isProxy ? "iso_crypt_proxy" : "iso_crypt") : "iso_crypt_repo"} }}
+      iso_install: "{{ vars.GLOBAL.${isNotRepo ? (isProxy ? "iso_crypt_proxy" : "iso_crypt") : "iso_crypt_repo"} }}"
       services:${services}
         `;
 }
@@ -366,7 +366,7 @@ function vaultEsx(hosts: Host[]): string {
   ${host.id}:
     root_user: "root"
     root_pass: "${host.password}"`;
-  })
+  }).join('');
   return `#### ESX servers
 ESX_VAULT:
  list_esx:${esxs}
