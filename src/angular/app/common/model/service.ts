@@ -1,3 +1,8 @@
+export interface ServiceOrder {
+  name: string;
+  order?: number;
+}
+
 export interface Service {
   id: string;
   name: string;

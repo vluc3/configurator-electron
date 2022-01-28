@@ -9,8 +9,9 @@ import {MailService} from "../model/mail-service";
 import {NtpService} from "../model/ntp-service";
 import {DhcpDnsService} from "../model/dhcp-dns-service";
 import {VirtualMachine} from "../model/virtual-machine";
-import {ntpService, proxyService, repoService} from "../data/defaults";
+import {ntpService, proxyService, repoService, serviceOrderMap} from "../data/defaults";
 import {getShort} from "./utils";
+import {ServiceOrder} from "../model/service";
 
 function esx(host: Host): string {
   return `
@@ -45,22 +46,45 @@ ESX:
 function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
   const isNotRepo = vm.services.findIndex(id => id === repoService.id) === -1;
   const isProxy = vm.services.findIndex(id => id === proxyService.id) > -1;
-  let services = ``;
+
+  const serviceOrders: ServiceOrder[] = [];
+
+  // TODO Temporaire 28/01/2022: Test sur ntpService à revoir
+
   vm.services.forEach(id => {
-    // TODO Temporaire à revoir 28/01/2022
     if (id !== "ntpService") {
       for (const key in store.services) {
         if (store.services[key].id === id) {
-          store.services[key].services.forEach(s => {
-          services += `
-        - ${s}`;
+          store.services[key].services.forEach(service => {
+            const order = serviceOrderMap.get(service);
+
+            const serviceOrder = {
+              name: service,
+              order: order
+            };
+
+            serviceOrders.push(serviceOrder);
           });
+
           break;
         }
       }
     }
-
   });
+
+  serviceOrders.sort((subService1: ServiceOrder, subService2: ServiceOrder) => {
+    const order1: number = (subService1.order) ? subService1.order : 0;
+    const order2: number = (subService2.order) ? subService2.order : 0;
+    return order1 - order2;
+  });
+
+  let services = ``;
+
+  for (const subService of serviceOrders) {
+    services += `
+        - ${subService.name}`;
+  }
+
   return `
     ${vm.name}:
       esx: ${host.id}

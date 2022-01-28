@@ -15,6 +15,11 @@ import {NrpeService} from "../model/nrpe-service";
 import {NagiosService} from "../model/nagios-service";
 import {Service} from "../model/service";
 
+export const serviceOrderMap: Map<string, number> = new Map([
+  ["mail", 90],
+  ["nrpe", 100]
+]);
+
 export const dhcpDnsService: DhcpDnsService = {
   id: "dhcpDnsService",
   name: 'DNS/DHCP',
