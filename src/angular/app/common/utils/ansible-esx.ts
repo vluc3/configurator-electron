@@ -85,6 +85,11 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
         - ${subService.name}`;
   }
 
+  const isClient: boolean = (
+    vm.services.findIndex(id => id === ntpService.id) === -1
+    && vm.services.findIndex(id => id === proxyService.id) === -1
+  );
+
   return `
     ${vm.name}:
       esx: ${host.id}
@@ -94,7 +99,7 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
       ip_digit: ${vm.ip.substring(vm.ip.lastIndexOf(".") + 1)}
       list_ips:
         ${host.network === Network.DMZ ? "dmz_ip" : "toip_ip"}:  ${vm.ip}
-      ntp_conf: ${vm.services.findIndex(id => id === ntpService.id) === -1 ? "client" : "server"}
+      ntp_conf: ${isClient ? "client" : "server"}
       list_system_files:
         << : *defaults
       iso_install: "{{ vars.GLOBAL.${isNotRepo ? (isProxy ? "iso_crypt_proxy" : "iso_crypt") : "iso_crypt_repo"} }}"
@@ -234,17 +239,6 @@ export function globalVars(store: Store) {
 
   domain_name: "{{ vars.GLOBAL.domain_root }}.{{ vars.GLOBAL.domain_extension }}"
 
-  # IP publique de la box => n'existe plus, remplacé par
-  # OpenVpn.public_ip_ovpn et IPSec.public_ip_ipsec
-  # box_public_ip: 80.11.22.195
-  #box_public_ip: "{{ vars.GLOBAL.OpenVpn.public_ip_ovpn }}"
-
-  # remplacé par OpenVpn.net_ovpn
-  #net_ovpn: "{{ vars.GLOBAL.OpenVpn.net_ovpn }}"
-
-  # remplacé par IPSec.net_ipsec
-  #net_ipsec: "{{ vars.GLOBAL.IPSec.net_ipsec }}"
-
   #MAIL
   mail_virt_pwd: virt
   mail_admin_pwd: admin
@@ -269,15 +263,7 @@ export function globalVars(store: Store) {
   mysql_nagios_root_pass: "{{ NAGIOS_VAULT.mysql_nagios_root_pass }}"
   mysql_ndoutils_pass: "{{ NAGIOS_VAULT.mysql_ndoutils_pass }}"
 
-  #VPN
-  # remplacé par OpenVpn.openvpn_port
-  # openvpn_port: 1194
-  #openvpn_port: "{{ vars.GLOBAL.OpenVpn.openvpn_port }}"
-
   #WEBUI:
-  # remplacé par OpenVpn.openvpn_public_port
-  # openvpn_public_port: 21194
-  #openvpn_public_port: "{{ vars.GLOBAL.OpenVpn.openvpn_port }}"
   call_count_port: 8888
 
   # Squid
