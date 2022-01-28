@@ -139,7 +139,7 @@ export const elkService: Service = {
   id: "elkService",
   name: "Elk",
   icon: "cfg-elastic",
-  services: ["kibana", "elasticsearch"]
+  services: ["elasticsearch", "kibana"]
 }
 
 export const ldapService: Service = {
