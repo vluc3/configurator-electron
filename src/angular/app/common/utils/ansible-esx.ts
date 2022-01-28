@@ -82,11 +82,17 @@ export function globalVars(store: Store) {
   const mailService = store.services.mailService as MailService;
   const ntpService = store.services.ntpService as NtpService;
   const dhcpDnsService = store.services.dhcpDnsService as DhcpDnsService;
+
   const net_toip_root = store.firewall.exploitationIp.split(".");
+  const net_toip_fw_digit = (net_toip_root?.length >= 3) ? net_toip_root[3] : undefined;
   net_toip_root.splice(3);
+
   let [netmask_long_toip, netmask_short_toip] = short(Network.EXPLOITATION, store);
+
   const net_dmz_root = store.firewall.dmzIp.split(".");
+  const net_dmz_fw_digit = (net_dmz_root?.length >= 3) ? net_dmz_root[3] : undefined;
   net_dmz_root.splice(3);
+
   let [netmask_long_dmz, netmask_short_dmz] = short(Network.DMZ, store);
 
   let dns_forwarders = ``;
@@ -181,6 +187,10 @@ export function globalVars(store: Store) {
     nb_cnx_try: ${ipSecService.connectionAttemptsNumber}
     protocol_ike:${protocol_ike}
     protocol_esp:${protocol_esp}
+  fw_toip_ip: ${store.firewall.exploitationIp}
+  fw_toip_ip_digit: ${net_toip_fw_digit}
+  fw_dmz_ip: ${store.firewall.dmzIp}
+  fw_dmz_ip_digit: ${net_dmz_fw_digit}
 
 
 ##########################
@@ -239,14 +249,6 @@ export function globalVars(store: Store) {
   #openvpn_public_port: "{{ vars.GLOBAL.OpenVpn.openvpn_port }}"
   call_count_port: 8888
 
-  #Réseau toip
-  fw_toip_ip: 192.168.223.254
-  fw_toip_ip_digit: 254
-
-  #Réseau DMZ
-  fw_dmz_ip: 192.168.40.100
-  fw_dmz_ip_digit: 100
-
   # Squid
   squid_port: 3128
 
@@ -264,7 +266,7 @@ export function globalVars(store: Store) {
   iso_crypt_proxy: "isos/debian-10.5.0-amd64-AUTO-CRYPT-PROXY.iso"
   iso_crypt: "isos/debian-10.5.0-amd64-AUTO-CRYPT.iso"
 
-  disk_size: 50
+  disk_size: 80
   ram_size: 4096
   nb_cpu: 2
 
@@ -292,7 +294,7 @@ export function hosts(store: Store): string[] {
     for (const virtualMachine of host.virtualMachines) {
       const section: string = `[${virtualMachine.name}]`;
       const ipProperty: string = (host.network === Network.DMZ) ? 'dmz_ip' : 'toip_ip';
-      const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_server['${virtualMachine.name}'].list_ips.${ipProperty} }}"`;
+      const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}"`;
       result.push(section);
       result.push(entry);
       result.push('');
