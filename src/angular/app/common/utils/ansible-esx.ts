@@ -47,15 +47,18 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
   const isProxy = vm.services.findIndex(id => id === proxyService.id) > -1;
   let services = ``;
   vm.services.forEach(id => {
-    for (const key in store.services) {
-      if (store.services[key].id === id) {
-        store.services[key].services.forEach(s => {
+    if (id !== "ntpService") {
+      for (const key in store.services) {
+        if (store.services[key].id === id) {
+          store.services[key].services.forEach(s => {
           services += `
         - ${s}`;
-        });
-        break;
+          });
+          break;
+        }
       }
     }
+
   });
   return `
     ${vm.name}:
