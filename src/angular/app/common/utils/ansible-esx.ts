@@ -72,17 +72,17 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
     }
   });
 
-  serviceOrders.sort((subService1: ServiceOrder, subService2: ServiceOrder) => {
-    const order1: number = (subService1.order) ? subService1.order : 0;
-    const order2: number = (subService2.order) ? subService2.order : 0;
+  serviceOrders.sort((serviceOrder1: ServiceOrder, serviceOrder2: ServiceOrder) => {
+    const order1: number = (serviceOrder1.order) ? serviceOrder1.order : 0;
+    const order2: number = (serviceOrder2.order) ? serviceOrder2.order : 0;
     return order1 - order2;
   });
 
   let services = ``;
 
-  for (const subService of serviceOrders) {
+  for (const serviceOrder of serviceOrders) {
     services += `
-        - ${subService.name}`;
+        - ${serviceOrder.name}`;
   }
 
   const isClient: boolean = (

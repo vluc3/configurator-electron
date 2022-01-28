@@ -9,7 +9,7 @@ const hosts: Host[] = [{
   password: "aaaa",
   ip: "192.168.101.10",
   virtualMachines: [{
-    name: "proxy",
+    name: "srv-proxy",
     ip: "192.168.12.10",
     mask: "255.255.255.0",
     gateway: "192.168.12.1",
