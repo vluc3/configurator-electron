@@ -167,6 +167,11 @@ export function globalVars(store: Store) {
     })
   });
 
+  const vpnClientNetworks: string[] = openVpnService.vpnClientNetwork.split('.');
+  vpnClientNetworks[3] = '1';
+  const defaultGw: string = vpnClientNetworks.join('.');
+
+
   return `GLOBAL:
 
   netmask_long_toip: ${netmask_long_toip}
@@ -207,6 +212,7 @@ export function globalVars(store: Store) {
   key_size: ${ejbcaService.length}
   OpenVpn:
     public_ip_ovpn: ${openVpnService.ip}
+    default_gw: ${defaultGw}
     openvpn_public_port: ${openVpnService.clientInPort}
     openvpn_port: ${openVpnService.internInPort}
     net_ovpn: ${openVpnService.vpnClientNetwork}
