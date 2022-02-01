@@ -68,8 +68,10 @@ export class StateService {
     private translateService: TranslateService
   ) {
     if (this.electronService.isElectron) {
-      this.electronService.ipcRenderer.on("want:close", (event) => {
-        if (this.isNotSaved()) {
+      this.electronService.ipcRenderer.on("want:close", async (event) => {
+        const notSaved: boolean = await this.isNotSaved();
+
+        if (notSaved) {
           this.modalService.open({
             title: "NEW_PROJECT.WARNING",
             html: `<p class="text-danger">${this.translateService.instant("NEW_PROJECT.CHANGES_NOT_SAVED")}</p>`,
@@ -122,7 +124,7 @@ export class StateService {
       //       //   return;
       //       // }
 
-      const current = await this.encrypt();
+      const current = await this.encrypt(this.current);
       const storeText = this.serialize(current);
       this.writeProjectFile(current.name, storeText)
     } else if (!APP_CONFIG.production) {
@@ -177,7 +179,7 @@ export class StateService {
         this.current = this.deserialize(storeText);
 
         if (decrypt) {
-          await this.decrypt();
+          await this.decrypt(this.current);
         }
 
         this.currentChange.next();
@@ -212,6 +214,14 @@ export class StateService {
       }
       return true;
     })
+  }
+
+  getMailService(store: Store): MailService {
+    if (store) {
+      return store.services['mailService'] as MailService;
+    }
+
+    return null;
   }
 
   removeProject(project: Project) {
@@ -255,26 +265,41 @@ export class StateService {
     return store;
   }
 
-  async encrypt() {
-    const result = clone(this.current);
-    let vault = new this.electronService.Vault({password: secretPassword});
+  async encrypt(store: Store): Promise<Store> {
+    let result: Store = null;
 
-    for (const host of result.hosts) {
-      host.password = await vault.encrypt(host.password);
+    if (store) {
+      result = clone(store);
+      let vault = new this.electronService.Vault({password: secretPassword});
+
+      for (const host of result.hosts) {
+        host.password = await vault.encrypt(host.password);
+      }
+
+      const mailService: MailService = this.getMailService(result);
+
+      if (mailService) {
+        mailService.defaultPassword = await vault.encrypt(mailService.defaultPassword);
+      }
     }
 
-    (result.services['mailService'] as MailService).defaultPassword = await vault.encrypt((result.services['mailService'] as MailService).defaultPassword);
     return result;
   }
 
-  async decrypt() {
-    let vault = new this.electronService.Vault({password: secretPassword});
+  async decrypt(store: Store): Promise<void> {
+    if (store) {
+      let vault = new this.electronService.Vault({password: secretPassword});
 
-    for (const host of this.current.hosts) {
-      host.password = await vault.decrypt(host.password);
+      for (const host of store.hosts) {
+        host.password = await vault.decrypt(host.password);
+      }
+
+      const mailService: MailService = this.getMailService(store);
+
+      if (mailService) {
+        mailService.defaultPassword = await vault.decrypt(mailService.defaultPassword);
+      }
     }
-
-    (this.current.services['mailService'] as MailService).defaultPassword = await vault.decrypt((this.current.services['mailService'] as MailService).defaultPassword);
   }
 
   private readProjectFile(projectName: string): string {
@@ -285,12 +310,16 @@ export class StateService {
     this.electronService.fs.writeFileSync(`${getProjectFolder()}${projectName}.json`, data);
   }
 
-  private isNotSaved(): boolean {
+  private async isNotSaved(): Promise<boolean> {
     if (this.current) {
-      const saved = this.readProjectFile(this.current.name);
+      let saved = this.readProjectFile(this.current.name);
+      const store: Store = this.deserialize(saved);
+      await this.decrypt(store);
+      saved = this.serialize(store);
       const current = this.serialize(this.current);
       return saved !== current;
     }
+
     return false;
   }
 }
