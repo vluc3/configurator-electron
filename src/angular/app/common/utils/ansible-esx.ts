@@ -43,6 +43,24 @@ ESX:
 `;
 }
 
+function getIpService(id: string, hosts: Host[], network: Network): string {
+  const networkHosts: Host[] = hosts.filter(host => host.network === network)
+
+  for (const host of networkHosts) {
+    for (const virtualMachine of host.virtualMachines) {
+      const index: number = virtualMachine.services.findIndex(service => {
+        return service === id;
+      });
+
+      if (index > -1) {
+        return virtualMachine.ip;
+      }
+    }
+  }
+
+  return null;
+}
+
 function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
   const isNotRepo = vm.services.findIndex(id => id === repoService.id) === -1;
   const isProxy = vm.services.findIndex(id => id === proxyService.id) > -1;
@@ -230,6 +248,9 @@ export function globalVars(store: Store) {
   fw_toip_ip_digit: ${net_toip_fw_digit}
   fw_dmz_ip: ${store.firewall.dmzIp}
   fw_dmz_ip_digit: ${net_dmz_fw_digit}
+  proxy_dmz_ip: ${getIpService(proxyService.id, store.hosts, Network.DMZ)}
+  repo_toip_ip: ${getIpService(repoService.id, store.hosts, Network.EXPLOITATION)}
+  ntp_toip_ip: ${getIpService(ntpService.id, store.hosts, Network.EXPLOITATION)}
 
 
 ##########################
