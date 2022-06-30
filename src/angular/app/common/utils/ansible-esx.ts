@@ -134,15 +134,20 @@ export function globalVars(store: Store) {
   const ntpService = store.services.ntpService as NtpService;
   const dhcpDnsService = store.services.dhcpDnsService as DhcpDnsService;
 
-  const net_toip_root = store.firewall.exploitationIp.split(".");
+  const net_toip_root = store.firewalls.pfsense.outputIp.split(".");
   const net_toip_fw_digit = (net_toip_root?.length >= 3) ? net_toip_root[3] : undefined;
   net_toip_root.splice(3);
 
   let [netmask_long_toip, netmask_short_toip] = short(Network.EXPLOITATION, store);
 
-  const net_dmz_root = store.firewall.dmzIp.split(".");
+  const net_dmz_root = store.firewalls.stormshield.inputIp.split(".");
   const net_dmz_fw_digit = (net_dmz_root?.length >= 3) ? net_dmz_root[3] : undefined;
   net_dmz_root.splice(3);
+
+  const stormshield_to_pfsenses: string[] = store.firewalls.stormshield.outputIp.split(".");
+  stormshield_to_pfsenses.splice(3);
+  const net_pfsense_stormshield: string = `${stormshield_to_pfsenses.join(".")}.0`;
+  const netmask_short_pfsense_stormshield: number = 24
 
   let [netmask_long_dmz, netmask_short_dmz] = short(Network.DMZ, store);
 
@@ -244,13 +249,20 @@ export function globalVars(store: Store) {
     nb_cnx_try: ${ipSecService.connectionAttemptsNumber}
     protocol_ike:${protocol_ike}
     protocol_esp:${protocol_esp}
-  fw_toip_ip: ${store.firewall.exploitationIp}
+  fw_toip_ip: ${store.firewalls.pfsense.outputIp}
   fw_toip_ip_digit: ${net_toip_fw_digit}
-  fw_dmz_ip: ${store.firewall.dmzIp}
+  fw_dmz_ip: ${store.firewalls.stormshield.inputIp}
   fw_dmz_ip_digit: ${net_dmz_fw_digit}
   proxy_dmz_ip: ${getIpService(proxyService.id, store.hosts, Network.DMZ)}
   repo_toip_ip: ${getIpService(repoService.id, store.hosts, Network.EXPLOITATION)}
   ntp_toip_ip: ${getIpService(ntpService.id, store.hosts, Network.EXPLOITATION)}
+
+  #### Pfsense-Stormshield access
+  pfsense_to_stormshield: ${store.firewalls.pfsense.inputIp}
+  stormshield_to_pfsense: ${store.firewalls.stormshield.outputIp}
+  net_pfsense_stormshield: ${net_pfsense_stormshield}
+  netmask_short_pfsense_stormshield: ${netmask_short_pfsense_stormshield}
+
 
 
 ##########################

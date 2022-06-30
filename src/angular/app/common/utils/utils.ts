@@ -82,7 +82,7 @@ export function isFormValid(key: string, formGroup: FormGroup) {
   return false;
 }
 
-export function isNetworkValid(ip: string, mask: string, gateway: string): boolean {
+export function isNetworkValid(ip: string, gateway: string, mask: string = '255.255.255.0'): boolean {
 
   if (!isIpValid(ip, false) || !isIpValid(mask) || !isIpValid(gateway, false) || ip === gateway || !isMaskValid(mask)) {
     return false;

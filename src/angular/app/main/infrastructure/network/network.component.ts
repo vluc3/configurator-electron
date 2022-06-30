@@ -61,11 +61,19 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
       y: 0
     }, {
       id: 2,
-      name: `Firewall`,
+      name: `Stormshield`,
       device_type: "firewall",
       color: "gray",
       fixed: true,
       x: 200,
+      y: 0
+    }, {
+      id: 3,
+      name: `Pfsense`,
+      device_type: "firewall",
+      color: "gray",
+      fixed: true,
+      x: 300,
       y: 0
     }];
 
@@ -77,6 +85,10 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
       color: "gray",
       source: 1,
       target: 2
+    }, {
+      color: null,
+      source: 2,
+      target: 3
     }];
 
     const nodeSet = [];
@@ -90,14 +102,14 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
     const expHosts = hosts.filter(host => {
       return host.network === Network.EXPLOITATION;
     });
-    let id = 3;
-    const center = {x: 200, y: 0};
+    let id = 4;
     let i = 0;
     const nodeT = 2 * Math.PI / nodesLength;
     [dmzHosts, expHosts].forEach(network => {
       network.forEach(host => {
         host.virtualMachines.forEach(vm => {
           i++;
+          const center = {x: host.network === Network.DMZ ? 200 : 300, y: 0};
           let nodeX = center.x + 200 * Math.cos(i * nodeT + Math.PI);
           let nodeY = center.y + 200 * Math.sin(i * nodeT + Math.PI);
           nodes.push({
@@ -111,7 +123,7 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
           });
           links.push({
             color: host.network === Network.DMZ ? "black" : null,
-            source: 2,
+            source: host.network === Network.DMZ ? 2 : 3,
             target: id
           });
           const sNodes = [id];

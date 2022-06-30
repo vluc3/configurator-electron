@@ -1,0 +1,19 @@
+<div class="content">
+  <app-firewall
+    #stormshield
+    [firewall]="stormshieldFirewall"
+    [networkInputIp]="false"
+    [networkOutputIp]="true"
+    [inputIpLabel]="'INFRASTRUCTURE.FIREWALL.DMZ_IP'"
+    [outputIpLabel]="'INFRASTRUCTURE.FIREWALL.NETWORK_IP'">
+  </app-firewall>
+  <app-firewall
+    class="mt-2"
+    #pfsense
+    [firewall]="pfsenseFirewall"
+    [networkInputIp]="true"
+    [networkOutputIp]="false"
+    [inputIpLabel]="'INFRASTRUCTURE.FIREWALL.NETWORK_IP'"
+    [outputIpLabel]="'INFRASTRUCTURE.FIREWALL.EXPLOITATION_IP'">
+  </app-firewall>
+</div>

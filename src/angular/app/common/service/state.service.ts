@@ -159,10 +159,17 @@ export class StateService {
     this.current = {
       name: project.name,
       hosts: clone(hosts) as Host[],
-      firewall: {
-        name: "Pare-feu",
-        dmzIp: "192.168.40.100",
-        exploitationIp: "192.168.223.254"
+      firewalls: {
+        stormshield: {
+          name: "Stormshield",
+          inputIp: "192.168.40.100",
+          outputIp: "192.168.220.1"
+        },
+        pfsense: {
+          name: "Pfsense",
+          inputIp: "192.168.220.2",
+          outputIp: "192.168.223.254"
+        }
       },
       services: clone(this.services),
       serviceKeys: this.getServiceKeys(hosts)
@@ -326,8 +333,13 @@ export class StateService {
 
 export interface Store {
   name: string;
-  hosts: Host[],
-  firewall: Firewall,
+  hosts: Host[];
+  firewalls: Firewalls;
   services: Record<string, Service>;
   serviceKeys: string[];
+}
+
+export interface Firewalls {
+  stormshield: Firewall;
+  pfsense: Firewall;
 }

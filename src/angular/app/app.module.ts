@@ -30,7 +30,8 @@ import {HostListItemComponent} from './main/infrastructure/host-list/host-list-i
 import {HomeModalComponent} from './home/home-modal/home-modal.component';
 import {NewProjectComponent} from './home/new-project/new-project.component';
 import {AppTranslateModule} from "./app-translate.module";
-import {FirewallComponent} from "./main/infrastructure/firewall/firewall.component";
+import {FirewallsComponent} from "./main/infrastructure/firewall/firewalls/firewalls.component";
+import {FirewallComponent} from "./main/infrastructure/firewall/firewall/firewall.component";
 import {ExportComponent} from "./top-nav/export/export.component";
 
 @NgModule({
@@ -59,6 +60,7 @@ import {ExportComponent} from "./top-nav/export/export.component";
     HostListItemComponent,
     HomeModalComponent,
     NewProjectComponent,
+    FirewallsComponent,
     FirewallComponent,
     ExportComponent
   ],

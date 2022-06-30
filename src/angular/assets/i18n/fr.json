@@ -68,7 +68,8 @@
     },
     "FIREWALL": {
       "DMZ_IP": "Adresse IP DMZ",
-      "EXPLOITATION_IP": "Adresse IP EXPLOITATION"
+      "NETWORK_IP": "Adresse IP sur réseau firewall",
+      "EXPLOITATION_IP": "Adresse IP exploitation"
     },
     "VIRTUAL_MACHINE": {
       "ADD_VM": "Ajouter une VM",

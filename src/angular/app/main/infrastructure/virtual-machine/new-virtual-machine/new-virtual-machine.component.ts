@@ -78,8 +78,8 @@ export class NewVirtualMachineComponent extends CoreComponent implements ModalBo
     }
     if (!isNetworkValid(
       this.formGroup.get('ip').value,
+      this.formGroup.get('gateway').value,
       this.formGroup.get('mask').value,
-      this.formGroup.get('gateway').value
     )) {
       return {ipError: true};
     }

@@ -16,9 +16,17 @@ export const stateService = {
   current: {
     name: "Text Config",
     hosts: clone(hosts) as Host[],
-    firewall: {
-      dmzIp: "192.168.40.100",
-      exploitationIp: "192.168.223.254"
+    firewalls: {
+      stormshield: {
+        name: "Stormshield",
+        inputIp: "192.168.40.100",
+        outputIp: "192.168.220.1"
+      },
+      pfsense: {
+        name: "Pfsense",
+        inputIp: "192.168.220.2",
+        outputIp: "192.168.223.254"
+      }
     },
     services: {
       dhcpDnsService,
@@ -79,24 +87,24 @@ describe('Utils functions', () => {
   });
 
   it('Test isNetworkValid', () => {
-    expect(isNetworkValid("192.168.0.10", "255.255.255.248", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.255.255.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.255.254.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.255.240.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.255.0.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.128.0.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "128.0.0.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.255.255.0", "192.168.0.11")).toBeTruthy();
-    expect(isNetworkValid("192.168.0.10", "255.255.0.0", "192.168.1.11")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.255.248")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.255.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.254.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.240.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.0.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.128.0.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "128.0.0.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.255.0")).toBeTruthy();
+    expect(isNetworkValid("192.168.0.10", "192.168.1.11", "255.255.0.0")).toBeTruthy();
 
-    expect(isNetworkValid("192.168.0.10", "255.255.255.252", "192.168.0.11")).toBeFalsy(); // l'adresse de la passerelle est celle du broadcast
-    expect(isNetworkValid("192.168.0.10", "255.255.255.252", "192.168.0.8")).toBeFalsy(); // l'adresse de la passerelle est celle du réseau
-    expect(isNetworkValid("192.168.0.10", "255.255.255.248", "192.168.0.16")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
-    expect(isNetworkValid("192.168.0.10", "255.255.255.0", "192.168.1.11")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
-    expect(isNetworkValid("192.168.0.10", "255.255.255.0", "192.167.0.11")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
-    expect(isNetworkValid("192.168.0.10", "255.255.255.0", "192.169.0.11")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
-    expect(isNetworkValid("192.168.0.10", "255.255.0.0", "92.168.1.11")).toBeFalsy();// l'adresse de la passerelle n'est pas sur le meme sous réseau
-    expect(isNetworkValid("192.168.0.10", "255.255.255.253", "192.168.1.11")).toBeFalsy(); // erreur de masque de sous réseau
-    expect(isNetworkValid("192.168.0.10", "128.128.0.0", "192.168.1.11")).toBeFalsy(); // erreur de masque de sous réseau
+    expect(isNetworkValid("192.168.0.10", "192.168.0.11", "255.255.255.252")).toBeFalsy(); // l'adresse de la passerelle est celle du broadcast
+    expect(isNetworkValid("192.168.0.10", "192.168.0.8", "255.255.255.252")).toBeFalsy(); // l'adresse de la passerelle est celle du réseau
+    expect(isNetworkValid("192.168.0.10", "192.168.0.16", "255.255.255.248")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
+    expect(isNetworkValid("192.168.0.10", "192.168.1.11", "255.255.255.0")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
+    expect(isNetworkValid("192.168.0.10", "192.167.0.11", "255.255.255.0")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
+    expect(isNetworkValid("192.168.0.10", "192.169.0.11", "255.255.255.0")).toBeFalsy(); // l'adresse de la passerelle n'est pas sur le meme sous réseau
+    expect(isNetworkValid("192.168.0.10", "92.168.1.11", "255.255.0.0")).toBeFalsy();// l'adresse de la passerelle n'est pas sur le meme sous réseau
+    expect(isNetworkValid("192.168.0.10", "192.168.1.11", "255.255.255.253")).toBeFalsy(); // erreur de masque de sous réseau
+    expect(isNetworkValid("192.168.0.10", "192.168.1.11", "128.128.0.0")).toBeFalsy(); // erreur de masque de sous réseau
   });
 });

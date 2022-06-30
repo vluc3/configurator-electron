@@ -22,7 +22,7 @@ export class SideNavComponent {
     }, {
       name: "SIDE_NAV.FIREWALL",
       icon: "cfg-firewall",
-      link: "infrastructure/firewall"
+      link: "infrastructure/firewalls"
     }, {
       name: "SIDE_NAV.VIRTUAL_MACHINES",
       icon: "cfg-cubes",
