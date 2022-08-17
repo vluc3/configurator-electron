@@ -27,7 +27,7 @@ export class HomeModalComponent implements ModalBody<any>, OnInit {
     if (this.electronService.isElectron) {
       // @ts-ignore
       // version = this.electronService.process.env.npm_package_version;
-      version = '1.2.0';
+      version = '1.2.1';
     }
     return {
       version

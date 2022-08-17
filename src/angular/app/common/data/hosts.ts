@@ -15,7 +15,7 @@ const hosts: Host[] = [{
     gateway: "192.168.12.1",
     services: [
       openVpnService.id,
-      // ipSecService.id,
+      ipSecService.id,
       proxyService.id,
       nrpeService.id
     ]

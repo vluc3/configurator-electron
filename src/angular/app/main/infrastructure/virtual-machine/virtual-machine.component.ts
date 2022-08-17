@@ -38,9 +38,10 @@ export class VirtualMachineComponent implements OnInit {
   }
 
   serviceDragStart(serviceDragInfo: ServiceDragInfo, host: Host) {
-    if (host.network === Network.DMZ) {
+    if (! this.dragEnabled(serviceDragInfo.serviceId, host.network)) {
       return;
     }
+
     const hostIndex = this.hosts.indexOf(host);
     const vmIndex = host.virtualMachines.indexOf(serviceDragInfo.virtualMachine);
     serviceDragInfo.event.dataTransfer?.setData("position", `${hostIndex}-${vmIndex}`);
@@ -57,14 +58,14 @@ export class VirtualMachineComponent implements OnInit {
    * @param network
    */
   virtualMachineDrop(event: ServiceDropInfo, network: Network) {
-
     event.event.preventDefault();
-    // Deactivate temporally for DMZ network
-    if (network === Network.DMZ) {
-      return;
-    }
     const serviceId = event.event.dataTransfer?.getData("serviceId");
+
     if (serviceId) {
+      if (! this.dropEnabled(serviceId, network)) {
+        return;
+      }
+
       const position = event.event.dataTransfer?.getData("position");
       if (position) {
         // Drag & Drop from another VM
@@ -124,5 +125,29 @@ export class VirtualMachineComponent implements OnInit {
       this.hosts.splice(index, 1);
       // this.stateService.save();
     }
+  }
+
+  private dragEnabled(serviceId: string, network: Network): boolean {
+    if (network === Network.DMZ) {
+      if (serviceId !== 'ipSecService' && serviceId !== 'openVpnService') {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private dropEnabled(serviceId: string, network: Network): boolean {
+    let result: boolean = this.dragEnabled(serviceId, network);
+
+    if (result) {
+      if (network !== Network.DMZ) {
+        if (serviceId === 'ipSecService' || serviceId === 'openVpnService') {
+          result = false;
+        }
+      }
+    }
+
+    return result;
   }
 }
