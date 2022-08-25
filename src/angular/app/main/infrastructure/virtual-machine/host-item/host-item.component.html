@@ -22,10 +22,10 @@
   <div class="virtual-machines">
     <div
       virtualMachineItem
-      *ngFor="let virtualMachine of host.virtualMachines"
+      *ngFor="let virtualMachine of host.virtualMachines; let index = index"
       [host]="host"
       [virtualMachine]="virtualMachine"
-      [deletable]="host.network !== 'DMZ'"
+      [deletable]="host.network !== 'DMZ' || index > 0"
       (dragover)="$event.preventDefault()"
       (drop)="virtualMachineDrop.emit({event:$event, virtualMachine})"
       (serviceDragStart)="serviceDragStart.emit({

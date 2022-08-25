@@ -48,7 +48,7 @@
   "HOME": {
     "INFORMATION": "Application de configuration du processus d'installation de la solution :",
     "APPLICATION_NAME": "Bulle de communication sécurisée",
-    "VERSION": "V {{version}}",
+    "VERSION": "Version {{version}}",
     "CREATE_NEW_CONFIGURATION": "Créer une nouvelle configuration",
     "IMPORT_EXISTING_CONFIGURATION": "Importer une configuration existante",
     "PROJECT_WITH_THIS_NAME_ALREADY_EXISTS": "Un projet portant ce nom existe déjà",

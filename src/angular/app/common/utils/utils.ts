@@ -3,7 +3,7 @@ import {ModalService} from "../component/modal/modal.service";
 import {HomeModalComponent} from "../../home/home-modal/home-modal.component";
 import {Observable} from "rxjs";
 import {ModalEvent} from "../component/modal/modal.component";
-import {APP_CONFIG} from "../../../environments/environment";
+import {appConfig} from "../../../environments/environment";
 
 export const intRegex: string = '^[0-9]+$';
 export const intAlphaSeparatorRegex: string = '^[0-9a-zA-Z-_\.]+$';
@@ -170,7 +170,7 @@ export function home(modalService: ModalService, closable = true): Observable<Mo
 
 export function getProjectFolder(): string {
   let projectFolder = './project/';
-  if (!APP_CONFIG.production) {
+  if (!appConfig.production) {
     projectFolder = './release/project/';
   }
   return projectFolder;

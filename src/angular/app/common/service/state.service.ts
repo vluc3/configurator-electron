@@ -19,7 +19,7 @@ import {
 import {ElectronService} from "./electron.service";
 import {Project} from "../../home/new-project/new-project.component";
 import hosts from "../data/hosts";
-import {APP_CONFIG} from "../../../environments/environment";
+import {appConfig} from "../../../environments/environment";
 import {Observable, Subject} from "rxjs";
 import {clone, getProjectFolder, jsonStringify} from "../utils/utils";
 import {Firewall} from "../model/firewall";
@@ -91,7 +91,7 @@ export class StateService {
           this.electronService.ipcRenderer.send("can:close");
         }
       });
-    } else if (!APP_CONFIG.production) {
+    } else if (!appConfig.production) {
       const currentText = localStorage.getItem(StateService.CONFIGURATOR_CURRENT_PROJECT_STORE);
       if (currentText) {
         this.current = JSON.parse(currentText);
@@ -127,7 +127,7 @@ export class StateService {
       const current = await this.encrypt(this.current);
       const storeText = this.serialize(current);
       this.writeProjectFile(current.name, storeText)
-    } else if (!APP_CONFIG.production) {
+    } else if (!appConfig.production) {
       let projectStores: Record<string, Store> = {};
       const projectStoresText = localStorage.getItem(StateService.CONFIGURATOR_PROJECTS_STORES);
       if (projectStoresText) {
@@ -191,7 +191,7 @@ export class StateService {
 
         this.currentChange.next();
       }
-    } else if (!APP_CONFIG.production) {
+    } else if (!appConfig.production) {
       const projectStoresText = localStorage.getItem("CONFIGURATOR_PROJECTS_STORES");
       if (projectStoresText) {
         const projectStores: Record<string, Store> = JSON.parse(projectStoresText);

@@ -129,7 +129,7 @@ export class VirtualMachineComponent implements OnInit {
 
   private dragEnabled(serviceId: string, network: Network): boolean {
     if (network === Network.DMZ) {
-      if (serviceId !== 'ipSecService' && serviceId !== 'openVpnService') {
+      if (serviceId !== 'nrpeService' && serviceId !== 'ipSecService' && serviceId !== 'openVpnService') {
         return false;
       }
     }
