@@ -1,6 +1,7 @@
 {
   "name": "configurator",
-  "version": "1.2.2",
+  "author": "Unnamed",
+  "version": "1.2.3",
   "main": "index.js",
   "private": true,
   "scripts": {

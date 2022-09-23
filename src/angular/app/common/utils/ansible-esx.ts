@@ -25,11 +25,6 @@ function esx(host: Host): string {
     list_int_network:
       ${host.network === Network.DMZ ? `int_network_dmz` : `int_network_toip`}: ens192
     datastore: ${host.datastore}
-    default:
-      iso_install: "isos/debian-10.5.0-amd64-AUTO-CRYPT.iso"
-      disk_size: 40
-      ram_size: 4096
-      nb_cpu: 4
     guest_id: debian10_64Guest
   `;
 }
@@ -81,7 +76,13 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
               order: order
             };
 
-            serviceOrders.push(serviceOrder);
+            const index = serviceOrders.findIndex(item => {
+              return serviceOrder.name === item.name;
+            });
+
+            if (index === -1) {
+              serviceOrders.push(serviceOrder);
+            }
           });
 
           break;
@@ -241,6 +242,7 @@ export function globalVars(store: Store) {
     net_ovpn: ${openVpnService.vpnClientNetwork}
     openvpn_proto: UDP
     nb_cnx_try: ${openVpnService.connectionAttemptsNumber}
+    netmask_short: ${openVpnService.netmaskShort}
   IPSec:
     public_ip_ipsec: ${ipSecService.ip}
     ipsec_public_port: ${ipSecService.clientInPort}
@@ -249,6 +251,7 @@ export function globalVars(store: Store) {
     nb_cnx_try: ${ipSecService.connectionAttemptsNumber}
     protocol_ike:${protocol_ike}
     protocol_esp:${protocol_esp}
+    netmask_short: ${ipSecService.netmaskShort}
   fw_toip_ip: ${store.firewalls.pfsense.outputIp}
   fw_toip_ip_digit: ${net_toip_fw_digit}
   fw_dmz_ip: ${store.firewalls.stormshield.inputIp}
@@ -289,6 +292,7 @@ export function globalVars(store: Store) {
 
   #PKI:
   openvpn_private_key_pass: "{{ PKI_VAULT.openvpn_private_key_pass }}"
+  strongswan_private_key_pass: "{{ PKI_VAULT.strongswan_private_key_pass }}"
   webui_private_key_pass: "{{ PKI_VAULT.webui_private_key_pass }}"
   mariadb_pki_root_pass: "{{ PKI_VAULT.mariadb_pki_root_pass }}"
 
@@ -318,9 +322,9 @@ export function globalVars(store: Store) {
      ? "/etc/hosts.j2"
      ? "/etc/resolv.conf.j2"
 
-  iso_crypt_repo: "isos/debian-10.5.0-amd64-AUTO-CRYPT-REPO.iso"
-  iso_crypt_proxy: "isos/debian-10.5.0-amd64-AUTO-CRYPT-PROXY.iso"
-  iso_crypt: "isos/debian-10.5.0-amd64-AUTO-CRYPT.iso"
+  iso_crypt_repo: "isos/debian-11.3.0-amd64-AUTO-CRYPT-REPO.iso"
+  iso_crypt_proxy: "isos/debian-11.3.0-amd64-AUTO-CRYPT-PROXY.iso"
+  iso_crypt: "isos/debian-11.3.0-amd64-AUTO-CRYPT.iso"
 
   disk_size: 80
   ram_size: 4096

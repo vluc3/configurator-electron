@@ -65,7 +65,7 @@ export const toipWebUiService: ToipWebUiService = {
   internSipPort: 5090,
   externOpenSipPort: 24680,
   internOpenSipPort: 24682,
-  services: ["telecom", "webui", "connector_ldap"]
+  services: ["telecom", "webui", "connector_ldap", "node"]
 };
 
 export const ejbcaService: EjbcaService = {
@@ -79,7 +79,7 @@ export const ejbcaService: EjbcaService = {
   certificationServerValidityDays: 3650,
   certificationUserValidityDays: 3650,
   length: 2048,
-  services: ["cles"]
+  services: ["cles", "node"]
 };
 
 export const openVpnService: OpenVpnService = {
@@ -91,7 +91,9 @@ export const openVpnService: OpenVpnService = {
   vpnClientNetwork: '192.168.42.0',
   internInPort: 1194,
   connectionAttemptsNumber: 5,
-  services: ["vpn"]
+  services: ["vpn"],
+  netmaskShort: 24
+
 };
 
 export const ipSecService: IpSecService = {
@@ -108,7 +110,9 @@ export const ipSecService: IpSecService = {
   pseudoRandomFunctions,
   integrity,
   diffieHellman,
-  services: []
+  services: ['strongswan'],
+  netmaskShort: 24
+
 };
 
 export const repoService: RepoService = {

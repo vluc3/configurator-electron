@@ -5,4 +5,5 @@ export interface SecService extends Service {
   clientInPort: number;
   vpnClientNetwork: string;
   connectionAttemptsNumber: number;
+  netmaskShort: number;
 }
