@@ -1,6 +1,6 @@
 import {Host} from "../model/host";
 import {Network} from "../model/network";
-import {ipSecService, nrpeService, openVpnService, proxyService} from "./defaults";
+import {ipSecService, nrpeService, openVpnService, wireGuardService, proxyService} from "./defaults";
 
 const hosts: Host[] = [{
   name: "esx-1",
@@ -16,6 +16,7 @@ const hosts: Host[] = [{
     services: [
       openVpnService.id,
       ipSecService.id,
+      wireGuardService.id,
       proxyService.id,
       nrpeService.id
     ]

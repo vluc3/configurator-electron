@@ -25,6 +25,7 @@ import {ToipWebUiServiceComponent} from './main/service/toip-web-ui-service/toip
 import {EjbcaServiceComponent} from './main/service/ejbca-service/ejbca-service.component';
 import {OpenVpnServiceComponent} from './main/service/open-vpn-service/open-vpn-service.component';
 import {IpSecServiceComponent} from './main/service/ip-sec-service/ip-sec-service.component';
+import {WireGuardServiceComponent} from './main/service/wire-guard-service/wire-guard-service.component';
 import {HttpClientModule} from "@angular/common/http";
 import {HostListItemComponent} from './main/infrastructure/host-list/host-list-item/host-list-item.component';
 import {HomeModalComponent} from './home/home-modal/home-modal.component';
@@ -33,6 +34,7 @@ import {AppTranslateModule} from "./app-translate.module";
 import {FirewallsComponent} from "./main/infrastructure/firewall/firewalls/firewalls.component";
 import {FirewallComponent} from "./main/infrastructure/firewall/firewall/firewall.component";
 import {ExportComponent} from "./top-nav/export/export.component";
+import { MobileIronServiceComponent } from './main/service/mobile-iron-service/mobile-iron-service.component';
 
 @NgModule({
   declarations: [
@@ -57,12 +59,14 @@ import {ExportComponent} from "./top-nav/export/export.component";
     EjbcaServiceComponent,
     OpenVpnServiceComponent,
     IpSecServiceComponent,
+    WireGuardServiceComponent,
     HostListItemComponent,
     HomeModalComponent,
     NewProjectComponent,
     FirewallsComponent,
     FirewallComponent,
-    ExportComponent
+    ExportComponent,
+    MobileIronServiceComponent
   ],
   imports: [
     BrowserModule,

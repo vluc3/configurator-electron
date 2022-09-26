@@ -2,10 +2,11 @@ import {clone, copyEntries, isIpValid, isMaskValid, isNetworkValid} from "./util
 import {
   dhcpDnsService,
   ejbcaService,
-  ipSecService,
   mailService,
   ntpService,
   openVpnService,
+  ipSecService,
+  wireGuardService,
   toipWebUiService
 } from "../data/defaults";
 import hosts from "../data/hosts";
@@ -35,6 +36,7 @@ export const stateService = {
       toipWebUiService,
       ejbcaService,
       openVpnService,
+      wireGuardService,
       ipSecService
     },
     serviceKeys: [
@@ -44,6 +46,7 @@ export const stateService = {
       toipWebUiService,
       ejbcaService,
       openVpnService,
+      wireGuardService,
       ipSecService
     ]
   },

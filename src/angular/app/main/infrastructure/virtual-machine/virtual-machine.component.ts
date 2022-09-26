@@ -6,6 +6,8 @@ import {Network} from "../../../common/model/network";
 import {ServiceDragInfo} from "../../../common/model/service-drag-info";
 import {ServiceDropInfo} from "../../../common/model/service-drop-info";
 
+import {draggableDmzServiceIds, notDroppableDmzServiceIds} from '../../../common/data/defaults';
+
 @Component({
   selector: 'div[virtualMachineI]',
   templateUrl: './virtual-machine.component.html',
@@ -30,7 +32,17 @@ export class VirtualMachineComponent implements OnInit {
 
   ngOnInit(): void {
     this.hosts = this.stateService.getCurrent().hosts;
-    this.serviceIds = this.stateService.getCurrent().serviceKeys;
+    this.serviceIds = this.getServiceKeys();
+  }
+
+  getServiceKeys(): string[] {
+    let result: string[] = this.stateService.getCurrent().serviceKeys;
+
+    result = result.filter((serviceKey: string) => {
+      return serviceKey !== 'mobileIronService' ;
+    });
+
+    return result;
   }
 
   getHosts(network: Network): Host[] {
@@ -129,7 +141,11 @@ export class VirtualMachineComponent implements OnInit {
 
   private dragEnabled(serviceId: string, network: Network): boolean {
     if (network === Network.DMZ) {
-      if (serviceId !== 'nrpeService' && serviceId !== 'ipSecService' && serviceId !== 'openVpnService') {
+      const index: number = draggableDmzServiceIds.findIndex((draggableDmzServiceId: string) => {
+        return draggableDmzServiceId === serviceId;
+      });
+
+      if (index === -1) {
         return false;
       }
     }
@@ -142,7 +158,11 @@ export class VirtualMachineComponent implements OnInit {
 
     if (result) {
       if (network !== Network.DMZ) {
-        if (serviceId === 'ipSecService' || serviceId === 'openVpnService') {
+        const index: number = notDroppableDmzServiceIds.findIndex((droppableDmzServiceId: string) => {
+          return droppableDmzServiceId === serviceId;
+        });
+
+        if (index > -1) {
           result = false;
         }
       }

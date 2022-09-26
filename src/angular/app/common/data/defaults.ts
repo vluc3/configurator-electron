@@ -5,6 +5,8 @@ import {ToipWebUiService} from "../model/toip-web-ui-service";
 import {EjbcaService} from "../model/ejbca-service";
 import {OpenVpnService} from "../model/open-vpn-service";
 import {IpSecService} from "../model/ip-sec-service";
+import {WireGuardService} from "../model/wire-guard-service";
+import {MobileIronService} from "../model/mobile-iron-service";
 import encryptionAlgorithms from "./encryption-algorithms";
 import pseudoRandomFunctions from "./pseudo-random-functions";
 import integrity from "./integrity";
@@ -19,6 +21,19 @@ export const serviceOrderMap: Map<string, number> = new Map([
   ["mail", 90],
   ["nrpe", 100]
 ]);
+
+export const draggableDmzServiceIds: string[] = [
+  "nrpeService",
+  "ipSecService",
+  "openVpnService",
+  "wireGuardService"
+];
+
+export const notDroppableDmzServiceIds: string[] = [
+  "ipSecService",
+  "openVpnService",
+  "wireGuardService"
+];
 
 export const dhcpDnsService: DhcpDnsService = {
   id: "dhcpDnsService",
@@ -93,7 +108,6 @@ export const openVpnService: OpenVpnService = {
   connectionAttemptsNumber: 5,
   services: ["vpn"],
   netmaskShort: 24
-
 };
 
 export const ipSecService: IpSecService = {
@@ -112,7 +126,29 @@ export const ipSecService: IpSecService = {
   diffieHellman,
   services: ['strongswan'],
   netmaskShort: 24
+};
 
+export const wireGuardService: WireGuardService = {
+  id: "wireGuardService",
+  name: 'WireGuard',
+  icon: 'cfg-wireguard',
+  ip: '192.168.40.152',
+  clientInPort: 51820,
+  vpnClientNetwork: '192.168.45.0',
+  internInPort: 51820,
+  services: [],
+  netmaskShort: 24
+};
+
+export const mobileIronService: MobileIronService = {
+  id: "mobileIronService",
+  name: 'MobileIron',
+  icon: 'cfg-openvpn',
+  serverIp: '192.168.223.215',
+  syncPort: 9997,
+  certificate:'mobileironsmv',
+  dnsZone: 'ddns.net',
+  services: []
 };
 
 export const repoService: RepoService = {

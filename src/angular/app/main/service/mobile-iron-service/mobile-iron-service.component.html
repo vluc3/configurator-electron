@@ -1,0 +1,79 @@
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'SERVICE.MOBILE_IRON.MOBILE_IRON' | translate }}</legend>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="serverIp"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.MOBILE_IRON.SERVER_IP' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('serverIp')}"
+            id="serverIp"
+            formControlName="serverIp"
+            class="form-control form-control-sm"
+            (keypress)="ipKeypress($event)"
+            >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="syncPort"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.MOBILE_IRON.SYNC_PORT' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('syncPort')}"
+            id="syncPort"
+            formControlName="syncPort"
+            class="form-control form-control-sm"
+            (keypress)="intKeypress($event)"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="certificate"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.MOBILE_IRON.CERTIF' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('certificate')}"
+            id="certificate"
+            formControlName="certificate"
+            class="form-control form-control-sm"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="dnsZone"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.MOBILE_IRON.DNS_ZONE' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('dnsZone')}"
+            id="dnsZone"
+            formControlName="dnsZone"
+            class="form-control form-control-sm"
+            (keypress)="intAlphaSeparatorKeypress($event)"
+          >
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+</div>

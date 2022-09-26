@@ -1,6 +1,8 @@
 {
   "name": "configurator",
-  "version": "1.2.3",
+  "description": "Configurator",
+  "author": "Unnamed",
+  "version": "1.2.4",
   "main": "index.js",
   "dependencies": {
     "@electron/remote": "^2.0.1",

@@ -43,7 +43,9 @@
     "TOIP_WEB_UI": "TOIP/Web UI",
     "EJBCA": "EJBCA",
     "OPEN_VPN": "OpenVPN",
-    "IP_SEC": "IPSec"
+    "IP_SEC": "IPSec",
+    "WIRE_GUARD": "WireGuard",
+    "MOBILE_IRON": "MobileIron"
   },
   "HOME": {
     "INFORMATION": "Application de configuration du processus d'installation de la solution :",
@@ -135,6 +137,20 @@
       "PSEUDO_RANDOM_FUNCTION": "Fonction pseudo-aléatoire",
       "INTEGRITY": "Intégrité",
       "DIFFIE_HELLMAN": "Diffie-Hellman"
+    },
+    "WIRE_GUARD": {
+      "WIRE_GUARD": "WireGuard",
+      "CLIENTS_IP_ADDRESS": "Adresse IP clients",
+      "CLIENTS_LISTENING_PORT": "Port d'écoute clients",
+      "NETWORK_FOR_VPN_CLIENTS": "Réseau pour les clients VPN",
+      "INTERNAL_LISTENING_PORT": "Port d'écoute interne"
+    },
+    "MOBILE_IRON": {
+      "MOBILE_IRON": "MobileIron",
+      "SERVER_IP": "Server IP",
+      "SYNC_PORT": "Port synchrone",
+      "CERTIF": "Certificat",
+      "DNS_ZONE": "Zone DNS"
     }
   }
 }

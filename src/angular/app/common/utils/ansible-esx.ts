@@ -3,6 +3,8 @@ import {Network} from "../model/network";
 import {Store} from "../service/state.service";
 import {OpenVpnService} from "../model/open-vpn-service";
 import {IpSecService} from "../model/ip-sec-service";
+import {WireGuardService} from "../model/wire-guard-service";
+import {MobileIronService} from "../model/mobile-iron-service";
 import {EjbcaService} from "../model/ejbca-service";
 import {ToipWebUiService} from "../model/toip-web-ui-service";
 import {MailService} from "../model/mail-service";
@@ -129,6 +131,8 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
 export function globalVars(store: Store) {
   const openVpnService = store.services.openVpnService as OpenVpnService;
   const ipSecService = store.services.ipSecService as IpSecService;
+  const wireGuardService = store.services.wireGuardService as WireGuardService;
+  const mobileIronService = store.services.mobileIronService as MobileIronService;
   const ejbcaService = store.services.ejbcaService as EjbcaService;
   const toipWebUiService = store.services.toipWebUiService as ToipWebUiService;
   const mailService = store.services.mailService as MailService;
@@ -191,10 +195,13 @@ export function globalVars(store: Store) {
     })
   });
 
-  const vpnClientNetworks: string[] = openVpnService.vpnClientNetwork.split('.');
+  let vpnClientNetworks: string[] = openVpnService.vpnClientNetwork.split('.');
   vpnClientNetworks[3] = '1';
-  const defaultGw: string = vpnClientNetworks.join('.');
+  const openVpnDefaultServerNetwork: string = vpnClientNetworks.join('.');
 
+  vpnClientNetworks = wireGuardService.vpnClientNetwork.split('.');
+  vpnClientNetworks[3] = '1';
+  const wireGuardDefaultServerNetwork: string = vpnClientNetworks.join('.');
 
   return `GLOBAL:
 
@@ -236,7 +243,7 @@ export function globalVars(store: Store) {
   key_size: ${ejbcaService.length}
   OpenVpn:
     public_ip_ovpn: ${openVpnService.ip}
-    default_gw: ${defaultGw}
+    default_gw: ${openVpnDefaultServerNetwork}
     openvpn_public_port: ${openVpnService.clientInPort}
     openvpn_port: ${openVpnService.internInPort}
     net_ovpn: ${openVpnService.vpnClientNetwork}
@@ -252,6 +259,12 @@ export function globalVars(store: Store) {
     protocol_ike:${protocol_ike}
     protocol_esp:${protocol_esp}
     netmask_short: ${ipSecService.netmaskShort}
+  wireguard:
+    public_ip_wireguard: ${wireGuardService.ip}
+    wireguard_server: ${wireGuardDefaultServerNetwork}
+    wireguard_public_port: ${wireGuardService.clientInPort}
+    wireguard_port: ${wireGuardService.internInPort}
+    netmask_short: 24
   fw_toip_ip: ${store.firewalls.pfsense.outputIp}
   fw_toip_ip_digit: ${net_toip_fw_digit}
   fw_dmz_ip: ${store.firewalls.stormshield.inputIp}
@@ -271,7 +284,10 @@ export function globalVars(store: Store) {
 ##########################
 
   mobileiron:
-    misync_port: 9997
+    misync_port: ${mobileIronService.syncPort}
+    mi_server_ip: ${mobileIronService.serverIp}
+    mi_certif: ${mobileIronService.certificate}
+    mi_dns_zone: ${mobileIronService.dnsZone}
 
   netmask_long_ipsec: 255.255.255.0
   netmask_long_ovpn: 255.255.255.0

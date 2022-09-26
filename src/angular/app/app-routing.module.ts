@@ -10,6 +10,8 @@ import {ToipWebUiServiceComponent} from "./main/service/toip-web-ui-service/toip
 import {EjbcaServiceComponent} from "./main/service/ejbca-service/ejbca-service.component";
 import {OpenVpnServiceComponent} from "./main/service/open-vpn-service/open-vpn-service.component";
 import {IpSecServiceComponent} from "./main/service/ip-sec-service/ip-sec-service.component";
+import {WireGuardServiceComponent} from './main/service/wire-guard-service/wire-guard-service.component';
+import {MobileIronServiceComponent} from './main/service/mobile-iron-service/mobile-iron-service.component';
 import {FirewallsComponent} from "./main/infrastructure/firewall/firewalls/firewalls.component";
 
 const routes: Routes = [{
@@ -49,6 +51,12 @@ const routes: Routes = [{
 }, {
   path: 'service/ip-sec',
   component: IpSecServiceComponent
+}, {
+  path: 'service/wire-guard',
+  component: WireGuardServiceComponent
+}, {
+  path: 'service/mobile-iron',
+  component: MobileIronServiceComponent
 }];
 
 @NgModule({

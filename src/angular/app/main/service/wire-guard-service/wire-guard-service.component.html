@@ -1,0 +1,80 @@
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'SERVICE.WIRE_GUARD.WIRE_GUARD' | translate }}</legend>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="ip"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.WIRE_GUARD.CLIENTS_IP_ADDRESS' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('ip')}"
+            id="ip"
+            formControlName="ip"
+            class="form-control form-control-sm"
+            (keypress)="ipKeypress($event)"
+            >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="clientInPort"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.WIRE_GUARD.CLIENTS_LISTENING_PORT' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('clientInPort')}"
+            id="clientInPort"
+            formControlName="clientInPort"
+            class="form-control form-control-sm"
+            (keypress)="intKeypress($event)"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="vpnClientNetwork"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.WIRE_GUARD.NETWORK_FOR_VPN_CLIENTS' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('vpnClientNetwork')}"
+            id="vpnClientNetwork"
+            formControlName="vpnClientNetwork"
+            class="form-control form-control-sm"
+            (keypress)="ipKeypress($event)"
+          >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="internInPort"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.WIRE_GUARD.INTERNAL_LISTENING_PORT' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('internInPort')}"
+            id="internInPort"
+            formControlName="internInPort"
+            class="form-control form-control-sm"
+            (keypress)="intKeypress($event)"
+          >
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+</div>
