@@ -32,17 +32,7 @@ export class VirtualMachineComponent implements OnInit {
 
   ngOnInit(): void {
     this.hosts = this.stateService.getCurrent().hosts;
-    this.serviceIds = this.getServiceKeys();
-  }
-
-  getServiceKeys(): string[] {
-    let result: string[] = this.stateService.getCurrent().serviceKeys;
-
-    result = result.filter((serviceKey: string) => {
-      return serviceKey !== 'mobileIronService' ;
-    });
-
-    return result;
+    this.serviceIds = this.stateService.getCurrent().serviceKeys;
   }
 
   getHosts(network: Network): Host[] {

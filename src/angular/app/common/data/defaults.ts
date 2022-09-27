@@ -131,7 +131,7 @@ export const ipSecService: IpSecService = {
 export const wireGuardService: WireGuardService = {
   id: "wireGuardService",
   name: 'WireGuard',
-  icon: 'cfg-wireguard',
+  icon: 'cfg-wire-guard',
   ip: '192.168.40.152',
   clientInPort: 51820,
   vpnClientNetwork: '192.168.45.0',
@@ -143,7 +143,8 @@ export const wireGuardService: WireGuardService = {
 export const mobileIronService: MobileIronService = {
   id: "mobileIronService",
   name: 'MobileIron',
-  icon: 'cfg-openvpn',
+  icon: 'cfg-mobile-iron',
+  hidden: true,
   serverIp: '192.168.223.215',
   syncPort: 9997,
   certificate:'mobileironsmv',

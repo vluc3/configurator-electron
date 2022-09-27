@@ -211,6 +211,9 @@ export class StateService {
       if (this.services[id].notDeployable) {
         return false;
       }
+      if (this.services[id].hidden) {
+        return false;
+      }
       if (this.services[id].replicable) {
         return true;
       }

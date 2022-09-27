@@ -9,6 +9,7 @@ export interface Service {
   icon?: string;
   services: string[];
   replicable?: boolean;
+  hidden?: boolean;
   /**
    * TODO TEMP to be removed in next version
    */

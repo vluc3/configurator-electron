@@ -13,7 +13,6 @@
 i {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'configurator' !important;
-  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -141,4 +140,10 @@ i {
 }
 .cfg-vmware:before {
   content: "\e910";
+}
+.cfg-wire-guard:before {
+  content: "\e927";
+}
+.cfg-mobile-iron:before {
+  content: "\e928";
 }

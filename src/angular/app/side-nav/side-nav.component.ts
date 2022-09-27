@@ -64,11 +64,11 @@ export class SideNavComponent {
       link: 'service/ip-sec'
     }, {
       name: 'SIDE_NAV.WIRE_GUARD',
-      icon: 'cfg-ip-lock',
+      icon: 'cfg-wire-guard',
       link: 'service/wire-guard'
     }, {
       name: 'SIDE_NAV.MOBILE_IRON',
-      icon: 'cfg-ip-lock',
+      icon: 'cfg-mobile-iron',
       link: 'service/mobile-iron'
     }]
   }];
