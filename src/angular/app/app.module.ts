@@ -23,6 +23,7 @@ import {NtpServiceComponent} from './main/service/ntp-service/ntp-service.compon
 import {MailServiceComponent} from './main/service/mail-service/mail-service.component';
 import {ToipWebUiServiceComponent} from './main/service/toip-web-ui-service/toip-web-ui-service.component';
 import {EjbcaServiceComponent} from './main/service/ejbca-service/ejbca-service.component';
+import {MatrixServiceComponent} from './main/service/matrix-service/matrix-service.component';
 import {OpenVpnServiceComponent} from './main/service/open-vpn-service/open-vpn-service.component';
 import {IpSecServiceComponent} from './main/service/ip-sec-service/ip-sec-service.component';
 import {WireGuardServiceComponent} from './main/service/wire-guard-service/wire-guard-service.component';
@@ -57,6 +58,7 @@ import { MobileIronServiceComponent } from './main/service/mobile-iron-service/m
     MailServiceComponent,
     ToipWebUiServiceComponent,
     EjbcaServiceComponent,
+    MatrixServiceComponent,
     OpenVpnServiceComponent,
     IpSecServiceComponent,
     WireGuardServiceComponent,
@@ -66,7 +68,7 @@ import { MobileIronServiceComponent } from './main/service/mobile-iron-service/m
     FirewallsComponent,
     FirewallComponent,
     ExportComponent,
-    MobileIronServiceComponent
+    MobileIronServiceComponent,
   ],
   imports: [
     BrowserModule,

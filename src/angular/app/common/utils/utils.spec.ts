@@ -2,6 +2,7 @@ import {clone, copyEntries, isIpValid, isMaskValid, isNetworkValid} from "./util
 import {
   dhcpDnsService,
   ejbcaService,
+  matrixService,
   mailService,
   ntpService,
   openVpnService,
@@ -35,6 +36,7 @@ export const stateService = {
       mailService,
       toipWebUiService,
       ejbcaService,
+      matrixService,
       openVpnService,
       wireGuardService,
       ipSecService
@@ -45,6 +47,7 @@ export const stateService = {
       mailService,
       toipWebUiService,
       ejbcaService,
+      matrixService,
       openVpnService,
       wireGuardService,
       ipSecService

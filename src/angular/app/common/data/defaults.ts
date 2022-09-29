@@ -3,6 +3,7 @@ import {NtpService} from "../model/ntp-service";
 import {MailService} from "../model/mail-service";
 import {ToipWebUiService} from "../model/toip-web-ui-service";
 import {EjbcaService} from "../model/ejbca-service";
+import {MatrixService} from "../model/matrix-service";
 import {OpenVpnService} from "../model/open-vpn-service";
 import {IpSecService} from "../model/ip-sec-service";
 import {WireGuardService} from "../model/wire-guard-service";
@@ -95,6 +96,14 @@ export const ejbcaService: EjbcaService = {
   certificationUserValidityDays: 3650,
   length: 2048,
   services: ["cles", "node"]
+};
+
+export const matrixService: MatrixService = {
+  id: "matrixService",
+  name: 'Matrix',
+  icon: 'cfg-matrix',
+  port: 8008,
+  services: []
 };
 
 export const openVpnService: OpenVpnService = {

@@ -42,6 +42,7 @@
     "MAILS": "Mails",
     "TOIP_WEB_UI": "TOIP/Web UI",
     "EJBCA": "EJBCA",
+    "MATRIX": "Matrix",
     "OPEN_VPN": "OpenVPN",
     "IP_SEC": "IPSec",
     "WIRE_GUARD": "WireGuard",
@@ -121,8 +122,12 @@
       "KEYS": "Clés",
       "LENGTH": "Longueur"
     },
+    "MATRIX": {
+      "MATRIX": "Matrix",
+      "PORT": "Port"
+    },
     "OPEN_VPN": {
-      "OPEN_VPN": "Open Vpn",
+      "OPEN_VPN": "OpenVPN",
       "CLIENTS_IP_ADDRESS": "Adresse IP clients",
       "CLIENTS_LISTENING_PORT": "Port d'écoute clients",
       "NETWORK_FOR_VPN_CLIENTS": "Réseau pour les clients VPN",

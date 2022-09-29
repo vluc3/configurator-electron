@@ -1,0 +1,26 @@
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'SERVICE.MATRIX.MATRIX' | translate }}</legend>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="port"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'SERVICE.MATRIX.PORT' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            [ngClass]="{'is-invalid': !isValid('port')}"
+            id="port"
+            formControlName="port"
+            class="form-control form-control-sm"
+            (keypress)="intKeypress($event)"
+          >
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+</div>

@@ -4,6 +4,7 @@ import {Service} from "../model/service";
 import {
   dhcpDnsService,
   ejbcaService,
+  matrixService,
   elkService,
   ldapService,
   mailService,
@@ -48,6 +49,7 @@ export class StateService {
     mailService,
     toipWebUiService,
     ejbcaService,
+    matrixService,
     openVpnService,
     ipSecService,
     wireGuardService,

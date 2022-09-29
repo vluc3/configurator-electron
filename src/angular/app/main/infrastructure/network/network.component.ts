@@ -42,6 +42,8 @@ export class NetworkComponent extends SubscriberComponent implements OnInit, Aft
     nx.graphic.Icons.registerFontIcon("cfg-debian-repo", "configurator", "\ue921", 32);
     nx.graphic.Icons.registerFontIcon("cfg-proxy", "configurator", "\ue922", 32);
     nx.graphic.Icons.registerFontIcon("cfg-nagios", "configurator", "\ue925", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-wire-guard", "configurator", "\ue927", 32);
+    nx.graphic.Icons.registerFontIcon("cfg-matrix", "configurator", "\ue929", 32);
 
     const nodes = [{
       id: 0,

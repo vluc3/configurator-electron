@@ -55,6 +55,10 @@ export class SideNavComponent {
       icon: 'cfg-file-certificate',
       link: 'service/ejbca'
     }, {
+      name: 'SIDE_NAV.MATRIX',
+      icon: 'cfg-matrix',
+      link: 'service/matrix'
+    }, {
       name: 'SIDE_NAV.OPEN_VPN',
       icon: 'cfg-openvpn',
       link: 'service/openvpn'

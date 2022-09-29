@@ -2,7 +2,7 @@
   "name": "configurator",
   "description": "Configurator",
   "author": "Unnamed",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "index.js",
   "dependencies": {
     "@electron/remote": "^2.0.1",

@@ -6,6 +6,7 @@ import {IpSecService} from "../model/ip-sec-service";
 import {WireGuardService} from "../model/wire-guard-service";
 import {MobileIronService} from "../model/mobile-iron-service";
 import {EjbcaService} from "../model/ejbca-service";
+import {MatrixService} from "../model/matrix-service";
 import {ToipWebUiService} from "../model/toip-web-ui-service";
 import {MailService} from "../model/mail-service";
 import {NtpService} from "../model/ntp-service";
@@ -134,6 +135,7 @@ export function globalVars(store: Store) {
   const wireGuardService = store.services.wireGuardService as WireGuardService;
   const mobileIronService = store.services.mobileIronService as MobileIronService;
   const ejbcaService = store.services.ejbcaService as EjbcaService;
+  const matrixService = store.services.matrixService as MatrixService;
   const toipWebUiService = store.services.toipWebUiService as ToipWebUiService;
   const mailService = store.services.mailService as MailService;
   const ntpService = store.services.ntpService as NtpService;
@@ -265,6 +267,8 @@ export function globalVars(store: Store) {
     wireguard_public_port: ${wireGuardService.clientInPort}
     wireguard_port: ${wireGuardService.internInPort}
     netmask_short: 24
+  matrix:
+    matrix_port: ${matrixService.port}
   fw_toip_ip: ${store.firewalls.pfsense.outputIp}
   fw_toip_ip_digit: ${net_toip_fw_digit}
   fw_dmz_ip: ${store.firewalls.stormshield.inputIp}
@@ -311,6 +315,7 @@ export function globalVars(store: Store) {
   strongswan_private_key_pass: "{{ PKI_VAULT.strongswan_private_key_pass }}"
   webui_private_key_pass: "{{ PKI_VAULT.webui_private_key_pass }}"
   mariadb_pki_root_pass: "{{ PKI_VAULT.mariadb_pki_root_pass }}"
+  matrix_private_key_pass: "{{ PKI_VAULT.matrix_private_key_pass }}"
 
   #Telecom
   mysql_opensips_root_pass: "{{ TELECOM_VAULT.mysql_opensips_root_pass }}"

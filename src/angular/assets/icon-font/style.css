@@ -147,3 +147,6 @@ i {
 .cfg-mobile-iron:before {
   content: "\e928";
 }
+.cfg-matrix:before {
+  content: "\e929";
+}
