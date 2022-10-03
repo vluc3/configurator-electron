@@ -24,9 +24,9 @@ function esx(host: Host): string {
     root_pass: "{{ ESX_VAULT.list_esx['${host.id}'].root_pass }}"
     adm_ip: ${host.ip}
     vlan_network:
-      ${host.network === Network.DMZ ? `vlan_dmz: "VLAN_DMZ"` : `vlan_toip: "VLAN_TOIP"`}
+      ${isDmz(host) ? `vlan_dmz: "VLAN_DMZ"` : `vlan_toip: "VLAN_TOIP"`}
     list_int_network:
-      ${host.network === Network.DMZ ? `int_network_dmz` : `int_network_toip`}: ens192
+      ${isDmz(host) ? `int_network_dmz` : `int_network_toip`}: ens192
     datastore: ${host.datastore}
     guest_id: debian10_64Guest
   `;
@@ -61,7 +61,6 @@ function getIpService(id: string, hosts: Host[], network: Network): string {
 
 function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
   const isNotRepo = vm.services.findIndex(id => id === repoService.id) === -1;
-  const isProxy = vm.services.findIndex(id => id === proxyService.id) > -1;
 
   const serviceOrders: ServiceOrder[] = [];
 
@@ -120,11 +119,11 @@ function vmVar(host: Host, vm: VirtualMachine, store: Store): string {
       ram_size: "{{ ${isNotRepo ? "vars.GLOBAL.ram_size" : "vars.GLOBAL.repo_ram_size"} }}"
       ip_digit: ${vm.ip.substring(vm.ip.lastIndexOf(".") + 1)}
       list_ips:
-        ${host.network === Network.DMZ ? "dmz_ip" : "toip_ip"}:  ${vm.ip}
+        ${isDmz(host) ? "dmz_ip" : "toip_ip"}:  ${vm.ip}
       ntp_conf: ${isClient ? "client" : "server"}
       list_system_files:
         << : *defaults
-      iso_install: "{{ vars.GLOBAL.${isNotRepo ? (isProxy ? "iso_crypt_proxy" : "iso_crypt") : "iso_crypt_repo"} }}"
+      iso_install: "{{ vars.GLOBAL.${isNotRepo ? (isDmz(host) ? "iso_crypt_proxy" : "iso_crypt") : "iso_crypt_repo"} }}"
       services:${services}
         `;
 }
@@ -328,7 +327,13 @@ export function globalVars(store: Store) {
   mysql_ndoutils_pass: "{{ NAGIOS_VAULT.mysql_ndoutils_pass }}"
 
   #WEBUI:
+  voip_back_port: 3000
+  ejbca_back_port: 3100
   call_count_port: 8888
+
+  #STRONGSWAN
+  rightsourceip: "{{ vars.GLOBAL.IPSec.net_ipsec }}/{{ vars.GLOBAL.IPSEC.netmask_short }}"
+  leftip: "{{ GLOBAL.list_servers[SERVICE_SERVER.list_service_server.vpn].list_ips.dmz_ip }}"
 
   # Squid
   squid_port: 3128
@@ -374,7 +379,7 @@ export function hosts(store: Store): string[] {
 
     for (const virtualMachine of host.virtualMachines) {
       const section: string = `[${virtualMachine.name}]`;
-      const ipProperty: string = (host.network === Network.DMZ) ? 'dmz_ip' : 'toip_ip';
+      const ipProperty: string = (isDmz(host)) ? 'dmz_ip' : 'toip_ip';
       const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}"`;
       result.push(section);
       result.push(entry);
@@ -386,6 +391,13 @@ export function hosts(store: Store): string[] {
   let entry: string = '127.0.0.1';
   result.push(section);
   result.push(entry);
+  result.push('');
+
+  section = `[${store.firewalls.pfsense.name}]`;
+  entry = `${store.firewalls.pfsense.name} ansible_host="{{ vars.GLOBAL.fw_toip_ip }}" ansible_python_interpreter="/usr/local/bin/python3.8"`;
+  result.push(section);
+  result.push(entry);
+  result.push('');
 
   result = [].concat(
     result,
@@ -456,4 +468,8 @@ function vaultEsx(hosts: Host[]): string {
 ESX_VAULT:
  list_esx:${esxs}
   `;
+}
+
+function isDmz(host: Host): boolean {
+  return host.network === Network.DMZ
 }

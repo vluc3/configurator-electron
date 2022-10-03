@@ -81,7 +81,7 @@ export const toipWebUiService: ToipWebUiService = {
   internSipPort: 5090,
   externOpenSipPort: 24680,
   internOpenSipPort: 24682,
-  services: ["telecom", "webui", "connector_ldap", "node"]
+  services: ["node", "telecom", "webui", "connector_ldap"]
 };
 
 export const ejbcaService: EjbcaService = {
@@ -95,7 +95,7 @@ export const ejbcaService: EjbcaService = {
   certificationServerValidityDays: 3650,
   certificationUserValidityDays: 3650,
   length: 2048,
-  services: ["cles", "node"]
+  services: ["node", "cles", "ejbcabackend"]
 };
 
 export const matrixService: MatrixService = {
@@ -145,7 +145,7 @@ export const wireGuardService: WireGuardService = {
   clientInPort: 51820,
   vpnClientNetwork: '192.168.45.0',
   internInPort: 51820,
-  services: [],
+  services: ["wireguard"],
   netmaskShort: 24
 };
 
