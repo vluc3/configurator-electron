@@ -331,10 +331,6 @@ export function globalVars(store: Store) {
   ejbca_back_port: 3100
   call_count_port: 8888
 
-  #STRONGSWAN
-  rightsourceip: "{{ vars.GLOBAL.IPSec.net_ipsec }}/{{ vars.GLOBAL.IPSEC.netmask_short }}"
-  leftip: "{{ GLOBAL.list_servers[SERVICE_SERVER.list_service_server.vpn].list_ips.dmz_ip }}"
-
   # Squid
   squid_port: 3128
 
