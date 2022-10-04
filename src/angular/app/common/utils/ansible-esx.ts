@@ -395,6 +395,12 @@ export function hosts(store: Store): string[] {
   result.push(entry);
   result.push('');
 
+  section = `[pfsense:children]`;
+  entry = `${store.firewalls.pfsense.name}`;
+  result.push(section);
+  result.push(entry);
+  result.push('');
+
   result = [].concat(
     result,
     hostChildren(store, 'bulle:children', false),
