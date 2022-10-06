@@ -103,7 +103,7 @@ export const matrixService: MatrixService = {
   name: 'Matrix',
   icon: 'cfg-matrix',
   port: 8008,
-  services: []
+  services: ['matrix']
 };
 
 export const openVpnService: OpenVpnService = {

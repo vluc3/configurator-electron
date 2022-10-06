@@ -334,6 +334,10 @@ export function globalVars(store: Store) {
   # Squid
   squid_port: 3128
 
+  ipsec_cn: "CN_ROOT_CA"
+
+  opensips_crypt_db_pass: "{{ TELECOM_VAULT.opensips_crypt_db_pass }}"
+
   ### SSH key
   id_rsa: "/root/.ssh/id_rsa_bulle"
 
@@ -376,7 +380,7 @@ export function hosts(store: Store): string[] {
     for (const virtualMachine of host.virtualMachines) {
       const section: string = `[${virtualMachine.name}]`;
       const ipProperty: string = (isDmz(host)) ? 'dmz_ip' : 'toip_ip';
-      const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}"`;
+      const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}" ansible_python_interpreter="/usr/bin/python3"`;
       result.push(section);
       result.push(entry);
       result.push('');
