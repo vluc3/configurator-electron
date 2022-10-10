@@ -145,7 +145,7 @@ export const wireGuardService: WireGuardService = {
   clientInPort: 51820,
   vpnClientNetwork: '192.168.45.0',
   internInPort: 51820,
-  services: ["wireguard"],
+  services: ["node", "wireguard", "wireguardbackend"],
   netmaskShort: 24
 };
 
