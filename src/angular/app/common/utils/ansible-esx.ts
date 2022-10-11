@@ -371,71 +371,76 @@ export function globalVars(store: Store) {
 export function hosts(store: Store): string[] {
   let result: string[] = [];
 
-  for (const host of store.hosts) {
-    const section: string = `[group-${host.name}]`;
-    const entry: string = `${host.name} ansible_host="{{ vars.ESX.list_esx.${host.id}.adm_ip }}"`;
-    result.push(section);
-    result.push(entry);
-    result.push('');
+  let section: string = '[groupESX]';
+  result.push(section);
 
-    for (const virtualMachine of host.virtualMachines) {
-      const section: string = `[group-${virtualMachine.name}]`;
-      const ipProperty: string = (isDmz(host)) ? 'dmz_ip' : 'toip_ip';
-      const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}" ansible_python_interpreter="/usr/bin/python3"`;
-      result.push(section);
-      result.push(entry);
-      result.push('');
-    }
+  for (const host of store.hosts) {
+    const entry: string = `${host.name} ansible_host="{{ vars.ESX.list_esx.${host.id}.adm_ip }}"`;
+    result.push(entry);
   }
 
-  let section: string = `[localhost]`;
-  let entry: string = '127.0.0.1';
-  result.push(section);
-  result.push(entry);
   result.push('');
-
-  section = `[group-${store.firewalls.pfsense.name}]`;
-  entry = `${store.firewalls.pfsense.name} ansible_host="{{ vars.GLOBAL.fw_toip_ip }}" ansible_python_interpreter="/usr/local/bin/python3.8"`;
-  result.push(section);
-  result.push(entry);
-  result.push('');
-
-  section = `[pfsense:children]`;
-  entry = `${store.firewalls.pfsense.name}`;
-  result.push(section);
-  result.push(entry);
-  result.push('');
-
-  result = [].concat(
-    result,
-    hostChildren(store, 'bulle:children', false),
-    hostChildren(store, 'repo:children', true)
-  );
-
-  result.push('');
-  return result;
-}
-
-function hostChildren(store: Store, section: string, isRepoService: boolean): string[] {
-  const result: string[] = [];
-
-  result.push('');
-  section = `[${section}]`;
+  section = `[groupVMS]`;
   result.push(section);
 
   for (const host of store.hosts) {
     for (const virtualMachine of host.virtualMachines) {
-      const service: string = virtualMachine.services.find(id => id === repoService.id);
-      const push: boolean = (isRepoService) ? !! service : ! service;
-
-      if (push) {
-        const entry: string = virtualMachine.name;
+      if (! isRepoVm(virtualMachine)) {
+        const entry: string = addVmEntry(host, virtualMachine);
         result.push(entry);
       }
     }
   }
 
+  result.push('');
+  section = `[groupREPO]`;
+  result.push(section);
+
+  for (const host of store.hosts) {
+    for (const virtualMachine of host.virtualMachines) {
+      if (isRepoVm(virtualMachine)) {
+        const entry: string = addVmEntry(host, virtualMachine);
+        result.push(entry);
+      }
+    }
+  }
+
+  result.push('');
+  section = `[localhost]`;
+  let entry: string = '127.0.0.1';
+  result.push(section);
+  result.push(entry);
+  result.push('');
+
+  section = `[groupPfsense]`;
+  entry = `${store.firewalls.pfsense.name} ansible_host="{{ vars.GLOBAL.fw_toip_ip }}" ansible_python_interpreter="/usr/local/bin/python3.8"`;
+  result.push(section);
+  result.push(entry);
+  result.push('');
+
+  section = `[bulle:children]`;
+  entry = `groupVMS`;
+  result.push(section);
+  result.push(entry);
+  result.push('');
+
+  section = `[repobulle:children]`;
+  entry = `groupREPO`;
+  result.push(section);
+  result.push(entry);
+  result.push('');
+
   return result;
+}
+
+function isRepoVm(virtualMachine: VirtualMachine): boolean {
+  const service: string = virtualMachine.services.find(id => id === repoService.id);
+  return !! service;
+}
+
+function addVmEntry(host: Host, virtualMachine: VirtualMachine): string {
+  const ipProperty: string = (isDmz(host)) ? 'dmz_ip' : 'toip_ip';
+  return `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}" ansible_python_interpreter="/usr/bin/python3"`;
 }
 
 function short(network: Network, store: Store) {
