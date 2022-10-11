@@ -329,6 +329,7 @@ export function globalVars(store: Store) {
   #WEBUI:
   voip_back_port: 3000
   ejbca_back_port: 3100
+  wireguard_back_port: 3200
   call_count_port: 8888
 
   # Squid
@@ -371,14 +372,14 @@ export function hosts(store: Store): string[] {
   let result: string[] = [];
 
   for (const host of store.hosts) {
-    const section: string = `[${host.name}]`;
+    const section: string = `[group-${host.name}]`;
     const entry: string = `${host.name} ansible_host="{{ vars.ESX.list_esx.${host.id}.adm_ip }}"`;
     result.push(section);
     result.push(entry);
     result.push('');
 
     for (const virtualMachine of host.virtualMachines) {
-      const section: string = `[${virtualMachine.name}]`;
+      const section: string = `[group-${virtualMachine.name}]`;
       const ipProperty: string = (isDmz(host)) ? 'dmz_ip' : 'toip_ip';
       const entry: string = `${virtualMachine.name} ansible_host="{{ vars.GLOBAL.list_servers['${virtualMachine.name}'].list_ips.${ipProperty} }}" ansible_python_interpreter="/usr/bin/python3"`;
       result.push(section);
@@ -393,7 +394,7 @@ export function hosts(store: Store): string[] {
   result.push(entry);
   result.push('');
 
-  section = `[${store.firewalls.pfsense.name}]`;
+  section = `[group-${store.firewalls.pfsense.name}]`;
   entry = `${store.firewalls.pfsense.name} ansible_host="{{ vars.GLOBAL.fw_toip_ip }}" ansible_python_interpreter="/usr/local/bin/python3.8"`;
   result.push(section);
   result.push(entry);

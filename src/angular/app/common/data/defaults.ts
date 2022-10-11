@@ -81,7 +81,7 @@ export const toipWebUiService: ToipWebUiService = {
   internSipPort: 5090,
   externOpenSipPort: 24680,
   internOpenSipPort: 24682,
-  services: ["node", "telecom", "webui", "connector_ldap"]
+  services: ["node", "tftp", "telecom", "webui", "connector_ldap"]
 };
 
 export const ejbcaService: EjbcaService = {
