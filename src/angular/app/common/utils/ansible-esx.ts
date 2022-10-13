@@ -266,6 +266,7 @@ export function globalVars(store: Store) {
     wireguard_public_port: ${wireGuardService.clientInPort}
     wireguard_port: ${wireGuardService.internInPort}
     netmask_short: 24
+    net_wireguard: ${wireGuardService.vpnClientNetwork}
   matrix:
     matrix_port: ${matrixService.port}
   fw_toip_ip: ${store.firewalls.pfsense.outputIp}
