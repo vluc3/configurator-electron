@@ -168,8 +168,8 @@ export function globalVars(store: Store) {
   - ${pool}`;
   });
 
-  const protocol_ike: string = getProtocol(ipSecService, false);
-  const protocol_esp: string = getProtocol(ipSecService, true);
+  const protocol_ike: string = getIpsecProtocol(ipSecService, false);
+  const protocol_esp: string = getIpsecProtocol(ipSecService, true);
 
   let vms = '';
   store.hosts.forEach(host => {
@@ -351,12 +351,12 @@ export function globalVars(store: Store) {
   `;
 }
 
-function getProtocol(ipSecService: IpSecService, ignorePseudoRandomFunctions: boolean): string {
-  const protocolIkes: string[] = getProtocols(ipSecService, ignorePseudoRandomFunctions);
-  return (protocolIkes.length) ? ` ${protocolIkes.join()}!` : '';
+function getIpsecProtocol(ipSecService: IpSecService, ignorePseudoRandomFunctions: boolean): string {
+  const protocolIkes: string[] = getIpsecProtocols(ipSecService, ignorePseudoRandomFunctions);
+  return (protocolIkes.length) ? ` ${protocolIkes.join()}` : '';
 }
 
-function getProtocols(ipSecService: IpSecService, ignorePseudoRandomFunctions: boolean): string[] {
+function getIpsecProtocols(ipSecService: IpSecService, ignorePseudoRandomFunctions: boolean): string[] {
   let result: string[] = [];
 
   const encryptionAlgorithms: string[] = filterAndMapEnabledProtocols(ipSecService.encryptionAlgorithms, false);
