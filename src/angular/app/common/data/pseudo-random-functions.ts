@@ -4,27 +4,27 @@ const pseudoRandomFunctions: Option[] = [
   {
     name: "PRF_HMAC_SHA2_256",
     enabled: true,
-    value: `<transform type="PRF">PRF_HMAC_SHA2_256</transform>`
+    value: `prfsha256`
   },
   {
     name: "PRF_HMAC_SHA2_384",
     enabled: false,
-    value: `<transform type="PRF">PRF_HMAC_SHA2_384</transform>`
+    value: `prfsha384`
   },
   {
     name: "PRF_HMAC_SHA2_512",
     enabled: false,
-    value: `<transform type="PRF">PRF_HMAC_SHA2_512</transform>`
+    value: `prfsha512`
   },
   {
     name: "PRF_HMAC_SHA1",
     enabled: false,
-    value: `<transform type="PRF">PRF_HMAC_SHA1</transform>`
+    value: `prfsha1`
   },
   {
     name: "PRF_MD5_128",
     enabled: false,
-    value: `<transform type="PRF">PRF_HMAC_MD5</transform>`
+    value: `prfmd5`
   }
 ];
 

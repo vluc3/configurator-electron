@@ -4,47 +4,47 @@ const encryptionAlgorithms: Option[] = [
   {
     name: "AES_CBC_128",
     enabled: false,
-    value: `<transform type="ENCR_ALGO" keylength="128">AES_CBC</transform>`
+    value: `aes128`
   },
   {
     name: "AES_CBC_192",
     enabled: false,
-    value: `<transform type="ENCR_ALGO" keylength="192">AES_CBC</transform>`
+    value: `aes192`
   },
   {
     name: "AES_CBC_256",
     enabled: true,
-    value: `<transform type="ENCR_ALGO" keylength="256">AES_CBC</transform>`
+    value: `aes256`
   },
   {
     name: "CAST_128",
     enabled: false,
-    value: `<transform type="ENCR_ALGO" keylength="128">CAST</transform>`
+    value: `cast128`
   },
   {
     name: "AES_GCM_16_128",
     enabled: false,
-    value: `<transform type="ENCR_ALGO" keylength="128">AES_GCM_16</transform>`
+    value: `aes128gcm128`
   },
   {
     name: "AES_GCM_16_192",
     enabled: false,
-    value: `<transform type="ENCR_ALGO" keylength="192">AES_GCM_16</transform>`
+    value: `aes192gcm128`
   },
   {
     name: "AES_GCM_16_256",
     enabled: false,
-    value: `<transform type="ENCR_ALGO" keylength="256">AES_GCM_16</transform>`
+    value: `aes256gcm128`
   },
   {
     name: "DES",
     enabled: false,
-    value: `<transform type="ENCR_ALGO">DES</transform>`
+    value: `3des`
   },
   {
     name: "3DES_CBC",
     enabled: false,
-    value: `<transform type="ENCR_ALGO">3DES</transform>`
+    value: `3des`
   }];
 
 export default encryptionAlgorithms;

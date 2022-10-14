@@ -184,3 +184,21 @@ export function jsonStringify<T>(object: T, ignore?: (c: T) => void) {
   }
   return JSON.stringify(c);
 }
+
+export function replace(value: string, sources: string | string[], target: string, recursive: boolean = false): string {
+  let result: string = value;
+
+  if (result) {
+    if (typeof sources === 'string') {
+      sources = [sources];
+    }
+
+    for (const source of sources) {
+      do
+        result = result.split(source).join(target);
+      while (recursive && result.includes(source));
+    }
+  }
+
+  return result;
+}

@@ -2,7 +2,7 @@ import {Host} from "../model/host";
 import {Network} from "../model/network";
 import {Store} from "../service/state.service";
 import {OpenVpnService} from "../model/open-vpn-service";
-import {IpSecService} from "../model/ip-sec-service";
+import {IpSecService, filterAndMapEnabledProtocols, Option} from "../model/ip-sec-service";
 import {WireGuardService} from "../model/wire-guard-service";
 import {MobileIronService} from "../model/mobile-iron-service";
 import {EjbcaService} from "../model/ejbca-service";
@@ -13,7 +13,7 @@ import {NtpService} from "../model/ntp-service";
 import {DhcpDnsService} from "../model/dhcp-dns-service";
 import {VirtualMachine} from "../model/virtual-machine";
 import {ntpService, proxyService, repoService, serviceOrderMap} from "../data/defaults";
-import {getShort} from "./utils";
+import {getShort, replace} from "./utils";
 import {ServiceOrder} from "../model/service";
 
 function esx(host: Host): string {
@@ -168,26 +168,8 @@ export function globalVars(store: Store) {
   - ${pool}`;
   });
 
-  let protocol_ike = ``;
-  [
-    ...ipSecService.encryptionAlgorithms.filter(algo => algo.enabled).map(algo => algo.value),
-    ...ipSecService.pseudoRandomFunctions.filter(algo => algo.enabled).map(algo => algo.value),
-    ...ipSecService.integrity.filter(algo => algo.enabled).map(algo => algo.value),
-    ...ipSecService.diffieHellman.filter(algo => algo.enabled).map(algo => algo.value)
-  ].forEach(value => {
-    protocol_ike += `
-    - ${value}`;
-  });
-
-  let protocol_esp = ``;
-  [
-    ...ipSecService.encryptionAlgorithms.filter(algo => algo.enabled).map(algo => algo.value),
-    ...ipSecService.integrity.filter(algo => algo.enabled).map(algo => algo.value),
-    ...ipSecService.diffieHellman.filter(algo => algo.enabled).map(algo => algo.value)
-  ].forEach(value => {
-    protocol_esp += `
-    - ${value}`;
-  });
+  const protocol_ike: string = getProtocol(ipSecService, false);
+  const protocol_esp: string = getProtocol(ipSecService, true);
 
   let vms = '';
   store.hosts.forEach(host => {
@@ -367,6 +349,50 @@ export function globalVars(store: Store) {
 #Noms des serveurs
   list_servers:${vms}
   `;
+}
+
+function getProtocol(ipSecService: IpSecService, ignorePseudoRandomFunctions: boolean): string {
+  const protocolIkes: string[] = getProtocols(ipSecService, ignorePseudoRandomFunctions);
+  return (protocolIkes.length) ? ` ${protocolIkes.join()}!` : '';
+}
+
+function getProtocols(ipSecService: IpSecService, ignorePseudoRandomFunctions: boolean): string[] {
+  let result: string[] = [];
+
+  const encryptionAlgorithms: string[] = filterAndMapEnabledProtocols(ipSecService.encryptionAlgorithms, false);
+  const pseudoRandomFunctions: string[] = (ignorePseudoRandomFunctions) ? [''] : filterAndMapEnabledProtocols(ipSecService.pseudoRandomFunctions, false);
+  const integrities: string[] = filterAndMapEnabledProtocols(ipSecService.integrity, false);
+  const diffieHellmans: string[] = filterAndMapEnabledProtocols(ipSecService.diffieHellman, false);
+
+  for (const encryptionAlgorithm of encryptionAlgorithms) {
+    for (const pseudoRandomFunction of pseudoRandomFunctions) {
+      for (const integrity of integrities) {
+        for (const diffieHellman of diffieHellmans) {
+          result.push(`${encryptionAlgorithm}-${pseudoRandomFunction}-${integrity}-${diffieHellman}`);
+        }
+      }
+    }
+  }
+
+  result = (result
+    .map(value => {
+      let result: string = replace(value, '--', '-', true);
+
+      if (result?.charAt(0) === '-') {
+        result = result.substring(1);
+      }
+
+      if (result?.charAt(result.length - 1) === '-') {
+        result = result.substring(0, result.length - 1);
+      }
+
+      return result;
+    }).filter(value => {
+      return !! value
+    })
+  );
+
+  return result;
 }
 
 export function hosts(store: Store): string[] {

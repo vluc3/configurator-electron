@@ -3,35 +3,35 @@ import {Option} from "../model/ip-sec-service";
 const diffieHellman: Option[] = [{
   name: "MODP_768",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_768</transform>`
+  value: `modp768`
 }, {
   name: "MODP_1024",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_1024</transform>`
+  value: `modp1024`
 }, {
   name: "MODP_1536",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_1536</transform>`
+  value: `modp1536`
 }, {
   name: "MODP_2048",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_2048</transform>`
+  value: `modp2048`
 }, {
   name: "MODP_3072",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_3072</transform>`
+  value: `modp3072`
 }, {
   name: "MODP_4096",
   enabled: true,
-  value: `<transform type="DH_GROUP">DH_MODP_4096</transform>`
+  value: `modp4096`
 }, {
   name: "MODP_6144",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_6144</transform>`
+  value: `modp6144`
 }, {
   name: "MODP_8192",
   enabled: false,
-  value: `<transform type="DH_GROUP">DH_MODP_8192</transform>`
+  value: `modp8192`
 }];
 
 export default diffieHellman;
