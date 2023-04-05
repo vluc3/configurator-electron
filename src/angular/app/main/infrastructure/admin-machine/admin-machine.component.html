@@ -1,0 +1,77 @@
+<div class="content">
+  <form [formGroup]="formGroup">
+    <fieldset>
+      <legend>{{ 'INFRASTRUCTURE.ADMIN_MACHINE.SUDO.SUDO' | translate }}</legend>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="username"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'INFRASTRUCTURE.ADMIN_MACHINE.SUDO.USERNAME' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <input
+            #username
+            [ngClass]="{'is-invalid': !isValid(username)}"
+            id="username"
+            formControlName="username"
+            class="form-control form-control-sm"
+            autocomplete="new-password"
+            >
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="password"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'INFRASTRUCTURE.ADMIN_MACHINE.SUDO.PASSWORD' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <div
+          class="input-group">
+            <input
+              #password
+              [ngClass]="{'is-invalid': !isValid(password)}"
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control form-control-sm"
+              autocomplete="new-password"
+              >
+              <span class="password-show input-group-text" (click)="showPassword = !showPassword">
+                <i class="{{showPassword ? 'cfg-eye-slash' : 'cfg-eye'}}"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-2 row">
+          <label
+            for="passwordConfirmation"
+            class="col-sm-3 col-form-label col-form-label-sm"
+          >
+            {{ 'PASSWORD_CONFIRMATION' | translate }} :
+          </label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input
+                [ngClass]="{'is-invalid': formGroup.hasError('passwordConfirmation')}"
+                id="passwordConfirmation"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="passwordConfirmation"
+                class="form-control form-control-sm"
+                autocomplete="new-password"
+              >
+              <span class="password-show input-group-text" (click)="showPassword = !showPassword">
+                <i class="{{showPassword ? 'cfg-eye-slash' : 'cfg-eye'}}"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+    </fieldset>
+  </form>
+</div>

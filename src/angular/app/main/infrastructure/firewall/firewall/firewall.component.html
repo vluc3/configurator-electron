@@ -5,11 +5,11 @@
     <div class="form-group mb-2 row">
       <label
         for="name"
-        class="col-sm-2 col-form-label col-form-label-sm"
+        class="col-sm-3 col-form-label col-form-label-sm"
       >
         {{ 'NAME' | translate }} :
       </label>
-      <div class="col-sm-10">
+      <div class="col-sm-9">
         <input
           #name
           [ngClass]="{'is-invalid': !isValid(name)}"
@@ -21,14 +21,16 @@
       </div>
     </div>
 
-    <div class="form-group mb-2 row">
+    <div
+      *ngIf="inputIpLabel"
+      class="form-group mb-2 row">
       <label
         for="inputIp"
-        class="col-sm-2 col-form-label col-form-label-sm"
+        class="col-sm-3 col-form-label col-form-label-sm"
       >
         {{ inputIpLabel | translate }} :
       </label>
-      <div class="col-sm-10">
+      <div class="col-sm-9">
         <input
           #inputIp
           [ngClass]="{'is-invalid': !isValid(inputIp, networkInputIp)}"
@@ -40,14 +42,56 @@
       </div>
     </div>
 
-    <div class="form-group row">
+    <div
+      *ngIf="inputInterfaceDescriptionLabel"
+      class="form-group mb-2 row">
+      <label
+        for="inputInterfaceDescription"
+        class="col-sm-3 col-form-label col-form-label-sm"
+      >
+        {{ inputInterfaceDescriptionLabel | translate }} :
+      </label>
+      <div class="col-sm-9">
+        <input
+          #inputInterfaceDescription
+          [ngClass]="{'is-invalid': !isValid(inputInterfaceDescription)}"
+          formControlName="inputInterfaceDescription"
+          class="form-control form-control-sm"
+          id="inputInterfaceDescription"
+        >
+      </div>
+    </div>
+
+    <div
+      *ngIf="inputInterfaceNameLabel"
+      class="form-group mb-2 row">
+      <label
+        for="inputInterfaceName"
+        class="col-sm-3 col-form-label col-form-label-sm"
+      >
+        {{ inputInterfaceNameLabel | translate }} :
+      </label>
+      <div class="col-sm-9">
+        <input
+          #inputInterfaceName
+          [ngClass]="{'is-invalid': !isValid(inputInterfaceName)}"
+          formControlName="inputInterfaceName"
+          class="form-control form-control-sm"
+          id="inputInterfaceName"
+        >
+      </div>
+    </div>
+
+    <div
+      *ngIf="outputIpLabel"
+      class="form-group mb-2 row">
       <label
         for="outputIp"
-        class="col-sm-2 col-form-label col-form-label-sm"
+        class="col-sm-3 col-form-label col-form-label-sm"
       >
         {{ outputIpLabel | translate }} :
       </label>
-      <div class="col-sm-10">
+      <div class="col-sm-9">
         <input
           #outputIp
           [ngClass]="{'is-invalid': !isValid(outputIp, networkOutputIp)}"
@@ -58,5 +102,123 @@
         >
       </div>
     </div>
+
+    <div
+      *ngIf="outputInterfaceDescriptionLabel"
+      class="form-group mb-2 row">
+      <label
+        for="outputInterfaceDescription"
+        class="col-sm-3 col-form-label col-form-label-sm"
+      >
+        {{ outputInterfaceDescriptionLabel | translate }} :
+      </label>
+      <div class="col-sm-9">
+        <input
+          #outputInterfaceDescription
+          [ngClass]="{'is-invalid': !isValid(outputInterfaceDescription)}"
+          formControlName="outputInterfaceDescription"
+          class="form-control form-control-sm"
+          id="outputInterfaceDescription"
+        >
+      </div>
+    </div>
+
+    <div
+      *ngIf="outputInterfaceNameLabel"
+      class="form-group mb-2 row">
+      <label
+        for="outputInterfaceName"
+        class="col-sm-3 col-form-label col-form-label-sm"
+      >
+        {{ outputInterfaceNameLabel | translate }} :
+      </label>
+      <div class="col-sm-9">
+        <input
+          #outputInterfaceName
+          [ngClass]="{'is-invalid': !isValid(outputInterfaceName)}"
+          formControlName="outputInterfaceName"
+          class="form-control form-control-sm"
+          id="outputInterfaceName"
+        >
+      </div>
+    </div>
+
+    <div
+      *ngIf="usernameLabel"
+      class="form-group mb-2 row">
+      <label
+        for="username"
+        class="col-sm-3 col-form-label col-form-label-sm"
+      >
+        {{ usernameLabel | translate }} :
+      </label>
+      <div class="col-sm-9">
+        <input
+          #username
+          [ngClass]="{'is-invalid': !isValid(username)}"
+          formControlName="username"
+          class="form-control form-control-sm"
+          id="username"
+          autocomplete="new-password"
+        >
+      </div>
+    </div>
+
+    <div
+      *ngIf="passwordLabel">
+
+      <div
+        class="form-group mb-2 row">
+        <label
+          for="password"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ passwordLabel | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <div
+            class="input-group">
+            <input
+              #password
+              [ngClass]="{'is-invalid': !isValid(password)}"
+              formControlName="password"
+              class="form-control form-control-sm"
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              autocomplete="new-password"
+            >
+            <span class="password-show input-group-text" (click)="showPassword = !showPassword">
+              <i class="{{showPassword ? 'cfg-eye-slash' : 'cfg-eye'}}"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mb-2 row">
+        <label
+          for="passwordConfirmation"
+          class="col-sm-3 col-form-label col-form-label-sm"
+        >
+          {{ 'PASSWORD_CONFIRMATION' | translate }} :
+        </label>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <input
+              [ngClass]="{'is-invalid': formGroup.hasError('passwordConfirmation')}"
+              id="passwordConfirmation"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="passwordConfirmation"
+              class="form-control form-control-sm"
+              autocomplete="new-password"
+            >
+            <span class="password-show input-group-text" (click)="showPassword = !showPassword">
+              <i class="{{showPassword ? 'cfg-eye-slash' : 'cfg-eye'}}"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </fieldset>
 </form>

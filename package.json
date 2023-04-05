@@ -2,7 +2,7 @@
   "name": "configurator",
   "description": "Configurator",
   "author": "Unnamed",
-  "version": "1.3.4",
+  "version": "1.4.7",
   "main": "index.js",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "electron:run-serve": "electron ./dist/index.js --serve",
     "electron:tsc:run-serve": "npm run electron:tsc && npm run electron:run-serve",
     "electron-build:build": "electron-builder build -c ./src/electron/builder.json --publish=never",
+    "start": "npm run ng:serve",
     "build": "npm run electron:tsc-prod && npm run ng:build-production && npm run electron-build:build",
     "build:start": "npm run build && npm run ng:serve",
     "electron-build:mac": "electron-builder build -c ./src/electron/builder.json --publish=never --mac",

@@ -7,6 +7,8 @@ import {ServiceDragInfo} from "../../../common/model/service-drag-info";
 import {ServiceDropInfo} from "../../../common/model/service-drop-info";
 
 import {draggableDmzServiceIds, notDroppableDmzServiceIds} from '../../../common/data/defaults';
+import { VirtualMachine } from '../../../common/model/virtual-machine';
+import { Service } from '../../../common/model/service';
 
 @Component({
   selector: 'div[virtualMachineI]',
@@ -71,45 +73,55 @@ export class VirtualMachineComponent implements OnInit {
       const position = event.event.dataTransfer?.getData("position");
       if (position) {
         // Drag & Drop from another VM
-        const p = position.split('-');
-        const hostIndex = Number(p[0]);
-        const vmIndex = Number(p[1]);
-        const index = this.hosts[hostIndex].virtualMachines[vmIndex].services.findIndex(id => id === serviceId);
+        const positions = position.split('-');
+        const hostIndex = Number(positions[0]);
+        const virtualMachineIndex = Number(positions[1]);
+        const virtualMachine: VirtualMachine = this.hosts[hostIndex].virtualMachines[virtualMachineIndex];
+        const index = virtualMachine.services.findIndex(id => id === serviceId);
+
         if (index !== -1) {
-          const service = this.hosts[hostIndex].virtualMachines[vmIndex].services[index];
           if (event.virtualMachine) {
-            const isReplicable = this.stateService.getService(service).replicable;
-            if (isReplicable) {
-              if (event.virtualMachine.services.findIndex(id => id === serviceId) === -1) {
-                event.virtualMachine.services?.push(service);
-                this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
+            const serviceId = virtualMachine.services[index];
+            const service: Service = this.stateService.getService(serviceId);
+
+            if (this.stateService.serviceOperatingSystemMatches(service, event.virtualMachine.operatingSystem)) {
+              if (service.replicable) {
+                if (event.virtualMachine.services.findIndex(id => id === serviceId) === -1) {
+                  event.virtualMachine.services?.push(serviceId);
+                  virtualMachine.services.splice(index, 1);
+                } else {
+                  // TODO dialog error
+                }
               } else {
-                // TODO dialog error
+                event.virtualMachine.services?.push(serviceId);
+                virtualMachine.services.splice(index, 1);
               }
-            } else {
-              event.virtualMachine.services?.push(service);
-              this.hosts[hostIndex].virtualMachines[vmIndex].services.splice(index, 1);
             }
           }
         }
       } else {
         // Drag & Drop from services right list
         const index = this.serviceIds.findIndex(id => id === serviceId);
+
         if (index !== -1) {
-          const service = this.serviceIds[index];
-          const isReplicable = this.stateService.getService(service).replicable;
-          if (isReplicable) {
-            if (event.virtualMachine.services.findIndex(id => id === serviceId) === -1) {
-              event.virtualMachine.services?.push(service);
+          const serviceId = this.serviceIds[index];
+          const service: Service = this.stateService.getService(serviceId);
+
+          if (this.stateService.serviceOperatingSystemMatches(service, event.virtualMachine.operatingSystem)) {
+            if (service.replicable) {
+              if (event.virtualMachine.services.findIndex(id => id === serviceId) === -1) {
+                event.virtualMachine.services?.push(serviceId);
+              } else {
+                // TODO dialog error
+              }
             } else {
-              // TODO dialog error
+              event.virtualMachine?.services?.push(serviceId);
+              this.serviceIds.splice(index, 1);
             }
-          } else {
-            event.virtualMachine?.services?.push(service);
-            this.serviceIds.splice(index, 1);
           }
         }
       }
+
       // this.stateService.save();
     }
   }

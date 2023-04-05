@@ -4,6 +4,7 @@ import {MailService} from "../model/mail-service";
 import {ToipWebUiService} from "../model/toip-web-ui-service";
 import {EjbcaService} from "../model/ejbca-service";
 import {MatrixService} from "../model/matrix-service";
+import { JabberService } from "../model/jabber-service";
 import {OpenVpnService} from "../model/open-vpn-service";
 import {IpSecService} from "../model/ip-sec-service";
 import {WireGuardService} from "../model/wire-guard-service";
@@ -17,6 +18,7 @@ import {ProxyService} from "../model/proxy-service";
 import {NrpeService} from "../model/nrpe-service";
 import {NagiosService} from "../model/nagios-service";
 import {Service} from "../model/service";
+import { OperatingSystemEnum } from "../model/operating-system.enum";
 
 export const serviceOrderMap: Map<string, number> = new Map([
   ["mail", 90],
@@ -25,9 +27,11 @@ export const serviceOrderMap: Map<string, number> = new Map([
 
 export const draggableDmzServiceIds: string[] = [
   "nrpeService",
+  "elkAgentService",
   "ipSecService",
   "openVpnService",
-  "wireGuardService"
+  "wireGuardService",
+  "veeamService"
 ];
 
 export const notDroppableDmzServiceIds: string[] = [
@@ -40,6 +44,7 @@ export const dhcpDnsService: DhcpDnsService = {
   id: "dhcpDnsService",
   name: 'DNS/DHCP',
   icon: 'cfg-globe',
+  operatingSystem: OperatingSystemEnum.Debian,
   domainName: 'smv-telecom.sl',
   exploitationZone: 'toip',
   dmzZone: 'dmz',
@@ -53,6 +58,7 @@ export const ntpService: NtpService = {
   id: "ntpService",
   name: 'NTP',
   icon: 'cfg-network-time',
+  operatingSystem: OperatingSystemEnum.Debian,
   defaultNtpServers: ['0.fr.pool.ntp.org', '1.fr.pool.ntp.org', '2.fr.pool.ntp.org', '3.fr.pool.ntp.org'],
   services: ["ntp"]
 };
@@ -61,6 +67,7 @@ export const mailService: MailService = {
   id: "mailService",
   name: 'Mails',
   icon: 'cfg-envelope',
+  operatingSystem: OperatingSystemEnum.Debian,
   domainName: 'smv-telecom.sl',
   defaultPassword: 'aaaa',
   antivirusInputPort: 10025,
@@ -74,6 +81,7 @@ export const toipWebUiService: ToipWebUiService = {
   id: "toipWebUiService",
   name: 'TOIP/Web UI',
   icon: 'cfg-phone-office',
+  operatingSystem: OperatingSystemEnum.Debian,
   domainName: 'smv-telecom.sl',
   webPort: 8080,
   interfacePort: 8080,
@@ -88,6 +96,7 @@ export const ejbcaService: EjbcaService = {
   id: "ejbcaService",
   name: 'EJBCA',
   icon: 'cfg-file-certificate',
+  operatingSystem: OperatingSystemEnum.Debian,
   country: 'FR',
   city: 'Paris',
   organization: 'SMV',
@@ -102,14 +111,25 @@ export const matrixService: MatrixService = {
   id: "matrixService",
   name: 'Matrix',
   icon: 'cfg-matrix',
+  operatingSystem: OperatingSystemEnum.Debian,
   port: 8008,
   services: ['matrix']
+};
+
+export const jabberService: JabberService = {
+  id: "jabberService",
+  name: 'Jabber',
+  icon: 'cfg-jabber',
+  operatingSystem: OperatingSystemEnum.Debian,
+  port: 5222,
+  services: ['jabber']
 };
 
 export const openVpnService: OpenVpnService = {
   id: "openVpnService",
   name: 'OpenVPN',
   icon: 'cfg-openvpn',
+  operatingSystem: OperatingSystemEnum.Debian,
   ip: '192.168.40.150',
   clientInPort: 21194,
   vpnClientNetwork: '192.168.42.0',
@@ -123,6 +143,7 @@ export const ipSecService: IpSecService = {
   id: "ipSecService",
   name: 'IPSec',
   icon: 'cfg-ip-lock',
+  operatingSystem: OperatingSystemEnum.Debian,
   ip: '192.168.40.151',
   notDeployable: true,
   clientInPort: 4500,
@@ -141,6 +162,7 @@ export const wireGuardService: WireGuardService = {
   id: "wireGuardService",
   name: 'WireGuard',
   icon: 'cfg-wire-guard',
+  operatingSystem: OperatingSystemEnum.Debian,
   ip: '192.168.40.152',
   clientInPort: 51820,
   vpnClientNetwork: '192.168.45.0',
@@ -153,6 +175,7 @@ export const mobileIronService: MobileIronService = {
   id: "mobileIronService",
   name: 'MobileIron',
   icon: 'cfg-mobile-iron',
+  operatingSystem: OperatingSystemEnum.Debian,
   hidden: true,
   serverIp: '192.168.223.215',
   syncPort: 9997,
@@ -165,6 +188,7 @@ export const repoService: RepoService = {
   id: "repoService",
   name: "Repo",
   icon: "cfg-debian-repo",
+  operatingSystem: OperatingSystemEnum.Debian,
   services: ["repo"]
 };
 
@@ -172,6 +196,7 @@ export const proxyService: ProxyService = {
   id: "proxyService",
   name: "Proxy",
   icon: "cfg-proxy",
+  operatingSystem: OperatingSystemEnum.Debian,
   services: ["proxies", "sbc"]
 };
 
@@ -180,6 +205,7 @@ export const nrpeService: NrpeService = {
   name: "Nrpe",
   icon: "cfg-nrpe",
   services: ["nrpe"],
+  operatingSystem: OperatingSystemEnum.Debian,
   replicable: true
 };
 
@@ -187,6 +213,7 @@ export const nagiosService: NagiosService = {
   id: "nagiosService",
   name: "Nagios",
   icon: "cfg-nagios",
+  operatingSystem: OperatingSystemEnum.Debian,
   services: ["nagios"]
 }
 
@@ -194,12 +221,31 @@ export const elkService: Service = {
   id: "elkService",
   name: "Elk",
   icon: "cfg-elastic",
+  operatingSystem: OperatingSystemEnum.Debian,
   services: ["elasticsearch", "kibana"]
+}
+
+export const elkAgentService: Service = {
+  id: "elkAgentService",
+  name: "Agents Elk",
+  icon: "cfg-elastic",
+  operatingSystem: OperatingSystemEnum.Debian,
+  services: ["metricbeat", "filebeat"],
+  replicable: true
 }
 
 export const ldapService: Service = {
   id: "ldapService",
   name: "Ldap",
   icon: "cfg-ldap",
+  operatingSystem: OperatingSystemEnum.Debian,
   services: ["ldap"]
+}
+
+export const veeamService: Service = {
+  id: "veeamService",
+  name: "Veeam",
+  icon: "cfg-veeam",
+  operatingSystem: OperatingSystemEnum.Windows,
+  services: ["veeam"]
 }

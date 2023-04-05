@@ -147,6 +147,41 @@ export function getShort(mask: string): number {
   return ctr;
 }
 
+export function getLong(shortMask: number): string {
+  var mask=[];
+
+  if (shortMask < 0) {
+    shortMask = 0;
+  } else if (shortMask > 32) {
+    shortMask = 32;
+  }
+
+  for(var i = 0; i < 4; i++) {
+    var n = Math.min(shortMask, 8);
+    mask.push(256 - Math.pow(2, 8 - n));
+    shortMask -= n;
+  }
+
+  return mask.join('.');
+}
+
+export function replaceIpSubHost(ip: string, subHost: number): string {
+
+  try {
+    let result: string = null;
+    const ips: string[] = ip.split('.');
+
+    if (ips.length > 3) {
+      ips.splice(3);
+      result = `${ips.join('.')}.${subHost}`;
+    }
+
+    return result;
+  } catch (error) {
+    return null;
+  }
+
+}
 
 export function passwordValidator(passwordKey = "password", formGroup: FormGroup): ValidatorFn {
   const validator: ValidatorFn = (_: AbstractControl) => {

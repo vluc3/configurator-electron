@@ -7,7 +7,8 @@ import {NewVirtualMachineComponent} from "../new-virtual-machine/new-virtual-mac
 import {clone} from "../../../../common/utils/utils";
 import {TranslateService} from "@ngx-translate/core";
 import {Host} from "../../../../common/model/host";
-import {nrpeService} from "../../../../common/data/defaults";
+import {elkAgentService, nrpeService} from "../../../../common/data/defaults";
+import { OperatingSystemEnum } from '../../../../common/model/operating-system.enum';
 
 @Component({
   selector: 'div[virtualMachineItem]',
@@ -56,7 +57,7 @@ export class VirtualMachineItemComponent implements OnInit {
     const vm = clone(this.virtualMachine);
     vm.ip = vm.ip.substring(0, vm.ip.lastIndexOf("."));
     vm.name = "";
-    vm.services = [nrpeService.id];
+    vm.services = [];
     this.modalService.open<VirtualMachine>({
       title: "Vms & Services",
       component: NewVirtualMachineComponent,
@@ -64,6 +65,10 @@ export class VirtualMachineItemComponent implements OnInit {
       width: 800
     }).subscribe(close => {
       if (!close.cancel && close.data) {
+        if (close.data.operatingSystem === OperatingSystemEnum.Debian) {
+          close.data.services = [nrpeService.id, elkAgentService.id];
+        }
+
         this.host.virtualMachines.push(close.data)
         this.stateService.save();
       }

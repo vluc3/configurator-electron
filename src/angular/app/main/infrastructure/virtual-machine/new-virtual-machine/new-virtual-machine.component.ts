@@ -12,6 +12,8 @@ import {
 } from "../../../../common/utils/utils";
 
 import {CoreComponent} from '../../../service/abstract/core-component';
+import { StateService } from '../../../../common/service/state.service';
+import { OperatingSystemEnum } from '../../../../common/model/operating-system.enum';
 
 @Component({
   selector: 'div[newVirtualMachine]',
@@ -27,8 +29,11 @@ export class NewVirtualMachineComponent extends CoreComponent implements ModalBo
   formGroup: FormGroup;
   dataValidate = new EventEmitter<{ valid: boolean, data?: VirtualMachine }>();
 
-  constructor() {
-    super();
+  operatingSystemValid: boolean = true;
+
+  constructor(
+    private stateService: StateService) {
+      super();
   }
 
   ngOnInit(): void {
@@ -43,16 +48,27 @@ export class NewVirtualMachineComponent extends CoreComponent implements ModalBo
         maskIpValidator,
         this.maskValidator
       ]),
+      operatingSystem: new FormControl(this.data.operatingSystem, [
+        Validators.required,
+      ]),
       gateway: new FormControl(this.data.gateway, [
         ipValidator
       ]),
     }, {validators: this.checkIps});
 
     this.formGroup.statusChanges.subscribe(status => {
-      const valid = status === 'VALID';
+      let valid = status === 'VALID';
+
+      if (valid) {
+        const operatingSystem: OperatingSystemEnum = this.formGroup.get('operatingSystem').value;
+        this.operatingSystemValid = this.stateService.serviceIdsOperatingSystemMatches(this.data.services, operatingSystem);
+        valid = this.operatingSystemValid;
+      }
+
       if (valid) {
         copyEntries(this.data, this.formGroup.getRawValue());
       }
+
       this.dataValidate.next({valid, data: this.data});
     });
   }

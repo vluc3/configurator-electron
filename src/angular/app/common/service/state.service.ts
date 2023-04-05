@@ -5,7 +5,9 @@ import {
   dhcpDnsService,
   ejbcaService,
   matrixService,
+  jabberService,
   elkService,
+  elkAgentService,
   ldapService,
   mailService,
   nagiosService,
@@ -17,7 +19,8 @@ import {
   mobileIronService,
   proxyService,
   repoService,
-  toipWebUiService
+  toipWebUiService,
+  veeamService
 } from "../data/defaults";
 import {ElectronService} from "./electron.service";
 import {Project} from "../../home/new-project/new-project.component";
@@ -30,6 +33,7 @@ import {ModalService} from "../component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
 import {secretPassword} from "../data/ansible";
 import {MailService} from '../model/mail-service';
+import { OperatingSystemEnum } from '../model/operating-system.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +54,7 @@ export class StateService {
     toipWebUiService,
     ejbcaService,
     matrixService,
+    jabberService,
     openVpnService,
     ipSecService,
     wireGuardService,
@@ -58,8 +63,10 @@ export class StateService {
     nrpeService,
     nagiosService,
     elkService,
+    elkAgentService,
     ldapService,
-    proxyService
+    proxyService,
+    veeamService
   };
 
   private currentChange = new Subject();
@@ -105,12 +112,55 @@ export class StateService {
     }
   }
 
+  getServices(): Service[] {
+    return Object.keys(this.services).map(key => this.services[key]);
+  }
+
   getService(key: string): Service {
     return this.current.services[key];
   }
 
   setService(key: string, service: Service): void {
     this.current.services[key] = service;
+  }
+
+  findService(key: string): Service {
+    const services: Service[] = this.getServices();
+
+    return services.find((service: Service) => {
+      return service.id === key;
+    });
+  }
+
+  serviceIdsOperatingSystemMatches(keys: string[], operatingSystem: OperatingSystemEnum): boolean {
+    let result: boolean = keys.length === 0;
+
+    if (! result) {
+      for (const key of keys) {
+        const service: Service = this.findService(key);
+
+        if (service) {
+          result = this.serviceOperatingSystemMatches(service, operatingSystem);
+
+          if (! result) {
+            break;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  serviceOperatingSystemMatches(service: Service, operatingSystem: OperatingSystemEnum): boolean {
+    if (service) {
+      return (
+        operatingSystem === service.operatingSystem
+        || service.operatingSystem === OperatingSystemEnum.Any
+      );
+    }
+
+    return false;
   }
 
   getCurrent(): Store {
@@ -165,16 +215,26 @@ export class StateService {
     this.current = {
       name: project.name,
       hosts: clone(hosts) as Host[],
+      adminMachine: {
+        sudo: {
+          login: null,
+          password: null,
+        }
+      },
       firewalls: {
         stormshield: {
           name: "Stormshield",
-          inputIp: "192.168.40.100",
+          inputIp: null,
           outputIp: "192.168.220.1"
         },
         pfsense: {
           name: "Pfsense",
           inputIp: "192.168.220.2",
-          outputIp: "192.168.223.254"
+          inputInterfaceDescription: "DMZ",
+          inputInterfaceName: "igb0",
+          outputIp: "",
+          outputInterfaceName: "igb1",
+          outputInterfaceDescription: "TOIP",
         }
       },
       services: clone(this.services),
@@ -292,6 +352,14 @@ export class StateService {
         host.password = await vault.encrypt(host.password);
       }
 
+      if (store.firewalls.pfsense.password) {
+        result.firewalls.pfsense.password = await vault.encrypt(result.firewalls.pfsense.password);
+      }
+
+      if (store.adminMachine.sudo.password) {
+        result.adminMachine.sudo.password = await vault.encrypt(result.adminMachine.sudo.password);
+      }
+
       const mailService: MailService = this.getMailService(result);
 
       if (mailService) {
@@ -308,6 +376,14 @@ export class StateService {
 
       for (const host of store.hosts) {
         host.password = await vault.decrypt(host.password);
+      }
+
+      if (store.firewalls.pfsense.password) {
+        store.firewalls.pfsense.password = await vault.decrypt(store.firewalls.pfsense.password);
+      }
+
+      if (store.adminMachine.sudo.password) {
+        store.adminMachine.sudo.password = await vault.decrypt(store.adminMachine.sudo.password);
       }
 
       const mailService: MailService = this.getMailService(store);
@@ -343,6 +419,7 @@ export class StateService {
 export interface Store {
   name: string;
   hosts: Host[];
+  adminMachine: AdminMachine;
   firewalls: Firewalls;
   services: Record<string, Service>;
   serviceKeys: string[];
@@ -351,4 +428,13 @@ export interface Store {
 export interface Firewalls {
   stormshield: Firewall;
   pfsense: Firewall;
+}
+
+export interface AdminMachine {
+  sudo: SudoAdminMachine;
+}
+
+export interface SudoAdminMachine {
+  login: string;
+  password: string;
 }

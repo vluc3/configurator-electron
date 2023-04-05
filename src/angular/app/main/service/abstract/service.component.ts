@@ -2,7 +2,7 @@ import {Directive, OnInit} from '@angular/core';
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
-import {FormGroup} from "@angular/forms";
+import {AbstractControl, FormGroup} from "@angular/forms";
 import {copyEntries, isFormValid} from "../../../common/utils/utils";
 import {Service} from "../../../common/model/service";
 import {CoreComponent} from './core-component';
@@ -27,8 +27,9 @@ export abstract class ServiceComponent extends CoreComponent implements OnInit {
     this.initValid();
   }
 
-  isValid(key: string): boolean {
-    return isFormValid(key, this.formGroup);
+  isValid(key: string, formGroup?: FormGroup): boolean {
+    formGroup = (formGroup) ? formGroup : this.formGroup;
+    return isFormValid(key, formGroup);
   }
 
   reset() {
@@ -62,4 +63,12 @@ export abstract class ServiceComponent extends CoreComponent implements OnInit {
   }
 
   protected abstract init(): void;
+
+  abstractControlToFormGroup(abstractControl: AbstractControl): FormGroup {
+    return <FormGroup> abstractControl;
+  }
+
+  abstractControlsToFormGroups(abstractControls: AbstractControl[]): FormGroup[] {
+    return <FormGroup[]> abstractControls;
+  }
 }

@@ -1,6 +1,7 @@
 import {Host} from "../model/host";
 import {Network} from "../model/network";
-import {ipSecService, nrpeService, openVpnService, wireGuardService, proxyService} from "./defaults";
+import { OperatingSystemEnum } from "../model/operating-system.enum";
+import {ipSecService, nrpeService, openVpnService, wireGuardService, proxyService, elkAgentService} from "./defaults";
 
 const hosts: Host[] = [{
   name: "esx-1",
@@ -12,13 +13,15 @@ const hosts: Host[] = [{
     name: "srv-proxy",
     ip: "192.168.12.10",
     mask: "255.255.255.0",
+    operatingSystem: OperatingSystemEnum.Debian,
     gateway: "192.168.12.1",
     services: [
       openVpnService.id,
       ipSecService.id,
       wireGuardService.id,
       proxyService.id,
-      nrpeService.id
+      nrpeService.id,
+      elkAgentService.id
     ]
   }]
 }];

@@ -4,7 +4,7 @@
     [firewall]="stormshieldFirewall"
     [networkInputIp]="false"
     [networkOutputIp]="true"
-    [inputIpLabel]="'INFRASTRUCTURE.FIREWALL.DMZ_IP'"
+    [inputIpLabel]="null"
     [outputIpLabel]="'INFRASTRUCTURE.FIREWALL.NETWORK_IP'">
   </app-firewall>
   <app-firewall
@@ -14,6 +14,12 @@
     [networkInputIp]="true"
     [networkOutputIp]="false"
     [inputIpLabel]="'INFRASTRUCTURE.FIREWALL.NETWORK_IP'"
-    [outputIpLabel]="'INFRASTRUCTURE.FIREWALL.EXPLOITATION_IP'">
+    [inputInterfaceDescriptionLabel]="'INFRASTRUCTURE.FIREWALL.NETWORK_INTERFACE_DESCRIPTION'"
+    [inputInterfaceNameLabel]="'INFRASTRUCTURE.FIREWALL.NETWORK_INTERFACE_NAME'"
+    [outputIpLabel]="'INFRASTRUCTURE.FIREWALL.EXPLOITATION_IP'"
+    [outputInterfaceDescriptionLabel]="'INFRASTRUCTURE.FIREWALL.EXPLOITATION_INTERFACE_DESCRIPTION'"
+    [outputInterfaceNameLabel]="'INFRASTRUCTURE.FIREWALL.EXPLOITATION_INTERFACE_NAME'"
+    [usernameLabel]="'USERNAME'"
+    [passwordLabel]="'PASSWORD'">
   </app-firewall>
 </div>

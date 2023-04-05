@@ -24,6 +24,7 @@ import {MailServiceComponent} from './main/service/mail-service/mail-service.com
 import {ToipWebUiServiceComponent} from './main/service/toip-web-ui-service/toip-web-ui-service.component';
 import {EjbcaServiceComponent} from './main/service/ejbca-service/ejbca-service.component';
 import {MatrixServiceComponent} from './main/service/matrix-service/matrix-service.component';
+import {JabberServiceComponent} from './main/service/jabber-service/jabber-service.component';
 import {OpenVpnServiceComponent} from './main/service/open-vpn-service/open-vpn-service.component';
 import {IpSecServiceComponent} from './main/service/ip-sec-service/ip-sec-service.component';
 import {WireGuardServiceComponent} from './main/service/wire-guard-service/wire-guard-service.component';
@@ -36,6 +37,7 @@ import {FirewallsComponent} from "./main/infrastructure/firewall/firewalls/firew
 import {FirewallComponent} from "./main/infrastructure/firewall/firewall/firewall.component";
 import {ExportComponent} from "./top-nav/export/export.component";
 import { MobileIronServiceComponent } from './main/service/mobile-iron-service/mobile-iron-service.component';
+import { AdminMachineComponent } from './main/infrastructure/admin-machine/admin-machine.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { MobileIronServiceComponent } from './main/service/mobile-iron-service/m
     HostListComponent,
     NetworkComponent,
     VirtualMachineComponent,
+    AdminMachineComponent,
     ModalComponent,
     ModalDirective,
     NewHostComponent,
@@ -59,6 +62,7 @@ import { MobileIronServiceComponent } from './main/service/mobile-iron-service/m
     ToipWebUiServiceComponent,
     EjbcaServiceComponent,
     MatrixServiceComponent,
+    JabberServiceComponent,
     OpenVpnServiceComponent,
     IpSecServiceComponent,
     WireGuardServiceComponent,

@@ -9,11 +9,13 @@ import {MailServiceComponent} from "./main/service/mail-service/mail-service.com
 import {ToipWebUiServiceComponent} from "./main/service/toip-web-ui-service/toip-web-ui-service.component";
 import {EjbcaServiceComponent} from "./main/service/ejbca-service/ejbca-service.component";
 import {MatrixServiceComponent} from './main/service/matrix-service/matrix-service.component';
+import {JabberServiceComponent} from './main/service/jabber-service/jabber-service.component';
 import {OpenVpnServiceComponent} from "./main/service/open-vpn-service/open-vpn-service.component";
 import {IpSecServiceComponent} from "./main/service/ip-sec-service/ip-sec-service.component";
 import {WireGuardServiceComponent} from './main/service/wire-guard-service/wire-guard-service.component';
 import {MobileIronServiceComponent} from './main/service/mobile-iron-service/mobile-iron-service.component';
 import {FirewallsComponent} from "./main/infrastructure/firewall/firewalls/firewalls.component";
+import { AdminMachineComponent } from './main/infrastructure/admin-machine/admin-machine.component';
 
 const routes: Routes = [{
   path: 'infrastructure/host',
@@ -27,6 +29,9 @@ const routes: Routes = [{
 }, {
   path: 'infrastructure/vm',
   component: VirtualMachineComponent
+}, {
+  path: 'infrastructure/adminMachine',
+  component:  AdminMachineComponent
 }, {
   path: '',
   redirectTo: 'infrastructure/host',
@@ -49,6 +54,9 @@ const routes: Routes = [{
 }, {
   path: 'service/matrix',
   component: MatrixServiceComponent
+}, {
+  path: 'service/jabber',
+  component: JabberServiceComponent
 }, {
   path: 'service/openvpn',
   component: OpenVpnServiceComponent

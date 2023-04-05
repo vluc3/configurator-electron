@@ -1,0 +1,66 @@
+def setup(){
+    printenv
+}
+
+dev conf_npm_test(){
+    dir("devops"){
+        echo "DISPLAY DOCKER-COMPOSE.YML CONTENT"
+        sh "cat docker-compose.yml"
+
+        echo "DISPLAY DOCKERFILE CONTENT"
+        sh "cat Dockerfile"
+
+        // tmp VERSION_CONF , to be changed and taken from a file
+        VERSION_CONF=0.1
+        env.DOCKER_IMAGE_NAME="bdc_configurator:${VERSION_CONF}"
+        if(params.DOCKER_IMAGE_NAME!=''){
+            env.DOCKER_IMAGE_NAME="${params.DOCKER_IMAGE_NAME}".toLowerCase()
+        }
+
+        env.CONTAINER_NAME="${params.CONTAINER_NAME}".toLowerCase()
+        if (params.CONTAINER_NAME == '') {
+            env.CONTAINER_NAME="${BUILD_TAG}".toLowerCase()
+        }
+
+        if(params.REBUILD_DOCKER_IMAGE){
+            sh "docker compose build --no-cache"
+        }
+
+        env.USER_ID= sh(script: 'id -u ${USER}', returnStdout: true)
+        env.GROUP_ID= sh(script: 'id -g ${USER}', returnStdout: true)
+
+        sh "printenv"
+        sh "docker compose -p ${env.CONTAINER_NAME} up"
+    }
+
+
+}
+
+pipeline {
+    agent {
+        node {
+            label 'BulleDeCom'
+            customWorkspace "${env.workspace_BulleDeCom}/CONFIGURATOR_CI_${BUILD_NUMBER}"
+        }
+    }
+    parameters {
+        string(name: 'REPO_PATH', defaultValue: 'configurator-electron', description: 'Enter value starting from : https://sphdevtuleap.id-dev.local/plugins/git/bulledecom/')
+        gitParameter(listSize: '10', name: 'BRANCH_NAME', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'ASCENDING_SMART', type: 'PT_BRANCH')
+        string(name: 'COMMIT_ID', description: 'Leave empty to use HEAD')
+        string(name: 'DOCKER_IMAGE_NAME', description: 'Leave empty to use version baguera:MAJOR.MINOR from doc/version.txt as default')
+        string(name: 'CONTAINER_NAME', description: 'Leave empty to use jenkins-CONFIGURATOR_CI-${BUILD_NUMBER} as default')
+        booleanParam(name: 'REBUILD_DOCKER_IMAGE', description :'tick to rebuild docker image from scratch, mandatory if build environment changed while keeping same project version')
+    }
+    stages {
+        stage('BDC_Configurator_setup') {
+            steps {
+                setup()
+            }
+        }
+        stage('BDC_Configurator_npm_test'){
+            steps {
+                conf_npm_test()
+            }
+        }
+    }
+}

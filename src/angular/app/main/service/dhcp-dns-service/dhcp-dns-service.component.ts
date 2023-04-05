@@ -1,7 +1,7 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core';
 import {DhcpDnsService} from "../../../common/model/dhcp-dns-service";
 import {StateService} from "../../../common/service/state.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {clone, copyEntries, ipValidator} from "../../../common/utils/utils";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
@@ -20,6 +20,7 @@ export class DhcpDnsServiceComponent extends ServiceComponent {
   service: DhcpDnsService;
 
   constructor(
+    private formBuilder: FormBuilder,
     stateService: StateService,
     modalService: ModalService,
     translateService: TranslateService
@@ -27,49 +28,50 @@ export class DhcpDnsServiceComponent extends ServiceComponent {
     super(stateService, modalService, translateService, "dhcpDnsService");
   }
 
+  get defaultDnsServerFormArray(): FormArray {
+    return <FormArray> this.formGroup.get('defaultDnsServers');
+  }
+
   protected init(): void {
     this.service = clone(this.stateService.getService('dhcpDnsService')) as DhcpDnsService;
+
     this.formGroup = new FormGroup({
       domainName: new FormControl(this.service.domainName, [Validators.required]),
       exploitationZone: new FormControl(this.service.exploitationZone, [Validators.required]),
       dmzZone: new FormControl(this.service.dmzZone, [Validators.required]),
       dhcpRangeBegin: new FormControl(this.service.dhcpRangeBegin, [Validators.required, ipValidator]),
-      dhcpRangeEnd: new FormControl(this.service.dhcpRangeEnd, [Validators.required, ipValidator])
+      dhcpRangeEnd: new FormControl(this.service.dhcpRangeEnd, [Validators.required, ipValidator]),
+      defaultDnsServers: new FormArray([])
     });
-    this.service.defaultDnsServers.forEach((value, index) => {
-      this.formGroup.addControl(`server-${index}`, new FormControl(
-        value,
-        [Validators.required, ipValidator]
-      ));
-    });
+
+    this.addDefaultDnsServers();
   }
 
-  add() {
-    let server = '';
-    this.formGroup.addControl(`server-${this.service.defaultDnsServers.length}`, new FormControl(
-      server,
-      [Validators.required, ipValidator]
-    ), {
-      emitEvent: true
-    });
-    this.service.defaultDnsServers.push(server);
-  }
-
-  remove(server: string) {
-    const index = this.service.defaultDnsServers.indexOf(server);
-    if (index !== -1) {
-      this.service.defaultDnsServers.splice(index, 1);
-      this.formGroup.removeControl(`server-${index}`, {
-        emitEvent: true
-      });
+  addDefaultDnsServers() {
+    for (const defaultDnsServer of this.service.defaultDnsServers) {
+      this.addDefaultDnsServer(defaultDnsServer);
     }
   }
 
-  protected copyFromFormGroup() {
-    const ignore = this.service.defaultDnsServers.map((value, index) => `server-${index}`);
-    copyEntries(this.service, this.formGroup.getRawValue(), {ignore})
-    ignore.forEach((key, index) => {
-      this.service.defaultDnsServers[index] = this.formGroup.getRawValue()[key];
+  addDefaultDnsServer(defaultDnsServer?: string) {
+    const defaultDnsServerformGroup: FormGroup = this.formBuilder.group({
+      defaultDnsServer: [defaultDnsServer, [Validators.required, ipValidator]]
     });
+
+    this.defaultDnsServerFormArray.push(defaultDnsServerformGroup);
+  }
+
+  removeDefaultDnsServer(index: number) {
+    this.defaultDnsServerFormArray.removeAt(index);
+  }
+
+  protected copyFromFormGroup() {
+    const rawValue: any = this.formGroup.getRawValue();
+
+    rawValue.defaultDnsServers = rawValue.defaultDnsServers.map((defaultDnsServer: any) => {
+      return defaultDnsServer['defaultDnsServer'];
+    });
+
+    copyEntries(this.service, rawValue);
   }
 }

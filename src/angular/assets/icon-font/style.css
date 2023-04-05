@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'configurator';
-  src:  url('fonts/configurator.eot?p13qlz');
-  src:  url('fonts/configurator.eot?p13qlz#iefix') format('embedded-opentype'),
-    url('fonts/configurator.ttf?p13qlz') format('truetype'),
-    url('fonts/configurator.woff?p13qlz') format('woff'),
-    url('fonts/configurator.svg?p13qlz#configurator') format('svg');
+  src:  url('fonts/configurator.eot?jyfrb8');
+  src:  url('fonts/configurator.eot?jyfrb8#iefix') format('embedded-opentype'),
+    url('fonts/configurator.ttf?jyfrb8') format('truetype'),
+    url('fonts/configurator.woff?jyfrb8') format('woff'),
+    url('fonts/configurator.svg?jyfrb8#configurator') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -149,4 +149,10 @@ i {
 }
 .cfg-matrix:before {
   content: "\e929";
+}
+.cfg-jabber:before {
+  content: "\e955";
+}
+.cfg-veeam:before {
+  content: "\e92a";
 }

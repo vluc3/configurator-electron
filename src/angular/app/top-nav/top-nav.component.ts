@@ -53,12 +53,12 @@ export class TopNavComponent {
 
           const dir = result.filePaths[0];
           let vault = new this.electronService.Vault({password: secretPassword});
-          this.stateService.getCurrent().hosts.forEach((host, index) => {
-            host.id = `ext${index + 1}`;
-          })
+          this.setHostIds();
+
           vault.decrypt(secretVars).then(decrypt => {
             const secretVars = `${decrypt}${getVault(this.stateService.getCurrent())}`;
             vault = new this.electronService.Vault({password: close.data.password});
+
             vault.encrypt(secretVars).then(async encrypt => {
               this.electronService.fs.writeFileSync(
                 `${dir}/${ExportComponent.ANSIBLE_SECRET_VARS}`,
@@ -83,8 +83,15 @@ export class TopNavComponent {
       });
     } else {
       this.save();
+      this.setHostIds();
       this.logExport();
     }
+  }
+
+  private setHostIds(): void {
+    this.stateService.getCurrent().hosts.forEach((host, index) => {
+      host.id = `ext${index + 1}`;
+    })
   }
 
   private logExport() {
@@ -114,10 +121,7 @@ export class TopNavComponent {
 
     this.logExportTitle('HOSTS');
     const _hosts = hosts(this.stateService.getCurrent());
-
-    for (const host of _hosts) {
-      console.log(host);
-    }
+    console.log(_hosts.join('\n'));
   }
 
   private logExportTitle(title: string) {

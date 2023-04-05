@@ -1,7 +1,7 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core';
 import {NtpService} from "../../../common/model/ntp-service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {clone} from "../../../common/utils/utils";
+import {FormBuilder, FormArray, FormGroup, Validators} from "@angular/forms";
+import {clone, copyEntries} from "../../../common/utils/utils";
 import {StateService} from "../../../common/service/state.service";
 import {ModalService} from "../../../common/component/modal/modal.service";
 import {TranslateService} from "@ngx-translate/core";
@@ -20,6 +20,7 @@ export class NtpServiceComponent extends ServiceComponent {
   service: NtpService;
 
   constructor(
+    private formBuilder: FormBuilder,
     stateService: StateService,
     modalService: ModalService,
     translateService: TranslateService
@@ -27,47 +28,45 @@ export class NtpServiceComponent extends ServiceComponent {
     super(stateService, modalService, translateService, "ntpService");
   }
 
+  get defaultNtpServerFormArray(): FormArray {
+    return <FormArray> this.formGroup.get('defaultNtpServers');
+  }
+
   protected init(): void {
     this.service = clone(this.stateService.getService('ntpService')) as NtpService;
-    this.formGroup = new FormGroup({});
 
-    this.service.defaultNtpServers.forEach((value, index) => {
-      this.formGroup.addControl(`ntp-server-${index}`, new FormControl(
-        value,
-        [Validators.required/*, ipValidator*/]
-      ));
+    this.formGroup = new FormGroup({
+      defaultNtpServers: new FormArray([])
     });
+
+    this.addDefaultNtpServers();
   }
 
-  add() {
-    let server = '';
-    this.formGroup.addControl(
-      `ntp-server-${this.service.defaultNtpServers.length}`,
-      new FormControl(
-        server,
-        [Validators.required/*, ipValidator*/]
-      ), {
-        emitEvent: true
-      });
-    this.service.defaultNtpServers.push(server);
-  }
-
-  remove(server: string) {
-    const index = this.service.defaultNtpServers.indexOf(server);
-    if (index !== -1) {
-      this.service.defaultNtpServers.splice(index, 1);
-      this.formGroup.removeControl(
-        `ntp-server-${index}`,
-        {
-          emitEvent: true
-        }
-      );
+  addDefaultNtpServers() {
+    for (const defaultNtpServer of this.service.defaultNtpServers) {
+      this.addDefaultNtpServer(defaultNtpServer);
     }
+  }
+
+  addDefaultNtpServer(defaultNtpServer?: string) {
+    const defaultNtpServerformGroup: FormGroup = this.formBuilder.group({
+      defaultNtpServer: [defaultNtpServer, Validators.required]
+    });
+
+    this.defaultNtpServerFormArray.push(defaultNtpServerformGroup);
+  }
+
+  removeDefaultNtpServer(index: number) {
+    this.defaultNtpServerFormArray.removeAt(index);
   }
 
   protected copyFromFormGroup() {
-    for (let index = 0; index < this.service.defaultNtpServers.length; index++) {
-      this.service.defaultNtpServers[index] = this.formGroup.controls[`ntp-server-${index}`].value;
-    }
+    const rawValue: any = this.formGroup.getRawValue();
+
+    rawValue.defaultNtpServers = rawValue.defaultNtpServers.map((defaultNtpServer: any) => {
+      return defaultNtpServer['defaultNtpServer'];
+    });
+
+    copyEntries(this.service, rawValue);
   }
 }

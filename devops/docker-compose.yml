@@ -1,0 +1,25 @@
+version: "3"
+services:
+  bdc_cnf:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context : ../
+      dockerfile : ./devops/Dockerfile
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    container_name : ${CONTAINER_NAME}
+    volumes:
+      - ../:/opt/BulleDeCom
+    working_dir: /opt/BulleDeCom
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ls
+        npm --version
+        node --version
+        npm install typescript -g
+        npm install 
+        npm run build
+        ls

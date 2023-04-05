@@ -4,7 +4,7 @@
       <legend>
         <div class="d-flex">
           <span>{{ 'SERVICE.NTP.DEFAULT_NTP_SERVERS' | translate }}</span>
-          <button class="btn btn-light btn-sm" (click)="add()">
+          <button class="btn btn-light btn-sm" (click)="addDefaultNtpServer()">
             <i class="cfg-plus-square"></i>
           </button>
         </div>
@@ -12,17 +12,17 @@
       <div>
         <div class="form-group">
           <div
-            *ngFor="let server of service.defaultNtpServers; let i = index"
-            class="d-flex mb-2"
+          *ngFor="let defaultNtpServerFormGroup of abstractControlsToFormGroups(defaultNtpServerFormArray.controls); let i = index"
+          [formGroup]="defaultNtpServerFormGroup"
+          class="d-flex mb-2"
           >
             <input
               class="form-control form-control-sm"
-              [formControlName]="'ntp-server-' + i"
-              [ngClass]="{'is-invalid': !isValid('ntp-server-' + i)}"
-              [value]="server"
+              formControlName="defaultNtpServer"
+              [ngClass]="{'is-invalid': !isValid('defaultNtpServer', defaultNtpServerFormGroup)}"
               (keypress)="intAlphaSeparatorKeypress($event)"
               >
-            <button class="btn btn-light btn-sm" (click)="remove(server)">
+            <button class="btn btn-light btn-sm" (click)="removeDefaultNtpServer(i)">
               <i class="cfg-minus-circle"></i>
             </button>
           </div>

@@ -5,16 +5,23 @@
       "type": "firefox",
       "request": "launch",
       "name": "Launch configurator-electron on Firefox",
-      "url": "http://localhost:4200",
+      "url": "http://localhost:4300",
       "webRoot": "${workspaceFolder}",
       "reAttach": true,
-      "sourceMaps": true,
       "pathMappings": [
         {
           "url": "webpack:///src/app",
           "path": "${workspaceFolder}/configurator-electron/src/app"
         }
       ]
-    }
+    },
+    {
+      "name": "Launch configurator-electron on Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:4300",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+    },
   ]
 }

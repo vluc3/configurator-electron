@@ -69,7 +69,7 @@
         <legend>
           <div class="d-flex">
             <span>{{ 'SERVICE.DNS_DHCP.DEFAULT_DNS_SERVER' | translate }}</span>
-            <button class="btn btn-light btn-sm" (click)="add()">
+            <button class="btn btn-light btn-sm" (click)="addDefaultDnsServer()">
               <i class="cfg-plus-square"></i>
             </button>
           </div>
@@ -77,17 +77,17 @@
         <div>
           <div class="form-group">
             <div
-              *ngFor="let server of service.defaultDnsServers; let i = index"
+              *ngFor="let defaultDnsServerFormGroup of abstractControlsToFormGroups(defaultDnsServerFormArray.controls); let i = index"
+              [formGroup]="defaultDnsServerFormGroup"
               class="d-flex mb-2"
             >
               <input
                 class="form-control form-control-sm"
-                [formControlName]="'server-' + i"
-                [ngClass]="{'is-invalid': !isValid('server-' + i)}"
-                [value]="server"
+                formControlName="defaultDnsServer"
+                [ngClass]="{'is-invalid': !isValid('defaultDnsServer', defaultDnsServerFormGroup)}"
                 (keypress)="ipKeypress($event)"
                 >
-              <button class="btn btn-light btn-sm" (click)="remove(server)">
+              <button class="btn btn-light btn-sm" (click)="removeDefaultDnsServer(i)">
                 <i class="cfg-minus-circle"></i>
               </button>
             </div>

@@ -41,6 +41,37 @@
   </div>
 
   <div class="mb-3">
+    <label for="operatingSystem" class="form-label">Système d'exploitation</label>
+    <div id="operatingSystem">
+      <label for="debian" class="form-label">Debian</label>
+      <input
+        class="radio-button"
+        type="radio"
+        formControlName="operatingSystem"
+        id="debian"
+        name="operatingSystem"
+        value="debian"
+        checked="checked"
+      />
+      <label for="windows" class="form-label">Windows</label>
+      <input
+        class="radio-button"
+        type="radio"
+        formControlName="operatingSystem"
+        id="windows"
+        name="operatingSystem"
+        value="windows"
+        checked="checked"
+      />
+    </div>
+    <div
+      *ngIf="! operatingSystemValid"
+      class="text-danger">
+      Le système d'exploitation sélectionné pour cette machine virtuelle ne correspond pas à celui des services qu'elle contient
+    </div>
+  </div>
+
+  <div class="mb-3">
     <label for="gateway" class="form-label">Passerelle</label>
     <input
       [ngClass]="{'is-invalid': !isValid('gateway') || formGroup.hasError('ipError')}"

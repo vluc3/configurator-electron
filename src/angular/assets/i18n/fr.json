@@ -21,6 +21,7 @@
   "END": "Fin",
   "DHCP": "DHCP",
   "DOMAIN": "Domain",
+  "USERNAME": "Nom utilisateur",
   "PASSWORD": "Mot de passe",
   "PASSWORD_CONFIRMATION": "Confirmation mot de passe",
   "PORTS": "Ports",
@@ -36,6 +37,7 @@
     "HOSTS": "Hôtes ESXi",
     "FIREWALL": "Pare-feu",
     "VIRTUAL_MACHINES": "Machines virtuelles",
+    "ADMIN_MACHINE": "Machine d'admin.",
     "NETWORK": "Réseau",
     "DNS_DHCP": "DNS/DHCP",
     "NTP": "NTP",
@@ -43,6 +45,7 @@
     "TOIP_WEB_UI": "TOIP/Web UI",
     "EJBCA": "EJBCA",
     "MATRIX": "Matrix",
+    "JABBER": "Jabber",
     "OPEN_VPN": "OpenVPN",
     "IP_SEC": "IPSec",
     "WIRE_GUARD": "WireGuard",
@@ -72,7 +75,11 @@
     "FIREWALL": {
       "DMZ_IP": "Adresse IP DMZ",
       "NETWORK_IP": "Adresse IP sur réseau firewall",
-      "EXPLOITATION_IP": "Adresse IP exploitation"
+      "NETWORK_INTERFACE_DESCRIPTION": "Description interface réseau firewall",
+      "NETWORK_INTERFACE_NAME": "Nom interface réseau firewall",
+      "EXPLOITATION_IP": "Adresse IP exploitation",
+      "EXPLOITATION_INTERFACE_DESCRIPTION": "Description interface exploitation",
+      "EXPLOITATION_INTERFACE_NAME": "Nom interface exploitation"
     },
     "VIRTUAL_MACHINE": {
       "ADD_VM": "Ajouter une VM",
@@ -80,6 +87,13 @@
       "VM_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer cette VM?",
       "SERVICE_REMOVAL_TITLE": "Suppression de service",
       "SERVICE_REMOVAL_QUESTION": "Êtes vous sûre de vouloir supprimer ce service?"
+    },
+    "ADMIN_MACHINE": {
+      "SUDO": {
+        "SUDO": "Sudo",
+        "USERNAME": "Nom utilisateur",
+        "PASSWORD": "Mot de passe"
+      }
     }
   },
   "SERVICE": {
@@ -124,6 +138,10 @@
     },
     "MATRIX": {
       "MATRIX": "Matrix",
+      "PORT": "Port"
+    },
+    "JABBER": {
+      "JABBER": "Jabber",
       "PORT": "Port"
     },
     "OPEN_VPN": {
